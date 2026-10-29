@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#473f38">
+    <meta name="description" content="Baghdad — Heart of the Golden Age. An introduction to five centuries of learning on the Tigris.">
+    <title>Baghdad — Heart of the Golden Age</title>
+    <link rel="icon" href="data:,">
+    <link rel="preload" href="assets/fonts/Michelangelus-Bold.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/Michelangelus-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/baghdad-panorama.png" as="image">
+    <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <!-- Vertical scrolling drives the horizontal track: hero → story. -->
+    <main class="journey" id="journey">
+      <div class="journey__viewport">
+        <div class="journey__track">
+
+          <section class="panel panel--hero hero" aria-labelledby="baghdad-title" data-node-id="37:646">
+            <div class="backdrop" aria-hidden="true" data-node-id="37:647">
+              <img class="backdrop__image" id="panorama" src="assets/baghdad-panorama.png" width="1536" height="1024" alt="" fetchpriority="high">
+              <canvas class="backdrop__canvas" id="dither" width="1536" height="1024"></canvas>
+            </div>
+
+            <article class="story-card" data-node-id="37:648">
+              <div class="story-card__art" data-node-id="37:649">
+                <img class="story-card__illustration" src="assets/baghdad-illustration.png" width="1536" height="1024" alt="An illustrated Baghdad along the Tigris, with palm trees, blue domes and boats on the river." data-node-id="37:651" fetchpriority="high">
+              </div>
+              <p class="story-card__eyebrow" data-node-id="37:664">Heart of the Golden Age</p>
+
+              <div class="story-card__copy" data-node-id="37:652">
+                <h1 id="baghdad-title" data-node-id="37:653">Baghdad</h1>
+                <p class="story-card__description" data-node-id="37:654">For five centuries, Baghdad stood at the centre of a Golden Age of learning. Follow the city from its founding on the Tigris to the hospitals, libraries, and scholars that made it one of the great centres of knowledge in history</p>
+              </div>
+
+              <div class="story-card__footer">
+                <a class="scroll-cue" href="#story" data-node-id="37:655">
+                  <span class="scroll-cue__line" aria-hidden="true" data-node-id="37:656">
+                    <img src="assets/scroll-line.svg" alt="" width="156.887" height="2.88675">
+                  </span>
+                  <span class="scroll-cue__label" data-node-id="37:657">
+                    <span data-node-id="37:658">Scroll</span>
+                    <span class="scroll-cue__circle" aria-hidden="true" data-node-id="37:659">
+                      <img src="assets/arrow-down.svg" alt="" width="8.41421" height="10.2071">
+                    </span>
+                  </span>
+                </a>
+              </div>
+            </article>
+
+            <!-- Fades the whole hero into #13100e as it leaves. -->
+            <div class="hero__fade" aria-hidden="true"></div>
+          </section>
+
+          <section class="panel panel--story story" id="story" aria-labelledby="story-title" data-node-id="47:10">
+            <div class="story__texture" aria-hidden="true">
+              <div class="story__tiles" data-node-id="47:11"></div>
+              <div class="story__vignette" data-node-id="47:681"></div>
+            </div>
+
+            <div class="story__stage">
+              <!-- data-parallax + --depth: layers arrive at different speeds during the slide. -->
+              <p class="story__eyebrow" data-parallax style="--depth: .03" data-node-id="47:13">The story</p>
+              <h2 class="story__title" id="story-title" data-node-id="47:12">
+                <span class="story__title-line" data-parallax style="--depth: .06">A Golden Age</span>
+                <span class="story__title-line" data-parallax style="--depth: .14">in Three Periods</span>
+              </h2>
+
+              <!-- Each image previews its period; hover or focus reveals the detail (lib/periods.js). -->
+              <ul class="periods" role="list">
+                <li class="period period--1" data-parallax style="--x: 720px; --y: 291px; --depth: .35" data-node-id="47:18">
+                  <button class="period__thumb" type="button" aria-describedby="period-1">
+                    <img src="assets/story/round-city.png" width="1254" height="1254" alt="The round city of Baghdad on the Tigris" decoding="async" data-node-id="47:19">
+                  </button>
+                  <div class="period__detail" id="period-1" data-node-id="37:7392">
+                    <span class="period__rule" aria-hidden="true" data-node-id="37:7393">
+                      <img src="assets/story/period-rule.svg" alt="" width="2.88675" height="185.443">
+                    </span>
+                    <div class="period__copy" data-node-id="37:7394">
+                      <p class="period__label" data-node-id="37:7396">I · 762–833</p>
+                      <h3 class="period__name" data-node-id="37:7397">Foundations</h3>
+                      <p class="period__summary" data-node-id="37:7398">A capital rises on the Tigris and begins gathering knowledge</p>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="period period--2" data-parallax style="--x: 1115px; --y: 479px; --depth: .6" data-node-id="47:16">
+                  <button class="period__thumb" type="button" aria-describedby="period-2">
+                    <img src="assets/story/scholar-reading.png" width="1254" height="1254" alt="A scholar reading at a desk" decoding="async" data-node-id="47:17">
+                  </button>
+                  <div class="period__detail" id="period-2" data-node-id="37:8021">
+                    <span class="period__rule" aria-hidden="true">
+                      <img src="assets/story/period-rule.svg" alt="" width="2.88675" height="185.443">
+                    </span>
+                    <div class="period__copy">
+                      <p class="period__label">II · 833–945</p>
+                      <h3 class="period__name">The Flourishing</h3>
+                      <p class="period__summary">Scholars translate, test, and invent as power shifts.</p>
+                    </div>
+                  </div>
+                </li>
+
+                <li class="period period--3" data-parallax style="--x: 315px; --y: 645px; --depth: .15" data-node-id="47:14">
+                  <button class="period__thumb" type="button" aria-describedby="period-3">
+                    <img src="assets/story/scholars-garden.png" width="1254" height="1254" alt="Scholars in conversation in a courtyard garden" decoding="async" data-node-id="47:15">
+                  </button>
+                  <div class="period__detail" id="period-3" data-node-id="37:8660">
+                    <span class="period__rule" aria-hidden="true">
+                      <img src="assets/story/period-rule.svg" alt="" width="2.88675" height="185.443">
+                    </span>
+                    <div class="period__copy">
+                      <p class="period__label">III · 945–1258</p>
+                      <h3 class="period__name">Enduring Brilliance</h3>
+                      <p class="period__summary">Learning becomes institutions, and books travel far beyond the city.</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

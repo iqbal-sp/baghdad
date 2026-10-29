@@ -1,0 +1,589 @@
+@font-face {
+  font-family: Michelangelus;
+  src: url("assets/fonts/Michelangelus-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Michelangelus;
+  src: url("assets/fonts/Michelangelus-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Michelangelus;
+  src: url("assets/fonts/Michelangelus-Italic.ttf") format("truetype");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/PublicSans-Light.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/PublicSans-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  src: url("assets/fonts/PublicSans-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  --color-canvas: #f4f6f7;
+  --color-panel: #473f38;
+  --color-heading: #fcf5ee;
+  --color-copy: #dbc6b4;
+  --color-label: #1f1f1f;
+  --color-arrow: #796e63;
+  --color-story: #13100e;
+  --color-story-copy: #f0dfd3;
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --font-editorial: Michelangelus, Georgia, "Times New Roman", serif;
+  --font-interface: "Public Sans", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+/* Desktop-only for now: smaller viewports scroll horizontally instead of reflowing. */
+/* #13100e behind everything so overscroll never flashes a light edge. */
+html {
+  min-width: 1024px;
+  background: var(--color-story);
+  overscroll-behavior: none;
+}
+
+body {
+  margin: 0;
+  color: var(--color-copy);
+  font-family: var(--font-editorial);
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; }
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--color-panel);
+}
+
+.backdrop__image,
+.backdrop__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Figma's 1536px image starts at x = -39 inside the 1440px frame. */
+  object-position: 40.625% 50%;
+}
+
+.backdrop__canvas { visibility: hidden; }
+.backdrop[data-rendered="true"] .backdrop__canvas { visibility: visible; }
+
+/* Journey: a pinned viewport whose track slides sideways as the page scrolls. */
+.journey {
+  position: relative;
+  height: 240vh;
+}
+
+.journey__viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  /* clip, not hidden: focus and #story anchors must not scroll the track. */
+  overflow: clip;
+}
+
+.journey__track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  will-change: transform;
+}
+
+.panel {
+  position: relative;
+  flex: none;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/*
+ * The hero dissolves into the #13100e behind it: its trailing edge becomes
+ * transparent over --fade-width (set by journey.js), so it can never show a
+ * seam against the story. Stops follow an ease-in-out curve to avoid banding.
+ */
+.panel--hero {
+  --fade-width: 0px;
+  --fade-start: calc(100% - var(--fade-width));
+  -webkit-mask-image: var(--hero-mask);
+  mask-image: var(--hero-mask);
+  --hero-mask: linear-gradient(
+    to right,
+    #000 var(--fade-start),
+    rgb(0 0 0 / .96) calc(var(--fade-start) + var(--fade-width) * .15),
+    rgb(0 0 0 / .84) calc(var(--fade-start) + var(--fade-width) * .3),
+    rgb(0 0 0 / .62) calc(var(--fade-start) + var(--fade-width) * .45),
+    rgb(0 0 0 / .38) calc(var(--fade-start) + var(--fade-width) * .6),
+    rgb(0 0 0 / .16) calc(var(--fade-start) + var(--fade-width) * .75),
+    rgb(0 0 0 / .04) calc(var(--fade-start) + var(--fade-width) * .9),
+    transparent 100%
+  );
+}
+
+.hero {
+  display: grid;
+  place-items: center;
+  padding: 33px 20px 32px;
+  isolation: isolate;
+}
+
+.story-card {
+  --unit: calc(100cqw / 548);
+  position: relative;
+  container-type: inline-size;
+  width: 548px;
+  max-width: 100%;
+  overflow: hidden;
+  background: var(--color-panel);
+}
+
+.story-card__art {
+  position: relative;
+  height: calc(524 * var(--unit));
+  overflow: hidden;
+}
+
+.story-card__illustration {
+  position: absolute;
+  width: calc(795 * var(--unit));
+  height: calc(530 * var(--unit));
+  max-width: none;
+  left: calc(-124 * var(--unit));
+  top: calc(-4 * var(--unit));
+  object-fit: cover;
+  -webkit-mask-image: url("assets/illustration-mask.svg");
+  mask-image: url("assets/illustration-mask.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: calc(950 * var(--unit)) calc(950 * var(--unit));
+  mask-size: calc(950 * var(--unit)) calc(950 * var(--unit));
+  -webkit-mask-position: calc(-77 * var(--unit)) calc(-422 * var(--unit));
+  mask-position: calc(-77 * var(--unit)) calc(-422 * var(--unit));
+  mask-mode: alpha;
+}
+
+.story-card__eyebrow {
+  position: absolute;
+  top: calc(36 * var(--unit));
+  left: calc(50% - 79 * var(--unit));
+  margin: 0;
+  color: var(--color-label);
+  font-family: var(--font-interface);
+  font-size: clamp(12px, 14 * var(--unit), 14px);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.story-card__copy {
+  display: flex;
+  flex-direction: column;
+  gap: calc(24 * var(--unit));
+  margin: calc(52 * var(--unit)) calc(31 * var(--unit)) 0;
+}
+
+h1 {
+  margin: 0;
+  color: var(--color-heading);
+  font-size: calc(90 * var(--unit));
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.story-card__description {
+  width: 373px;
+  max-width: 100%;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.story-card__footer {
+  margin-top: calc(44 * var(--unit));
+  padding: 0 20px 20px;
+}
+
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 235px;
+  max-width: 100%;
+  margin-left: auto;
+  color: inherit;
+  text-decoration: none;
+  user-select: none;
+}
+
+.scroll-cue:focus-visible {
+  outline: 1px solid var(--color-heading);
+  outline-offset: 6px;
+}
+
+.scroll-cue__line {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 3px;
+}
+
+.scroll-cue__line img {
+  position: absolute;
+  top: 50%;
+  left: -1.4435px;
+  transform: translateY(-50%);
+  /* Preserve the exported SVG's native 156.887 × 2.88675 dimensions. */
+}
+
+.scroll-cue__label {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-family: var(--font-interface);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+.scroll-cue__circle {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--color-arrow);
+  transition: background-color .3s ease, transform .5s var(--ease-out);
+}
+
+.scroll-cue:hover .scroll-cue__circle,
+.scroll-cue:focus-visible .scroll-cue__circle {
+  background: color-mix(in srgb, var(--color-arrow), #fff 16%);
+  transform: scale(1.1);
+}
+
+/* Hero entrance — plays once on load. */
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(24px); } }
+@keyframes settle-in { from { transform: scale(1.06); } }
+@keyframes draw-in { from { clip-path: inset(0 100% 0 0); } }
+/* Idle hint: a short downward nudge every few seconds. */
+@keyframes nudge {
+  0%, 72%, 100% { transform: none; }
+  82% { transform: translateY(3px); }
+  90% { transform: translateY(-1px); }
+}
+
+.backdrop { animation: fade-in 1.4s ease-out both; }
+.story-card { animation: rise-in 1.2s var(--ease-out) .15s both; }
+.story-card__illustration { animation: settle-in 2.6s var(--ease-out) .15s both; }
+.story-card__eyebrow { animation: fade-in .9s ease-out .75s both; }
+.story-card h1 { animation: rise-in 1s var(--ease-out) .55s both; }
+.story-card__description { animation: rise-in 1s var(--ease-out) .7s both; }
+.scroll-cue__line { animation: draw-in 1.1s var(--ease-out) 1.1s both; }
+.scroll-cue__label { animation: fade-in .8s ease-out 1.5s both; }
+.scroll-cue__circle img { animation: nudge 3s ease-in-out 2.6s infinite; }
+
+/* When cap-height trimming is unavailable, use the font's matching cap metrics. */
+@supports not (text-box-trim: trim-both) {
+  h1 { line-height: .7; padding-top: .06em; }
+}
+
+/* Keep the complete composition visible on shorter desktop displays. */
+@media (max-height: 950px) {
+  .story-card { width: min(548px, calc((100svh - 80px) * 548 / 847)); }
+  .story-card__description { font-size: max(14px, 2.919708cqw); }
+}
+
+.hero__fade {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--color-story);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Story — Figma 47:10 (default); period hovers 37:6780, 37:7409, 37:8048 (section 37:8667). */
+.story {
+  background: var(--color-story);
+  color: #fff;
+}
+
+@property --texture-reveal {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+.story__texture {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  -webkit-mask-image: radial-gradient(var(--texture-reveal) var(--texture-reveal) at 50% 50%, #000 55%, transparent);
+  mask-image: radial-gradient(var(--texture-reveal) var(--texture-reveal) at 50% 50%, #000 55%, transparent);
+  transition:
+    opacity 1.2s ease-out,
+    --texture-reveal 3.2s cubic-bezier(.45, 0, .2, 1);
+}
+
+.story.is-settled .story__texture {
+  --texture-reveal: 150%;
+  opacity: 1;
+}
+
+.story__tiles,
+.story__vignette {
+  position: absolute;
+  inset: 0;
+}
+
+.story__tiles { background: url("assets/story/texture-tile.svg") 0 0 / 72px 72px repeat; }
+
+/* Figma radial gradient: 1773 × 1536 radius on a 1440 × 1024 frame. */
+.story__vignette {
+  background: radial-gradient(123.125% 150% at 50% 50%, var(--color-story), rgb(19 16 14 / .7));
+}
+
+/* The 1440 × 1024 artboard, scaled to fit the viewport by script.js. */
+.story__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1440px;
+  height: 1024px;
+  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
+}
+
+.story__eyebrow {
+  position: absolute;
+  top: 241px;
+  left: 140px;
+  margin: 0;
+  font-family: var(--font-interface);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.story__title-line { display: block; }
+
+.story__title {
+  position: absolute;
+  top: 335px;
+  left: 108px;
+  width: 1224.586px;
+  margin: 0;
+  font-size: 187px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.2;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.periods {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.period {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 120px;
+  height: 120px;
+}
+
+.period__thumb {
+  display: block;
+  width: 120px;
+  height: 120px;
+  padding: 0;
+  border: 0;
+  background: var(--color-story);
+  filter: drop-shadow(0 12px 25px rgb(0 0 0 / .45)) brightness(1) saturate(1);
+  cursor: pointer;
+  transition:
+    transform .6s var(--ease-out),
+    filter .6s var(--ease-out);
+}
+
+.period__thumb img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+}
+
+.period__thumb:focus-visible {
+  outline: 1px solid var(--color-story-copy);
+  outline-offset: 6px;
+}
+
+/* The period being read lifts; the others step back. */
+.period.is-active .period__thumb {
+  transform: translateY(-4px) scale(1.04);
+  filter: drop-shadow(0 20px 32px rgb(0 0 0 / .55)) brightness(1) saturate(1);
+}
+
+.story[data-active] .period:not(.is-active) .period__thumb {
+  filter: drop-shadow(0 12px 25px rgb(0 0 0 / .45)) brightness(.55) saturate(.7);
+}
+
+/* Every period's detail shares one spot on the artboard: (666, 840), 184px tall. */
+.period__detail {
+  position: absolute;
+  top: calc(840px - var(--y));
+  left: calc(666px - var(--x));
+  z-index: 1;
+  display: flex;
+  gap: 32px;
+  width: 311px;
+  height: 184px;
+  opacity: 0;
+  pointer-events: none;
+  /* Leaving is quick, so the next period never overlaps it. */
+  transition: opacity .16s ease-out;
+}
+
+.period__rule {
+  position: relative;
+  flex: none;
+  width: 0;
+  height: 184px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform .2s ease-out;
+}
+
+.period__rule img {
+  position: absolute;
+  top: -1.44338px;
+  left: -1.44338px;
+  max-width: none;
+}
+
+.period__copy {
+  width: 279px;
+  color: var(--color-story-copy);
+}
+
+.period__label,
+.period__name,
+.period__summary {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .2s ease-out, transform .2s ease-out;
+}
+
+.period__label {
+  --stagger: .12s;
+  margin: 0 0 3px;
+  font-family: var(--font-interface);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .72px;
+  text-transform: uppercase;
+}
+
+.period__name {
+  --stagger: .2s;
+  margin: 0 0 12px;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.period__summary {
+  --stagger: .28s;
+  margin: 0;
+  font-family: var(--font-interface);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* "Enduring Brilliance" stays on one line, so period III is wider (37:8660). */
+.period--3 .period__detail { width: 372px; }
+.period--3 .period__copy { width: 340px; }
+.period--3 .period__name { white-space: nowrap; }
+
+/* Enter: rule draws first, then label → title → summary. --enter-delay waits for an outgoing period. */
+.period.is-active .period__detail {
+  opacity: 1;
+  transition: opacity .3s ease-out var(--enter-delay, 0s);
+}
+
+.period.is-active .period__rule {
+  transform: none;
+  transition: transform .8s var(--ease-out) var(--enter-delay, 0s);
+}
+
+.period.is-active :is(.period__label, .period__name, .period__summary) {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .6s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger)),
+    transform .7s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media print {
+  .hero { padding: 0; }
+  .story-card { break-inside: avoid; }
+  body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
