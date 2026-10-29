@@ -2,6 +2,18 @@
 
 Implementasi dua section dari Figma — hero [node 37:646](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=37-646) dan story [node 47:10](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=47-10) dengan state hover [node 37:6780](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=37-6780) — menggunakan HTML, CSS, dan JavaScript murni. Tidak membutuhkan npm, framework, CDN, atau proses build.
 
+## Online
+
+- Situs: https://baghdad-9m2.pages.dev (Cloudflare Pages, project `baghdad`)
+- Repo: https://github.com/iqbal-sp/baghdad
+
+Deploy ulang setelah commit (hanya file yang ter-commit yang diunggah):
+
+```sh
+rm -rf /tmp/baghdad-dist && mkdir /tmp/baghdad-dist && git archive HEAD | tar -x -C /tmp/baghdad-dist
+npx wrangler@4.149.0 pages deploy /tmp/baghdad-dist --project-name baghdad --branch main
+```
+
 ## Menjalankan
 
 1. Ekstrak folder `baghdad` dari ZIP.
