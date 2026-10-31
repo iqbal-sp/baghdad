@@ -165,15 +165,11 @@ img { display: block; }
 }
 
 /*
- * Arch group: tilts toward the pointer via --rx/--ry (lib/hero-interaction.js).
- * Painting, lantern and gold sheen are positioned in artboard pixels like Figma.
+ * Arch group: the frame stays fixed; only the painting moves inside it (pointer and
+ * scroll, lib/hero-interaction.js). Painting, lantern and gold sheen are positioned in
+ * artboard pixels like Figma.
  */
-.hero__arch {
-  inset: 0;
-  transform: perspective(1800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transform-origin: 720px 620px;
-  will-change: transform;
-}
+.hero__arch { inset: 0; }
 
 /* Figma "image 3" box (15, 85, 1410 × 940), clipped to the arch outline at x 320. */
 .hero__window {
