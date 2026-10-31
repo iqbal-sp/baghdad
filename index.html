@@ -135,7 +135,7 @@
                 <li class="period period--1" data-parallax style="--x: 573px; --y: 280px; --depth: .35" data-node-id="122:21">
                   <span class="period__badge" aria-hidden="true" data-node-id="124:17">I</span>
                   <button class="period__thumb" type="button" aria-describedby="period-1">
-                    <img src="assets/story/round-city.png" width="1254" height="1254" alt="The round city of Baghdad on the Tigris" decoding="async" data-node-id="122:22">
+                    <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="The round city of Baghdad on the Tigris" decoding="async" data-node-id="122:22">
                   </button>
                   <div class="period__detail" id="period-1" data-node-id="37:7392">
                     <span class="period__rule" aria-hidden="true" data-node-id="37:7393">
@@ -193,6 +193,53 @@
           </section>
 
         </div>
+
+        <!-- Period I chapter (Figma 126:13542, 1440 × 1259). Scrolling on from the story dives into the
+             period I card: the camera pushes in, the card flies toward it, and this section opens through
+             a clip that grows from the card (lib/dive.js). -->
+        <section class="chapter" id="foundations" aria-labelledby="foundations-title" data-node-id="126:13542">
+          <div class="chapter__reveal">
+            <div class="chapter__scroll">
+              <img class="chapter__grunge" src="assets/foundations/grunge.jpg" width="2000" height="1334" alt="" aria-hidden="true" decoding="async" data-node-id="126:14180">
+              <img class="chapter__ink" src="assets/foundations/ink-paint.jpg" width="1800" height="1201" alt="" aria-hidden="true" decoding="async" data-node-id="126:14177">
+              <!-- Soft-edged window onto the chapter's background: four panels in the story colour whose
+                   inner edges fade out, moved apart by lib/dive.js. Under the heading, so the text
+                   can rise in before the window opens. -->
+              <div class="chapter__veil" aria-hidden="true">
+                <span class="chapter__veil-side chapter__veil-side--top"></span>
+                <span class="chapter__veil-side chapter__veil-side--right"></span>
+                <span class="chapter__veil-side chapter__veil-side--bottom"></span>
+                <span class="chapter__veil-side chapter__veil-side--left"></span>
+              </div>
+              <div class="chapter__stage">
+                <div class="chapter__heading">
+                  <div class="chapter__meta" data-node-id="126:14163">
+                    <p class="chapter__kicker" data-node-id="126:14160">Period I</p>
+                    <span class="story__star chapter__star" aria-hidden="true" data-node-id="126:14169"></span>
+                    <span class="chapter__hairline" aria-hidden="true" data-node-id="126:14166"></span>
+                    <span class="story__star chapter__star" aria-hidden="true" data-node-id="126:14171"></span>
+                    <p class="chapter__kicker" data-node-id="126:14162">762–833</p>
+                  </div>
+                  <h2 class="chapter__title" id="foundations-title" data-node-id="126:14159">Foundations</h2>
+                  <p class="chapter__intro" data-node-id="126:14175">In seventy years, a new capital rose on the Tigris, drew people from across an empire, and began gathering knowledge from many languages.</p>
+                </div>
+                <div class="chapter__image" data-node-id="126:14157">
+                  <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="The round city of Baghdad on the Tigris, with mountains on the horizon" decoding="async">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- The period I card in flight, outside the clip. Same painting as the story card and the
+               chapter: it starts on the one and lands exactly on the other, then hands over to it. -->
+          <div class="dive" aria-hidden="true">
+            <div class="dive__card">
+              <div class="dive__shadow"></div>
+              <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="" decoding="async">
+            </div>
+          </div>
+        </section>
+
         <!-- Shared by both panels so there is no seam: grain fades in with the slide (Figma story 122:23). -->
         <div class="journey__grain" aria-hidden="true"></div>
         <!-- Warm smoke that rolls across the seam mid-slide (lib/smoke.js, WebGL). -->

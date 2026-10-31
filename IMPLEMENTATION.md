@@ -30,6 +30,32 @@ Parallax lukisan saat scroll (bukan dari Figma, berdasarkan arahan): `journey.js
 
 Tombol Scroll: keyframe `arrow-loop` (panah meluncur 16px ke kanan sambil memudar, lompat ke −16px, lalu masuk kembali) dan `cue-ring` (box-shadow 0→10px memudar) dengan siklus 2,4 s, mulai 2,6 s setelah halaman dibuka (setelah animasi masuk). Lingkaran memakai `overflow: hidden` agar panah terpotong rapi.
 
+## Bab Periode I — Foundations (126:13542)
+
+Sumber: node `126:13542`, diperiksa pada 31 Oktober 2026. Frame 1440 × 1259, latar `#170601`.
+
+| Node | Elemen | Geometri / gaya |
+| --- | --- | --- |
+| 126:14180 | Grunge | Texturelabs Grunge 357, 1886 × 1258 di tengah frame, 20%, color-dodge. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/foundations/grunge.jpg`) |
+| 126:14177 | Cat tinta | Texturelabs InkPaint 409, 866 × 578 di kanan atas (top 1), 25%, color-dodge; dipasang di sudut layar, ukuran × skala artboard |
+| 126:14163 | Baris meta | Lebar 1224 di (109, 124), gap 120: "Period I", bintang 14px, hairline `#c8a15a` 0.5px (sisa lebar), bintang, "762–833". Teks DM Sans Medium 28px/1.4, tracking 40%, uppercase, `#ffebca`; `margin-right: -.4em` karena kotak Figma berakhir di huruf terakhir |
+| 126:14159 | Judul | Svetze 240px/1.2, tracking −4.8px, dipangkas ke cap height; (92, 215), tinggi 168 |
+| 126:14175 | Intro | 560 lebar, tengah, y 435, 20px/1.5, tracking 0.2px. Figma memakai Aref Ruqaa Ink; di web DM Sans (situs hanya memakai dua font), tetap 3 baris |
+| 126:14157 | Lukisan | 1254 × 682 di (93, 577), menampilkan bagian atas lukisan persegi 1254px. Figma memakai versi dengan pegunungan di cakrawala; atas arahan, kartu Periode I di story memakai file yang sama (`assets/story/round-city.jpg`) karena crossfade dua lukisan yang berbeda saat dive terlihat seperti glitch (gambar ganda) |
+
+Bintang memakai `.story__star` yang sama (bentuknya identik dengan vektor 126:14169). Grain bab memakai lapisan grain journey yang sama. Diverifikasi pada 1440 × 1024: semua kotak cocok dengan Figma (selisih ≤ 1px; hairline 341.7 vs 340).
+
+Dive (bukan dari Figma, berdasarkan arahan; `lib/dive.js`): scroll di `.journey` dibagi menjadi geser 1.4vh, jeda di story 0.3vh, dive 2vh, lalu baca 235 × skala px (tinggi journey `calc(470vh + 235px × skala)`). Selama dive (0–1):
+- Kartu terbang (`.dive__card`, 1254px yang diperkecil agar tetap tajam) membesar dengan laju zoom konstan `(1254/120)^u` di sekitar titik hilang F = (623.8, 248.6), dipilih agar zoom murni membawa kartu dari (573, 280, 120) ke (93, 577, 1254) — tepat kotak lukisan bab. `u` = easeInOutCubic(dive / 0.65); kartu mendarat di dive 0.65.
+- Kamera: artboard story di-zoom di sekitar F yang sama sebesar 35% dari zoom kartu (berakhir ≈2.3×) dan memudar pada dive 0.04–0.4; mural dan bercak ikut memudar. Kartu story dan badge-nya disembunyikan, hover periode dimatikan.
+- Kartu, kartu terbang, dan lukisan bab memakai satu file yang sama, jadi tidak ada crossfade; bayangan kartu memudar (0.1–0.5).
+- Clip (`clip-path: inset()` pada `.chapter__reveal`) menempel 1px di dalam tepi kartu selama story masih terlihat (dive < 0.4), sehingga hanya lukisan yang terlihat. Versi awal membuka clip sejak dive 0.25 sehingga jendela bab terlihat di sekitar kartu saat zoom; itu diganti atas arahan.
+- Sejak dive 0.4 (story sudah pudar total) clip keras diganti `.chapter__veil`: empat panel warna `#170601` di atas latar dan tekstur bab tetapi di bawah heading dan lukisan, yang memudar ke arah jendela sepanjang `--feather` (180px artboard, alpha smoothstep 0 → .16 → .5 → .84 → 1). Tepi pekatnya menempel 1px di dalam kartu selama kartu terbang (jadi pergantian tidak terlihat), lalu mulai bergeser keluar layar saat kartu hampir mendarat, bersamaan dengan heading (dive 0.5–1, ease in-out sehingga awalnya sangat pelan); sudut tempat dua panel bertumpuk jadi membulat lembut. Tepi atas membuka lebih dulu, sisi kiri/kanan/bawah menyusul 14% kemudian (keduanya ease in-out). Panel hanya digeser dengan transform. Ini aman karena story sudah pudar total sejak dive 0.4, jadi warna panel sama dengan yang di belakangnya. Versi sebelumnya membuka clip keras dengan keempat tepi bergerak serempak, yang terasa kaku. Isi bab berada di layer sendiri (`.chapter__scroll`, `will-change: transform`) sehingga clip tidak merender ulang isinya; latar `#170601` ada di layer itu karena layer tersebut mengisolasi blend color-dodge tekstur.
+- Heading muncul bertahap saat kartu hampir mendarat (dive 0.5–0.86; kartu ≈89% ukuran akhir di 0.5), bersamaan dengan jendela yang mulai terbuka, digerakkan scroll lewat `lib/heading-reveal.js` (progres 0–1, ease-out kubik per langkah): baris meta lebih dulu (label meluncur 40px dari tepi luar, hairline tergambar dari tengah lewat `scaleX`, bintang berputar −120° → 0 sambil membesar), lalu judul huruf demi huruf (naik 72px dan miring 6° → 0, jeda 0.036 antarhuruf), lalu intro kata demi kata (naik 14px). Huruf dan kata dipecah menjadi span setelah font termuat. Pecahan huruf kehilangan kerning Svetze (pasangan "Fo" bergeser 16.8px), jadi tiap huruf digeser balik dengan `margin-left` ke posisi judul utuh; hasilnya ≤ 0.03px dari aslinya dan kotak judul tetap (92, 215, 1250 × 168). Judul memakai `aria-label` agar dibaca sebagai satu kata. `.chapter__heading` punya layer sendiri sehingga animasi hanya merender ulang teks. Sebelumnya heading baru muncul di 0.74, sehingga ada jeda kosong setelah kartu mendarat.
+- Kartu terbang tetap di atas sampai jendela terbuka penuh (dive 1) agar tepi buram tidak menggelapkan lukisan; lalu (`.is-landed`) lukisan bab menggantikannya (identik pikselnya) dan baca 0–1 menggeser `.chapter__scroll` 235 × skala px ke atas.
+
+Diverifikasi pada 1440 × 1024 dan 1920 × 1080: awal dive tepat di kartu story, pendaratan tepat di kotak lukisan, akhir halaman menempatkan tepi bawah lukisan di tepi bawah layar, dan kembali ke story mengembalikan semua gaya.
+
 ## Section story (122:14)
 
 Sumber: frame `122:14` di section `108:13541`. Koordinat artboard 1440 × 1024, latar `#170601`.

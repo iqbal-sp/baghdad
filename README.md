@@ -41,10 +41,13 @@ baghdad/
 ├── start.command               Shortcut server lokal untuk macOS
 ├── assets/
 │   ├── hero/                  Atmosfer, ilustrasi, bingkai emas (WebP transparan), tiga merpati
-│   ├── story/                 Dua mural bunga (SVG), tekstur bercak, tiga gambar periode, garis detail
+│   ├── story/                 Dua mural bunga (SVG), tekstur bercak, tiga gambar periode (kota bundar juga dipakai bab Periode I), garis detail
+│   ├── foundations/           Tekstur grunge dan cat tinta bab Periode I
 │   └── fonts/                 Svetze dan DM Sans (hanya dua font)
 ├── lib/
-│   ├── journey.js             Scroll horizontal, fade, parallax
+│   ├── journey.js             Segmen scroll: geser ke story, jeda, dive, baca bab
+│   ├── dive.js                Zoom ke kartu Periode I dan pembukaan bab Foundations
+│   ├── heading-reveal.js      Animasi teks bab: meta, judul per huruf, intro per kata
 │   ├── hero-interaction.js    Parallax lukisan (scroll + kursor), lentera, kilau emas
 │   ├── hero-smoke.js          Asap hero yang mengalir (WebGL di atas foto atmosfer)
 │   ├── periods.js             State hover/fokus periode
@@ -60,6 +63,7 @@ baghdad/
 - **Smooth scroll** memakai Lenis yang disertakan lokal (tanpa CDN). Lenis otomatis kembali ke scroll native bila `prefers-reduced-motion` aktif.
 - **Asap di sambungan.** Saat bergeser, asap hangat (shader WebGL, fBm dengan domain warping) bergulung mengikuti tepi antara hero dan story; kekuatannya puncak di tengah transisi dan nol saat diam, sehingga kedua section tetap sama dengan Figma. Grain story (6%) menjadi satu lapisan untuk kedua panel dan muncul bertahap. Tanpa WebGL atau dengan `prefers-reduced-motion`, transisi kembali ke fade biasa.
 - **Fade warna, lalu mural.** Saat bergeser, tepi kanan hero larut menjadi transparan di atas latar story `#170601`, lalu seluruh hero meredup. Saat story ±70% masuk, dua mural bunga arabesque menjalar keluar dari sudut kiri atas dan kanan bawah: batang tergambar dari sudut, cabang menyusul, lalu daun, bunga, dan palmette muncul satu per satu ketika ujung sulur melewatinya (±2,3 detik); saat sebuah periode dibuka, mural meredup agar detailnya terbaca.
+- **Masuk ke Periode I (Foundations, Figma 126:13542).** Setelah story diam, scroll lagi (jeda 30vh lebih dulu) membuat kamera maju ke dalam story: semua elemen story membesar dari satu titik hilang dan memudar, sementara kartu Periode I terbang ke depan jauh lebih cepat sehingga keduanya saling mendekat. Selama zoom hanya lukisan yang terlihat. Kartu mendarat tepat di lukisan besar bab ini (file gambar yang sama, jadi tanpa crossfade), dan saat kartu hampir mendarat teks bab mulai muncul (hairline tergambar dari tengah, bintang berputar masuk, label meluncur dari tepi, judul naik huruf demi huruf, intro kata demi kata), bersamaan dengan latar bab yang mulai terbuka perlahan dari tepi lukisan sampai penuh layar dengan tepi lembut (feather) dan sudut membulat, tepi atas lebih dulu lalu sisi menyusul. Scroll sedikit lagi menggeser sisa 235px desain ke atas. Klik kartu I atau buka `#foundations` untuk langsung ke bab ini. Dengan `prefers-reduced-motion`, bab hanya crossfade.
 - **Parallax.** Setiap gambar periode bergerak dengan kedalaman berbeda (`--depth` di `index.html`) dan tepat berada di posisi Figma ketika transisi selesai.
 - **Hover/fokus gambar** menampilkan detail periodenya di posisi tetap (666, 840), sesuai section Figma 37:8667. Gambar aktif terangkat dan dua lainnya meredup; garis detail tergambar lebih dulu, lalu label, judul, dan ringkasan muncul berurutan. Saat berpindah gambar, detail lama keluar dulu sebelum yang baru masuk, dan detail bertahan 350ms setelah kursor keluar (`lib/periods.js`).
 - **Hero lengkung emas** (Figma 108:13408): ilustrasi di-clip dengan path lengkung dari Figma, lalu bingkai emas berukir dipasang di atasnya sebagai gambar transparan (`assets/hero/frame.webp`, render dari Figma). Cahaya (lima berkas sinar dari kiri atas) dan debu emas mengikuti layer Figma.

@@ -46,10 +46,14 @@ body {
 
 img { display: block; }
 
-/* Journey: a pinned viewport whose track slides sideways as the page scrolls. */
+/*
+ * Journey: a pinned viewport driven by page scroll (lib/journey.js). Scroll lengths:
+ * slide hero → story 140vh, rest on the story 30vh, dive into period I 200vh, then the
+ * chapter's last 235 artboard px.
+ */
 .journey {
   position: relative;
-  height: 240vh;
+  height: calc(470vh + 235px * var(--stage-scale, 1));
 }
 
 .journey__viewport {
@@ -847,6 +851,257 @@ img { display: block; }
     opacity .6s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger)),
     transform .7s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger));
 }
+
+/* Diving into period I (lib/dive.js): the story card hands over to the flying card,
+   and the story stops reacting to the pointer. */
+.journey.is-diving .story__stage { will-change: transform; }
+.journey.is-diving .periods { pointer-events: none; }
+.journey.is-diving .period__detail { visibility: hidden; }
+.journey.is-diving .period--1 .period__thumb { visibility: hidden; }
+.period__badge { transition: opacity .3s ease-out; }
+.journey.is-diving .period--1 .period__badge { opacity: 0; }
+
+/*
+ * Period I chapter — Figma 126:13542, a 1440 × 1259 artboard (coordinates below).
+ * Pinned over the track; its top 1024px share the story artboard's box, and the
+ * remaining 235px scroll into view after the reveal (--read, lib/dive.js).
+ */
+.chapter {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  color: #fff;
+  pointer-events: none;
+}
+
+.journey:not(.is-diving) .chapter { visibility: hidden; }
+.journey.is-landed .chapter { pointer-events: auto; }
+
+/* The clip that opens from the card to the full screen (clip-path inset set per frame). */
+.chapter__reveal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* Everything that scrolls up by 235 artboard px once the chapter has opened. Its own layer
+   isolates blending, so the background lives here for the textures to colour-dodge into. */
+.chapter__scroll {
+  position: absolute;
+  inset: 0 0 auto;
+  height: calc(100% + 235px * var(--stage-scale, 1));
+  background: var(--color-story);
+  will-change: transform;
+}
+
+/* Texturelabs grunge, 20% colour-dodge, full-bleed (Figma 1886 × 1258 centred on the frame). */
+.chapter__grunge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .2;
+  mix-blend-mode: color-dodge;
+}
+
+/* Ink paint, 25% colour-dodge, 866 × 578 in the top-right corner (pinned to the screen corner). */
+.chapter__ink {
+  position: absolute;
+  top: calc(1px * var(--stage-scale, 1));
+  right: 0;
+  width: calc(866px * var(--stage-scale, 1));
+  height: calc(578px * var(--stage-scale, 1));
+  object-fit: cover;
+  opacity: .25;
+  mix-blend-mode: color-dodge;
+}
+
+/* Same box and scale as the story artboard (centred on the viewport, not the taller scroller), but 1259 tall. */
+.chapter__stage {
+  position: absolute;
+  top: calc(50vh - 512px);
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 1259px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: 720px 512px;
+}
+
+.chapter__heading {
+  position: absolute;
+  inset: 0;
+  /* Its own layer: the reveal repaints only the text, not the textures beneath. */
+  will-change: transform;
+}
+
+/* Split by lib/heading-reveal.js so each letter and word can rise in on its own. */
+.chapter__letter {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+
+.chapter__word { display: inline-block; }
+
+/* Frame 25: 1224 wide at (109, 124), 120px gaps, the hairline takes the rest. */
+.chapter__meta {
+  position: absolute;
+  top: 124px;
+  left: 109px;
+  display: flex;
+  gap: 120px;
+  align-items: center;
+  width: 1224px;
+}
+
+.chapter__kicker {
+  margin: 0;
+  color: #ffebca;
+  font-family: var(--font-label);
+  font-size: 28px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.4;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Figma's box ends at the last letter; CSS adds tracking after it. */
+  margin-right: -.4em;
+}
+
+.chapter__star {
+  width: 14px;
+  height: 14px;
+  opacity: 1;
+}
+
+.chapter__hairline {
+  flex: 1 0 0;
+  height: .5px;
+  background: #c8a15a;
+}
+
+/* Svetze 240px / 120%, −2% tracking; box trimmed to cap height, as in Figma (92, 215). */
+.chapter__title {
+  position: absolute;
+  top: 215px;
+  left: 92px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 240px;
+  font-weight: 400;
+  line-height: 288px;
+  letter-spacing: -4.8px;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+/* 560 wide, centred, at y 435. Figma sets this in Aref Ruqaa Ink; the site uses DM Sans only. */
+.chapter__intro {
+  position: absolute;
+  top: 435px;
+  left: 440px;
+  width: 560px;
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+/* Figma "image 14": 1254 × 682 at (93, 577), showing the top of the square painting. */
+.chapter__image {
+  position: absolute;
+  top: 577px;
+  left: 93px;
+  width: 1254px;
+  height: 682px;
+  overflow: hidden;
+}
+
+.chapter__image img {
+  width: 1254px;
+  height: 1254px;
+}
+
+/*
+ * Feathered opening (lib/dive.js): once the story has faded the hard clip hands over to four
+ * panels in the story colour over the chapter's background (not its heading). Each fades out
+ * over --feather toward the window, and where two overlap the corners come out soft and
+ * rounded. Moved only by transform. One viewport tall, inside the taller scroller.
+ */
+.chapter__veil {
+  --feather: calc(180px * var(--stage-scale, 1));
+  --veil: 23 6 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.chapter__veil-side {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+.chapter__veil-side--top,
+.chapter__veil-side--bottom { width: 100%; height: calc(100% + var(--feather)); }
+.chapter__veil-side--left,
+.chapter__veil-side--right { width: calc(100% + var(--feather)); height: 100%; }
+
+/* Smoothstep alpha over the feather (0, .16, .5, .84, 1), starting at the window edge. */
+.chapter__veil-side--top { background: linear-gradient(to top, rgb(var(--veil) / 0), rgb(var(--veil) / .16) calc(var(--feather) * .25), rgb(var(--veil) / .5) calc(var(--feather) * .5), rgb(var(--veil) / .84) calc(var(--feather) * .75), rgb(var(--veil)) var(--feather)); }
+.chapter__veil-side--bottom { background: linear-gradient(to bottom, rgb(var(--veil) / 0), rgb(var(--veil) / .16) calc(var(--feather) * .25), rgb(var(--veil) / .5) calc(var(--feather) * .5), rgb(var(--veil) / .84) calc(var(--feather) * .75), rgb(var(--veil)) var(--feather)); }
+.chapter__veil-side--left { background: linear-gradient(to left, rgb(var(--veil) / 0), rgb(var(--veil) / .16) calc(var(--feather) * .25), rgb(var(--veil) / .5) calc(var(--feather) * .5), rgb(var(--veil) / .84) calc(var(--feather) * .75), rgb(var(--veil)) var(--feather)); }
+.chapter__veil-side--right { background: linear-gradient(to right, rgb(var(--veil) / 0), rgb(var(--veil) / .16) calc(var(--feather) * .25), rgb(var(--veil) / .5) calc(var(--feather) * .5), rgb(var(--veil) / .84) calc(var(--feather) * .75), rgb(var(--veil)) var(--feather)); }
+
+/* The flying card shares the story artboard's box so it can start exactly on the story card. */
+.dive {
+  position: absolute;
+  top: calc(50% - 512px);
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 1024px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: 720px 512px;
+}
+
+/* Full size (1254px), scaled down: it stays sharp as it grows toward the camera. */
+.dive__card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1254px;
+  height: 1254px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+
+.dive__card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* The story card's drop shadow (0 12 25, 45%) at 1254 / 120 scale; fades as the card lands. */
+.dive__shadow {
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 125px 261px rgb(0 0 0 / .45);
+}
+
+/* Landed: the chapter's own image takes over from the identical flying card. */
+.journey:not(.is-landed) .chapter__image,
+.journey.is-landed .dive { visibility: hidden; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
