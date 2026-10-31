@@ -1,20 +1,4 @@
 @font-face {
-  font-family: Michelangelus;
-  src: url("assets/fonts/Michelangelus-Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Michelangelus;
-  src: url("assets/fonts/Michelangelus-Italic.ttf") format("truetype");
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
   font-family: Svetze;
   src: url("assets/fonts/Svetze-Regular.otf") format("opentype");
   font-style: normal;
@@ -30,30 +14,6 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Aref Ruqaa Ink";
-  src: url("assets/fonts/ArefRuqaaInk-Regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Public Sans";
-  src: url("assets/fonts/PublicSans-Regular.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Public Sans";
-  src: url("assets/fonts/PublicSans-Medium.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
 :root {
   color-scheme: light;
   --color-copy: #dbc6b4;
@@ -62,11 +22,9 @@
   --color-story: #170601;
   --color-story-copy: #f0dfd3;
   --ease-out: cubic-bezier(.2, .7, .2, 1);
-  --font-editorial: Michelangelus, Georgia, "Times New Roman", serif;
-  --font-interface: "Public Sans", Arial, sans-serif;
+  /* Two families only: Svetze for display type, DM Sans for everything else. */
   --font-display: Svetze, Georgia, "Times New Roman", serif;
-  --font-label: "DM Sans", "Public Sans", Arial, sans-serif;
-  --font-ruqaa: "Aref Ruqaa Ink", Georgia, serif;
+  --font-label: "DM Sans", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -82,7 +40,7 @@ html {
 body {
   margin: 0;
   color: var(--color-copy);
-  font-family: var(--font-editorial);
+  font-family: var(--font-label);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -189,6 +147,9 @@ img { display: block; }
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
+/* The flowing WebGL version takes over once it has drawn (lib/hero-smoke.js). */
+.hero__atmosphere.is-replaced { visibility: hidden; }
 
 .hero__glow {
   position: absolute;
@@ -417,7 +378,7 @@ img { display: block; }
 .hero__copy {
   margin: 0;
   color: #fff;
-  font-family: var(--font-ruqaa);
+  font-family: var(--font-label);
   font-size: 14px;
   line-height: 1.5;
   letter-spacing: .01em;
@@ -441,7 +402,7 @@ img { display: block; }
 }
 
 .scroll-cue__label {
-  font-family: var(--font-ruqaa);
+  font-family: var(--font-label);
   font-size: 12px;
   line-height: 1.55;
 }
@@ -841,7 +802,7 @@ img { display: block; }
 .period__label {
   --stagger: .12s;
   margin: 0 0 3px;
-  font-family: var(--font-interface);
+  font-family: var(--font-label);
   font-size: 12px;
   font-weight: 500;
   line-height: 1.4;
@@ -852,6 +813,7 @@ img { display: block; }
 .period__name {
   --stagger: .2s;
   margin: 0 0 12px;
+  font-family: var(--font-display);
   font-size: 44px;
   font-weight: 400;
   line-height: 1.2;
@@ -860,7 +822,7 @@ img { display: block; }
 .period__summary {
   --stagger: .28s;
   margin: 0;
-  font-family: var(--font-interface);
+  font-family: var(--font-label);
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;

@@ -42,10 +42,11 @@ baghdad/
 ├── assets/
 │   ├── hero/                  Atmosfer, ilustrasi, bingkai emas (WebP transparan), tiga merpati
 │   ├── story/                 Dua mural bunga (SVG), tekstur bercak, tiga gambar periode, garis detail
-│   └── fonts/                 Svetze, DM Sans, Aref Ruqaa Ink, Michelangelus, Public Sans
+│   └── fonts/                 Svetze dan DM Sans (hanya dua font)
 ├── lib/
 │   ├── journey.js             Scroll horizontal, fade, parallax
-│   ├── hero-interaction.js    Tilt lengkung, lentera, dan kilau emas mengikuti kursor
+│   ├── hero-interaction.js    Parallax lukisan saat scroll, tilt lengkung, lentera, kilau emas
+│   ├── hero-smoke.js          Asap hero yang mengalir (WebGL di atas foto atmosfer)
 │   ├── periods.js             State hover/fokus periode
 │   ├── smoke.js               Asap WebGL di sambungan hero → story
 │   └── vendor/lenis/          Lenis 1.3.26 (smooth scroll, MIT), disalin lokal
@@ -64,6 +65,8 @@ baghdad/
 - **Hero lengkung emas** (Figma 108:13408): ilustrasi di-clip dengan path lengkung dari Figma, lalu bingkai emas berukir dipasang di atasnya sebagai gambar transparan (`assets/hero/frame.webp`, render dari Figma). Cahaya (lima berkas sinar dari kiri atas) dan debu emas mengikuti layer Figma.
 - **Merpati hidup.** Tiga merpati terbang masuk saat halaman dibuka, lalu masing-masing melayang di jalurnya sendiri dengan durasi berbeda (9 s, 10,5 s, 13 s). Debu bergerak pelan dalam tiga lapis kedalaman dan sinar "bernapas" halus.
 - **Animasi masuk hero** (CSS saja): langit, lengkung, judul (spasi huruf merapat), label, dan kolom teks muncul berurutan; tombol Scroll (di bawah paragraf kiri) muncul terakhir. Panah Scroll berulang meluncur ke kanan, menghilang, lalu masuk lagi dari kiri, diikuti cincin yang memudar keluar (siklus 2,4 s), sebagai tanda konten berikutnya ada di samping. Saat hover, lingkaran membesar 1,15× dengan isi krem dan label bergeser 3px.
+- **Asap yang bergerak.** Tekstur asap hero (atmosfer, color-dodge) digambar ulang dengan WebGL (`lib/hero-smoke.js`): foto yang sama ditekuk oleh noise yang mengalir pelan, sehingga gumpalan asap bergulung, menebal dan menipis di tempatnya tanpa mengubah komposisi Figma. Loop berhenti saat story sudah terlihat penuh. Tanpa WebGL atau dengan `prefers-reduced-motion`, foto diam tetap dipakai.
+- **Parallax lukisan saat scroll** (`lib/hero-interaction.js`): saat hero bergeser ke story, lukisan di dalam bingkai tertinggal dari bingkainya (hingga 16% dari geseran), seolah dilihat lewat jendela. Objek lain (judul, merpati, debu, teks) tidak ikut bergeser. Aktif juga tanpa mouse; mati dengan `prefers-reduced-motion`.
 - **Interaksi kursor di hero** (`lib/hero-interaction.js`, hanya pointer halus/mouse): lengkung emas miring 3D mengikuti kursor (maks 3° / 2°) sementara lukisan bergeser berlawanan di dalam jendelanya (parallax, gambar diperbesar 4% agar tepinya tidak terlihat). Cahaya lentera hangat (blend screen) mengikuti kursor di atas lukisan sementara bagian yang jauh sedikit meredup, dan kilau lembut (color-dodge, di-mask ke bentuk bingkai) bergeser di atas emas. Semua nilai di-ease dalam satu loop rAF yang berhenti saat diam; efek hilang perlahan saat kursor keluar.
 - **Story berlapis:** baris judul "Three" / "Golden Ages", label "The story", dan gambar bergerak dengan kedalaman parallax berbeda (`--depth`). Tiap gambar punya badge angka I–III, dan ada petunjuk "Hover an image to enter its age" di kiri bawah.
 - `prefers-reduced-motion` mematikan semua animasi, transisi, parallax, dan easing scroll.
@@ -74,4 +77,4 @@ Konten periode ada di `index.html` (`.period`). Copy ketiga periode mengikuti Fi
 
 ## Verifikasi
 
-Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Font Svetze (judul hero) dan Michelangelus disalin dari font terinstal; lisensi web keduanya belum diverifikasi. DM Sans dan Aref Ruqaa Ink berlisensi OFL (lihat `assets/fonts/*-OFL.txt`).
+Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Situs hanya memakai dua font: Svetze untuk judul (hero, story, nama periode) dan DM Sans untuk semua teks lain. Svetze disalin dari font terinstal; lisensi webnya belum diverifikasi. DM Sans berlisensi OFL (lihat `assets/fonts/DMSans-OFL.txt`).
