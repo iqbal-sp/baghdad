@@ -1,65 +1,49 @@
 # Pemetaan desain
 
-Sumber: file `W6tX1PQmmpbA50RBo29CVG`, node `37:646`, diperiksa pada 29 Oktober 2026. Implementasi didasarkan pada design context, properti node, aset asli, dan perbandingan dengan screenshot Figma 1440 × 1024.
+## Hero (108:13408)
 
-## Layout pada ukuran referensi
-
-| Node | Elemen | Geometri |
-| --- | --- | --- |
-| 37:646 | Section | 1440 × 1024 |
-| 37:647 | Panorama | 1536 × 1024; x = −39, y = 0 |
-| 37:648 | Panel | 548 × 847; x = 446, y = 89 |
-| 37:651 | Ilustrasi dalam panel | 795 × 530; x = −124, y = −4 |
-| 37:650 | Masker | 950 × 950; x = −201, y = −426 |
-| 37:652 | Grup teks | 486 × 183; x = 31, y = 576 relatif panel |
-| 37:653 | Judul | Michelangelus Bold 90px, letter spacing 9px, cap trim |
-| 37:654 | Paragraf | Michelangelus Regular 16px/24px; lebar 373px |
-| 37:664 | Label atas | Public Sans Medium 14px/19.6px; x = 195, y = 36 |
-| 37:655 | Indikator Scroll | 235 × 24; x = 293, y = 803 |
-
-Panel memakai alur layout biasa; penempatan absolut hanya untuk lapisan ilustrasi, masker, dan label di atasnya. Satuan container (`cqw`) mempertahankan rasio elemen berdasarkan lebar asli panel 548px. Font dan aset tidak dimuat dari URL Figma sementara saat runtime.
-
-Warna dari design context: panel `#473f38`, judul `#fcf5ee`, paragraf `#dbc6b4`, label `#1f1f1f`, lingkaran panah `#796e63`.
-
-## Efek latar
-
-Figma menyertakan shader `Dither`, ID `55a4ca852373c81b69803326c5af7aa5f1af580b/7045`.
-
-```js
-{
-  algorithm: 'Bayer 16x16',
-  levels: 5,
-  pixelSize: 1,
-  contrast: 1,
-  brightness: 100,
-  mono: false,
-  monoColor: { r: 1, g: 1, b: 1, a: 1 }
-}
-```
-
-File `.ts` menyimpan sumber shader yang dikembalikan Figma. `dither.js` memiliki kode yang sama dengan anotasi tipe pada satu fungsi no-op dihapus agar dapat dijalankan browser. Fungsi setup/render, semua WGSL, dan parameternya tetap dipertahankan.
-
-Figma menghasilkan wrapper React. Agar memenuhi permintaan JavaScript murni, `dither-renderer.js` menghubungkan fungsi setup/render tersebut langsung ke texture gambar melalui [WebGPU copyExternalImageToTexture](https://developer.mozilla.org/en-US/docs/Web/API/GPUQueue/copyExternalImageToTexture). Tidak ada ketergantungan React atau HTML-in-Canvas.
-
-Output shader dipresentasikan dengan sampling separabel 1/8, 6/8, 1/8 yang dicocokkan terhadap screenshot node Figma. Ini mempertahankan tampilan titik dither pada hasil ekspor, tanpa mengubah shader atau memakai overlay noise CSS.
-
-Untuk browser tanpa WebGPU, jalur Canvas mengevaluasi matriks Bayer dan persamaan kuantisasi shader yang sama untuk parameter desain ini. Bila seluruh pemrosesan canvas diblokir, gambar sumber tetap terlihat; peringatan hanya dicatat di konsol, tidak menutupi desain.
-
-## Batas scope
-
-Tidak ada halaman kedua, backend, konten tambahan, atau tujuan navigasi. Node sumber tidak memiliki prototype reaction. Indikator Scroll dinonaktifkan atas konfirmasi pengguna. Perilaku responsif di luar ukuran referensi adalah adaptasi, bukan klaim bahwa ada desain mobile terpisah di Figma.
-
-## Section story (47:10, hover 37:6780)
+Sumber: file `W6tX1PQmmpbA50RBo29CVG`, node `108:13408`, diperiksa pada 31 Oktober 2026. Koordinat di bawah adalah piksel artboard 1440 × 1024.
 
 | Node | Elemen | Geometri / gaya |
 | --- | --- | --- |
-| 47:11 | Tekstur | Tile SVG 72px berulang, `#42372D` stroke 0.7 |
-| 47:681 | Vignette | Radial `#13100e` → `rgb(19 16 14 / .7)`, radius 1773 × 1536 |
-| 47:13 | "The story" | Public Sans Medium 20px/1.4, tracking 8px; x = 140, y = 241 |
-| 47:12 | Judul | Michelangelus Italic 187px/1.2, cap trim; x = 108, y = 335, lebar 1224.586 |
-| 47:18 / 47:16 / 47:14 | Gambar periode | 120 × 120; (720, 291), (1115, 479), (315, 645); tanpa border, drop-shadow 0 12 25 `rgb(0 0 0 / .45)` |
-| 37:7392 / 37:8021 / 37:8660 | Detail hover I / II / III | Posisi tetap (666, 840), tinggi 184; lebar 311 (kolom 279) untuk I–II, 372 (kolom 340, judul nowrap) untuk III; garis `#796E63`, teks `#f0dfd3` |
+| 108:13408 | Section | 1440 × 1024, `#1e0701` |
+| 108:13410 | Atmosfer | Gambar 1622 × 1081 di (−45, −58), 80%, blend color-dodge. Di web dipasang full-bleed pada panel (bukan di artboard), dengan ukuran minimal sama seperti di Figma, agar tepinya tidak terlihat di layar yang lebih lebar atau lebih tinggi dari 1440 : 1024 |
+| 108:13411 | Glow | Elips 900 × 820 di (270, 70), `#ff9440` 30%, blur 190, layer 60%, screen |
+| 108:13413 / 108:13414 | Lengkung + ilustrasi | Path 798 × 1141 di (320, 85) meng-clip ilustrasi 1410 × 940 di (15, 85). Di web: CSS `clip-path: path()` dengan path yang digeser +305 px ke ruang koordinat gambar |
+| 108:13527 | Bingkai emas | Render PNG transparan 1437 × 1023 di (1, 0), di atas ilustrasi; disimpan sebagai `frame.webp` |
+| 108:13425 / 26 / 27 | Merpati | (114, 185) 131 px; (318, 34) 104 px, 85%, blur 1.2; (1222, 150) 136 px |
+| 108:13429 / 108:13435 | Cahaya | 5 berkas sinar blur 64 (grup 40%, screen); 57 titik debu dalam 3 lapis |
+| 108:13493 | Vignette | Inner shadow blur 250 spread 20 `#0a0300` 88% (di bawah teks) |
+| 108:13494 | Judul | Svetze 250px, uppercase, letter-spacing 10%; (68, 442) |
+| 108:13495 | Label | DM Sans Medium 22px/1.4, letter-spacing 20%, uppercase, hitam, tengah; (599, 164), lebar 242 |
+| 108:13511 | Kolom kiri | x 56, lebar 176: kicker "762 — 1258", paragraf, lalu Scroll 32px di bawahnya; berakhir di y 960 |
+| 108:13510 | Kolom kanan | x 1208, lebar 176, rata kanan: kicker "The journey" dan paragraf; berakhir di y 960 |
+| 108:13502 | Scroll | "Scroll" Aref Ruqaa Ink 12px + lingkaran putih 24px dengan panah hitam, jarak 8px, tanpa garis |
 
-Sumber hover: section 37:8667 (frame 37:6780, 37:7409, 37:8048). Selain blok detail, ketiga frame hover identik dengan default; tidak ada perubahan pada gambar yang di-hover, sehingga pasangan gambar–periode diasumsikan dari isi gambar. Lapisan Grain (47:682) tidak memiliki fill yang dapat diekspor.
+Kicker: DM Sans Medium 11px, letter-spacing 2.4px, `#ffe5bd` 80%. Paragraf: Aref Ruqaa Ink 14px/1.5. Line-height otomatis Svetze di Figma (175px) lebih pendek daripada metrik browser, sehingga judul memakai `line-height: 175px` dan digeser +12px agar glyph sejajar dengan screenshot Figma. Artboard dipecah dua (seni dan tipografi) dengan vignette di antaranya, mengikuti urutan layer Figma.
 
-Transisi (bukan dari Figma, berdasarkan arahan): Lenis (`lerp` 0.08) menghaluskan scroll. Progres 0–1 pada `.journey` menggeser track 1 viewport. Hero memakai `mask-image` dengan stop ease-in-out; lebar zona transparan (`--fade-width`) tumbuh dari 0 ke 70% viewport dengan smoothstep pada progres 0–0.7, sehingga tepinya transparan penuh tepat di sambungan dengan story. Overlay gelap hero mencapai 50% pada progres 0.4–1 dan opacity artboard story 0.4–1. Tekstur muncul lewat transisi CSS setelah progres ≥ 0.995.
+Interaksi kursor (bukan dari Figma, berdasarkan arahan): `.hero__arch` membungkus jendela lukisan (`.hero__window`, clip-path), bingkai, dan kilau, dan diberi `perspective(1800px) rotateX/rotateY` dari variabel `--rx`/`--ry` dengan pivot (720, 620). `lib/hero-interaction.js` mengubah posisi kursor ke piksel artboard (lewat rect dan skala `.hero__stage`) dan menulis variabel CSS: tilt `--ry` = nx·3°, `--rx` = −ny·2° (lerp 0.07); parallax lukisan `--px`/`--py` = −nx·14 / −ny·10 px (lukisan `scale: 1.04`); posisi cahaya `--lx`/`--ly` (relatif jendela) dan `--sx`/`--sy` (relatif bingkai) dengan lerp 0.1. Lentera = `.hero__shade` (peredup `#180701` 0→22% dengan banyak stop ber-easing, berpusat di kursor, ukuran 3000px agar selalu menutupi jendela) + `.hero__lantern` (glow 480px, puncak 30%, screen, banyak stop agar tanpa tepi). Kilau = `.hero__sheen` (color-dodge, `mask` memakai `frame.webp` sendiri) berisi titik 420px (puncak 36%). Semua hanya berpindah lewat `translate`/`transform` (compositor). Aktif hanya untuk `(hover: hover) and (pointer: fine)` dan tanpa `prefers-reduced-motion`.
+
+Tombol Scroll: keyframe `arrow-loop` (panah meluncur 16px ke kanan sambil memudar, lompat ke −16px, lalu masuk kembali) dan `cue-ring` (box-shadow 0→10px memudar) dengan siklus 2,4 s, mulai 2,6 s setelah halaman dibuka (setelah animasi masuk). Lingkaran memakai `overflow: hidden` agar panah terpotong rapi.
+
+## Section story (122:14)
+
+Sumber: frame `122:14` di section `108:13541`. Koordinat artboard 1440 × 1024, latar `#170601`.
+
+| Node | Elemen | Geometri / gaya |
+| --- | --- | --- |
+| 123:351 / 123:14 | Mural bunga | SVG 320 × 220 di (0, 0), 45%; SVG 560 × 520 di (880, 504), 62%. Di belakang judul. Di web ditambatkan ke sudut layar (kiri atas / kanan bawah) dengan ukuran × skala artboard, agar tidak terpotong di layar yang lebih lebar dari 1440 : 1024 |
+| 122:16 | "The story" | DM Sans Medium 20px/28px, letter-spacing 40%, uppercase, `#ffeaca` (cream 80% di atas putih); (87, 241) |
+| 124:14 / 124:16 | Bintang + garis | Bintang 8 sudut 14px `#c8a15a` 90% di (274, 248); garis 120 × 1 gradien emas 80% → 0 di (298, 255) |
+| 122:15 | Judul | Svetze 220px, line-height 120% (264px), dua baris "Three" / "Golden Ages"; kotak di-trim ke cap height, (87, 303), tinggi 418 |
+| 122:21 / 19 / 17 | Gambar periode I / II / III | 120 × 120 di (573, 280), (865, 501), (417, 661); bayangan 0 12 blur 50 hitam 45% |
+| 124:17 / 19 / 21 | Badge angka | Lingkaran 24px, latar `#170601`, garis emas 1px, DM Sans Medium 11px letter-spacing 1.5px; 12px di luar sudut kiri atas gambar |
+| 124:23 | Petunjuk hover | Bintang 8px + DM Sans Medium 12px, letter-spacing 1px, putih 55%, jarak 10; (87, 948) |
+| 124:27 / 124:29 | Bintang kecil | 7px 50% di (760, 870); 6px 45% di (1320, 470) |
+| 122:23 | Grain | Noise putih 6% (SVG feTurbulence). Di web satu lapisan di atas kedua panel (`.journey__grain`), opacity 0 → 6% pada progres 0.1–0.7, agar tidak membentuk tepi panel |
+| 122:24 | Bercak | Gambar 492 × 531 di (948, 0), color-burn. Transparansi diratakan ke putih (color-burn tidak mengubah putih). Di web ditambatkan ke sudut kanan atas layar dan membakar latar section `#170601`, sehingga tepinya tidak membentuk garis di tengah layar lebar |
+| 37:7392 / 37:8021 / 37:8660 | Detail hover I / II / III | Posisi tetap (666, 840), tinggi 184 (dari section 37:8667) |
+
+Animasi mural: batang memakai `pathLength=1` dan `stroke-dashoffset` 1 → 0 (mulai `--s`, durasi `--t`); daun/bunga/palmette/titik di-scale dari pangkalnya dengan delay `--d` yang dihitung dari panjang busur saat ujung batang melewatinya. Dipicu kelas `.has-arrived` pada progres ≥ 0.72 (dilepas < 0.45); saat dilepas semuanya menutup cepat tanpa delay. Mural adalah vektor yang digambar lewat skrip (sulur Catmull-Rom yang berlanjut menjadi spiral, daun almond, roset 8 kelopak, palmette); berkas SVG di web dihasilkan dari kode yang sama sehingga identik dengan Figma.
+
+Transisi (bukan dari Figma, berdasarkan arahan): Lenis (`lerp` 0.08) menghaluskan scroll. Progres 0–1 pada `.journey` menggeser track 1 viewport, dibulatkan ke piksel perangkat agar ilustrasi tidak bergetar. Tepi kanan hero larut ke `#170601` lewat overlay gradien (`.hero__edge-fade`, stop ease-in-out) yang di-`scaleX` dari 0 ke 0.7 dengan smoothstep pada progres 0–0.7, sehingga tepinya solid `#170601` tepat di sambungan dengan story. Sebelumnya dipakai `mask-image` yang diubah tiap frame; itu memaksa seluruh hero dirender ulang dan Chrome menampilkan tile kosong (kotak gelap) saat scroll, jadi diganti dengan overlay yang hanya berubah lewat transform (compositor). Artboard hero memakai `will-change: transform`. Overlay gelap hero mencapai 50% pada progres 0.4–1 dan opacity artboard story 0.4–1. Asap (`lib/smoke.js`): kanvas WebGL setengah resolusi di atas track; fBm 5 oktaf dengan domain warping dalam pita Gaussian (σ 15% lebar) yang mengikuti sambungan di x = 1 − progres; kekuatan sin(π·progres)^0.8, warna badan `#170601` dengan kepulan amber. Loop rAF hanya berjalan saat asap terlihat.

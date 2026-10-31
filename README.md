@@ -1,6 +1,6 @@
 # Baghdad — Heart of the Golden Age
 
-Implementasi dua section dari Figma — hero [node 37:646](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=37-646) dan story [node 47:10](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=47-10) dengan state hover [node 37:6780](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=37-6780) — menggunakan HTML, CSS, dan JavaScript murni. Tidak membutuhkan npm, framework, CDN, atau proses build.
+Implementasi dua section dari Figma — hero [node 108:13408](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=108-13408) dan story [node 122:14](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=122-14) (keduanya di section [108:13541](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=108-13541)) dengan state hover [node 37:6780](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Untitled?node-id=37-6780) — menggunakan HTML, CSS, dan JavaScript murni. Tidak membutuhkan npm, framework, CDN, atau proses build.
 
 ## Online
 
@@ -37,42 +37,41 @@ Gunakan server lokal, bukan membuka `index.html` melalui `file://`: browser memb
 baghdad/
 ├── index.html                  Markup semantik dan isi section
 ├── styles.css                  Token warna, font, layout, dan responsivitas
-├── script.js                   Inisialisasi efek latar dan journey
+├── script.js                   Inisialisasi journey, interaksi hero, dan hover periode
 ├── start.command               Shortcut server lokal untuk macOS
 ├── assets/
-│   ├── baghdad-panorama.png    Gambar latar asli Figma
-│   ├── baghdad-illustration.png Ilustrasi asli Figma
-│   ├── illustration-mask.svg  Masker lingkaran asli
-│   ├── scroll-line.svg        Garis asli indikator Scroll
-│   ├── arrow-down.svg         Ikon asli indikator Scroll
-│   ├── story/                 Tekstur, tiga gambar periode, garis detail
-│   └── fonts/                 Michelangelus dan Public Sans
+│   ├── hero/                  Atmosfer, ilustrasi, bingkai emas (WebP transparan), tiga merpati
+│   ├── story/                 Dua mural bunga (SVG), tekstur bercak, tiga gambar periode, garis detail
+│   └── fonts/                 Svetze, DM Sans, Aref Ruqaa Ink, Michelangelus, Public Sans
 ├── lib/
-│   ├── dither-renderer.js     Penghubung shader ke JavaScript murni
 │   ├── journey.js             Scroll horizontal, fade, parallax
+│   ├── hero-interaction.js    Tilt lengkung, lentera, dan kilau emas mengikuti kursor
 │   ├── periods.js             State hover/fokus periode
-│   ├── vendor/lenis/          Lenis 1.3.26 (smooth scroll, MIT), disalin lokal
-│   └── custom-effects/        Sumber shader Figma dan versi JavaScript
+│   ├── smoke.js               Asap WebGL di sambungan hero → story
+│   └── vendor/lenis/          Lenis 1.3.26 (smooth scroll, MIT), disalin lokal
 └── IMPLEMENTATION.md          Pemetaan desain dan catatan teknis
 ```
 
 ## Perilaku
 
-- **Desktop saja untuk saat ini.** Layout responsif dinonaktifkan; `html` memiliki lebar minimum 1024px. Section story adalah artboard 1440 × 1024 yang diskalakan agar muat di viewport.
+- **Desktop saja untuk saat ini.** Layout responsif dinonaktifkan; `html` memiliki lebar minimum 1024px. Hero dan story adalah artboard 1440 × 1024 yang diskalakan agar muat di viewport; artboard hero ditambatkan ke tepi bawah sehingga lengkung selalu menyentuh bawah layar.
 - **Scroll ke samping.** Scroll vertikal menggeser track dari hero ke story. Klik indikator Scroll pada hero, atau buka `#story`, untuk langsung ke story.
 - **Smooth scroll** memakai Lenis yang disertakan lokal (tanpa CDN). Lenis otomatis kembali ke scroll native bila `prefers-reduced-motion` aktif.
-- **Fade warna, lalu tekstur.** Saat bergeser, tepi kanan hero larut menjadi transparan di atas latar `#13100e` (mask yang melebar perlahan dari 0px), lalu seluruh hero meredup. Story dimulai dari `#13100e` polos dan isinya muncul perlahan, sehingga tidak ada garis sambungan. Setelah story berhenti, tekstur ornamen dan vignette muncul (2,6 detik). Latar halaman juga `#13100e` dan overscroll dimatikan agar tidak ada kilatan putih saat bounce.
+- **Asap di sambungan.** Saat bergeser, asap hangat (shader WebGL, fBm dengan domain warping) bergulung mengikuti tepi antara hero dan story; kekuatannya puncak di tengah transisi dan nol saat diam, sehingga kedua section tetap sama dengan Figma. Grain story (6%) menjadi satu lapisan untuk kedua panel dan muncul bertahap. Tanpa WebGL atau dengan `prefers-reduced-motion`, transisi kembali ke fade biasa.
+- **Fade warna, lalu mural.** Saat bergeser, tepi kanan hero larut menjadi transparan di atas latar story `#170601`, lalu seluruh hero meredup. Saat story ±70% masuk, dua mural bunga arabesque menjalar keluar dari sudut kiri atas dan kanan bawah: batang tergambar dari sudut, cabang menyusul, lalu daun, bunga, dan palmette muncul satu per satu ketika ujung sulur melewatinya (±2,3 detik); saat sebuah periode dibuka, mural meredup agar detailnya terbaca.
 - **Parallax.** Setiap gambar periode bergerak dengan kedalaman berbeda (`--depth` di `index.html`) dan tepat berada di posisi Figma ketika transisi selesai.
 - **Hover/fokus gambar** menampilkan detail periodenya di posisi tetap (666, 840), sesuai section Figma 37:8667. Gambar aktif terangkat dan dua lainnya meredup; garis detail tergambar lebih dulu, lalu label, judul, dan ringkasan muncul berurutan. Saat berpindah gambar, detail lama keluar dulu sebelum yang baru masuk, dan detail bertahan 350ms setelah kursor keluar (`lib/periods.js`).
-- **Animasi masuk hero** (CSS saja): latar, kartu, judul, dan paragraf muncul berurutan, ilustrasi sedikit zoom-out, dan garis Scroll tergambar dari kiri. Panah Scroll berdenyut halus setiap 3 detik dan membesar saat hover.
-- **Story berlapis:** baris judul, label "The story", dan gambar bergerak dengan kedalaman parallax berbeda (`--depth`); tekstur menyebar dari tengah ke tepi.
+- **Hero lengkung emas** (Figma 108:13408): ilustrasi di-clip dengan path lengkung dari Figma, lalu bingkai emas berukir dipasang di atasnya sebagai gambar transparan (`assets/hero/frame.webp`, render dari Figma). Cahaya (lima berkas sinar dari kiri atas) dan debu emas mengikuti layer Figma.
+- **Merpati hidup.** Tiga merpati terbang masuk saat halaman dibuka, lalu masing-masing melayang di jalurnya sendiri dengan durasi berbeda (9 s, 10,5 s, 13 s). Debu bergerak pelan dalam tiga lapis kedalaman dan sinar "bernapas" halus.
+- **Animasi masuk hero** (CSS saja): langit, lengkung, judul (spasi huruf merapat), label, dan kolom teks muncul berurutan; tombol Scroll (di bawah paragraf kiri) muncul terakhir. Panah Scroll berulang meluncur ke kanan, menghilang, lalu masuk lagi dari kiri, diikuti cincin yang memudar keluar (siklus 2,4 s), sebagai tanda konten berikutnya ada di samping. Saat hover, lingkaran membesar 1,15× dengan isi krem dan label bergeser 3px.
+- **Interaksi kursor di hero** (`lib/hero-interaction.js`, hanya pointer halus/mouse): lengkung emas miring 3D mengikuti kursor (maks 3° / 2°) sementara lukisan bergeser berlawanan di dalam jendelanya (parallax, gambar diperbesar 4% agar tepinya tidak terlihat). Cahaya lentera hangat (blend screen) mengikuti kursor di atas lukisan sementara bagian yang jauh sedikit meredup, dan kilau lembut (color-dodge, di-mask ke bentuk bingkai) bergeser di atas emas. Semua nilai di-ease dalam satu loop rAF yang berhenti saat diam; efek hilang perlahan saat kursor keluar.
+- **Story berlapis:** baris judul "Three" / "Golden Ages", label "The story", dan gambar bergerak dengan kedalaman parallax berbeda (`--depth`). Tiap gambar punya badge angka I–III, dan ada petunjuk "Hover an image to enter its age" di kiri bawah.
 - `prefers-reduced-motion` mematikan semua animasi, transisi, parallax, dan easing scroll.
-- Efek Bayer 16×16 pada hero memakai shader Figma melalui WebGPU, dengan fallback Canvas.
 
 ## Melanjutkan pengembangan
 
-Konten periode ada di `index.html` (`.period`). Copy ketiga periode mengikuti Figma 37:8667. Figma tidak menandai gambar mana yang di-hover; pasangan gambar–periode (kota bundar → I, cendekiawan menulis → II, cendekiawan di taman → III) adalah asumsi berdasarkan isi gambar. Posisi gambar diatur lewat `--x`/`--y`, dan kekuatan parallax lewat `--depth`. Panjang scroll transisi diatur oleh `height` pada `.journey`.
+Konten periode ada di `index.html` (`.period`). Copy ketiga periode mengikuti Figma 37:8667. Figma tidak menandai gambar mana yang di-hover; pasangan gambar–periode (kota bundar → I, cendekiawan menulis → II, cendekiawan di taman → III) adalah asumsi berdasarkan isi gambar. Mural dibuat ulang dari kode generator yang sama dengan di Figma dan di-inline di `index.html` agar tiap batang dan daun bisa dianimasikan; salinan berkasnya ada di `assets/story/mural-*.svg`. Waktu tumbuh tersimpan di elemen (`--s`/`--t` untuk batang, `--d` untuk daun dan bunga). Posisi gambar diatur lewat `--x`/`--y`, dan kekuatan parallax lewat `--depth`. Panjang scroll transisi diatur oleh `height` pada `.journey`.
 
 ## Verifikasi
 
-Diuji di Chrome pada 1440 × 1024 dan 1440 × 900: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan.
+Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Font Svetze (judul hero) dan Michelangelus disalin dari font terinstal; lisensi web keduanya belum diverifikasi. DM Sans dan Aref Ruqaa Ink berlisensi OFL (lihat `assets/fonts/*-OFL.txt`).

@@ -8,14 +8,6 @@
 
 @font-face {
   font-family: Michelangelus;
-  src: url("assets/fonts/Michelangelus-Bold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Michelangelus;
   src: url("assets/fonts/Michelangelus-Italic.ttf") format("truetype");
   font-style: italic;
   font-weight: 400;
@@ -23,10 +15,26 @@
 }
 
 @font-face {
-  font-family: "Public Sans";
-  src: url("assets/fonts/PublicSans-Light.woff2") format("woff2");
+  font-family: Svetze;
+  src: url("assets/fonts/Svetze-Regular.otf") format("opentype");
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("assets/fonts/DMSans-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Aref Ruqaa Ink";
+  src: url("assets/fonts/ArefRuqaaInk-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
   font-display: swap;
 }
 
@@ -48,17 +56,17 @@
 
 :root {
   color-scheme: light;
-  --color-canvas: #f4f6f7;
-  --color-panel: #473f38;
-  --color-heading: #fcf5ee;
   --color-copy: #dbc6b4;
-  --color-label: #1f1f1f;
-  --color-arrow: #796e63;
-  --color-story: #13100e;
+  --color-hero: #1e0701;
+  --color-hero-kicker: rgb(255 229 189 / .8);
+  --color-story: #170601;
   --color-story-copy: #f0dfd3;
   --ease-out: cubic-bezier(.2, .7, .2, 1);
   --font-editorial: Michelangelus, Georgia, "Times New Roman", serif;
   --font-interface: "Public Sans", Arial, sans-serif;
+  --font-display: Svetze, Georgia, "Times New Roman", serif;
+  --font-label: "DM Sans", "Public Sans", Arial, sans-serif;
+  --font-ruqaa: "Aref Ruqaa Ink", Georgia, serif;
 }
 
 * { box-sizing: border-box; }
@@ -80,29 +88,6 @@ body {
 
 img { display: block; }
 
-.backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
-  background: var(--color-panel);
-}
-
-.backdrop__image,
-.backdrop__canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Figma's 1536px image starts at x = -39 inside the 1440px frame. */
-  object-position: 40.625% 50%;
-}
-
-.backdrop__canvas { visibility: hidden; }
-.backdrop[data-rendered="true"] .backdrop__canvas { visibility: visible; }
-
 /* Journey: a pinned viewport whose track slides sideways as the page scrolls. */
 .journey {
   position: relative;
@@ -115,6 +100,25 @@ img { display: block; }
   height: 100vh;
   /* clip, not hidden: focus and #story anchors must not scroll the track. */
   overflow: clip;
+}
+
+/* Grain (Figma noise, white 6% on the story). One layer over both panels, so it never draws a seam. */
+.journey__grain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.6 -.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.journey__smoke {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .journey__track {
@@ -132,209 +136,412 @@ img { display: block; }
   overflow: hidden;
 }
 
-/*
- * The hero dissolves into the #13100e behind it: its trailing edge becomes
- * transparent over --fade-width (set by journey.js), so it can never show a
- * seam against the story. Stops follow an ease-in-out curve to avoid banding.
- */
-.panel--hero {
-  --fade-width: 0px;
-  --fade-start: calc(100% - var(--fade-width));
-  -webkit-mask-image: var(--hero-mask);
-  mask-image: var(--hero-mask);
-  --hero-mask: linear-gradient(
-    to right,
-    #000 var(--fade-start),
-    rgb(0 0 0 / .96) calc(var(--fade-start) + var(--fade-width) * .15),
-    rgb(0 0 0 / .84) calc(var(--fade-start) + var(--fade-width) * .3),
-    rgb(0 0 0 / .62) calc(var(--fade-start) + var(--fade-width) * .45),
-    rgb(0 0 0 / .38) calc(var(--fade-start) + var(--fade-width) * .6),
-    rgb(0 0 0 / .16) calc(var(--fade-start) + var(--fade-width) * .75),
-    rgb(0 0 0 / .04) calc(var(--fade-start) + var(--fade-width) * .9),
-    transparent 100%
-  );
-}
 
+/* Hero — Figma 95:12552. Coordinates below are artboard pixels (1440 × 1024). */
 .hero {
-  display: grid;
-  place-items: center;
-  padding: 33px 20px 32px;
+  background: var(--color-hero);
   isolation: isolate;
 }
 
-.story-card {
-  --unit: calc(100cqw / 548);
-  position: relative;
-  container-type: inline-size;
-  width: 548px;
-  max-width: 100%;
-  overflow: hidden;
-  background: var(--color-panel);
-}
-
-.story-card__art {
-  position: relative;
-  height: calc(524 * var(--unit));
-  overflow: hidden;
-}
-
-.story-card__illustration {
+/*
+ * Two copies of the artboard share one transform: artwork below the vignette,
+ * type above it (as in Figma). Anchored to the bottom so the arch always meets
+ * the bottom edge; extra height on tall screens opens up sky at the top.
+ */
+.hero__stage {
   position: absolute;
-  width: calc(795 * var(--unit));
-  height: calc(530 * var(--unit));
-  max-width: none;
-  left: calc(-124 * var(--unit));
-  top: calc(-4 * var(--unit));
+  bottom: 0;
+  left: 50%;
+  width: 1440px;
+  height: 1024px;
+  transform: translateX(-50%) scale(var(--stage-scale, 1));
+  transform-origin: 50% 100%;
+  /* Own compositor layer: the painting, frame shadow and light blurs rasterise once
+     and are only moved while the track slides. */
+  will-change: transform;
+}
+
+.hero__stage--type { z-index: 1; }
+.hero__stage > * { position: absolute; }
+
+/* Sky: hero colour with the atmosphere texture colour-dodged into it (108:13410). */
+.hero__sky {
+  top: -600px;
+  left: -169px;
+  width: 1870px;
+  height: 1624px;
+}
+
+/*
+ * Atmosphere texture (Figma 1622 × 1081 at −45, −58 → 112.6% of the frame width,
+ * centred 46px right and 30px up). Sized to the viewport, never smaller than that
+ * overscale, so its edge can never show on wide or tall screens.
+ */
+.hero__atmosphere {
+  position: absolute;
+  top: 47.07%;
+  left: 53.19%;
+  width: max(112.64%, 158.35vh);
+  height: auto;
+  aspect-ratio: 1622 / 1081;
+  opacity: .8;
+  mix-blend-mode: color-dodge;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero__glow {
+  position: absolute;
+  top: 670px;
+  left: 439px;
+  width: 900px;
+  height: 820px;
+  border-radius: 50%;
+  background: rgb(255 148 64 / .3);
+  filter: blur(95px);
+  opacity: .6;
+  mix-blend-mode: screen;
+}
+
+/*
+ * Arch group: tilts toward the pointer via --rx/--ry (lib/hero-interaction.js).
+ * Painting, lantern and gold sheen are positioned in artboard pixels like Figma.
+ */
+.hero__arch {
+  inset: 0;
+  transform: perspective(1800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transform-origin: 720px 620px;
+  will-change: transform;
+}
+
+/* Figma "image 3" box (15, 85, 1410 × 940), clipped to the arch outline at x 320. */
+.hero__window {
+  position: absolute;
+  top: 85px;
+  left: 15px;
+  width: 1410px;
+  height: 940px;
+  clip-path: path("M 585.32 33.84 C 643.11 -1.5 711.2 -9.54 774.35 11.51 C 837.15 32.35 889.89 80.25 920.87 144.58 C 926.59 156.27 931.15 167.21 934.74 179.89 C 949.85 179.85 965.76 180.07 980.8 179.67 C 980.53 193.94 979.89 207.65 983.06 221.63 C 997.97 287.39 1044.52 321.6 1103 319.82 L 1103 1141 L 305 1141 L 305 319.91 C 339.51 320.33 366.98 312.51 392.94 284.87 C 414.65 261.79 427.07 229.93 427.38 196.5 C 427.42 190.97 427.37 185.43 427.2 179.9 L 473.31 179.73 C 476.42 167.81 481.78 155.51 487.08 144.59 C 509.63 97.95 543.73 59.51 585.32 33.84 Z");
+}
+
+/* Slightly oversized so the parallax shift never reveals an edge inside the arch. */
+.hero__painting {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  -webkit-mask-image: url("assets/illustration-mask.svg");
-  mask-image: url("assets/illustration-mask.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: calc(950 * var(--unit)) calc(950 * var(--unit));
-  mask-size: calc(950 * var(--unit)) calc(950 * var(--unit));
-  -webkit-mask-position: calc(-77 * var(--unit)) calc(-422 * var(--unit));
-  mask-position: calc(-77 * var(--unit)) calc(-422 * var(--unit));
-  mask-mode: alpha;
+  scale: 1.04;
+  translate: var(--px, 0px) var(--py, 0px);
+  will-change: translate;
 }
 
-.story-card__eyebrow {
+/* Lantern held over the painting: the scene dims a little away from the cursor
+   (shade, a large ring centred on the cursor) and warms where it is (glow). */
+.hero__shade,
+.hero__lantern {
   position: absolute;
-  top: calc(36 * var(--unit));
-  left: calc(50% - 79 * var(--unit));
+  border-radius: 50%;
+  opacity: 0;
+  translate: var(--lx, 0px) var(--ly, 0px);
+  transition: opacity .9s var(--ease-out);
+  pointer-events: none;
+  will-change: translate;
+}
+
+.hero__shade {
+  top: -1500px;
+  left: -1500px;
+  width: 3000px;
+  height: 3000px;
+  /* Many eased stops so the dimming has no visible ring. */
+  background: radial-gradient(circle,
+    rgb(24 7 1 / 0) 3%, rgb(24 7 1 / .02) 8%, rgb(24 7 1 / .06) 13%, rgb(24 7 1 / .11) 18%,
+    rgb(24 7 1 / .16) 24%, rgb(24 7 1 / .2) 31%, rgb(24 7 1 / .22) 40%);
+}
+
+.hero__lantern {
+  top: -240px;
+  left: -240px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(closest-side,
+    rgb(255 200 130 / .3), rgb(255 190 120 / .26) 15%, rgb(255 180 110 / .19) 32%,
+    rgb(255 172 100 / .11) 50%, rgb(255 168 95 / .05) 68%, rgb(255 168 95 / .015) 85%, rgb(255 168 95 / 0));
+  mix-blend-mode: screen;
+}
+
+/* Gilded frame render (Figma "image 13"), 1437 × 1023 at (1, 0). */
+.hero__frame {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  width: 1437px;
+  height: 1023px;
+  object-fit: cover;
+  /* Figma drop shadow 0 22 blur 90, #0b0200 40% (follows the frame's alpha). */
+  filter: drop-shadow(0 22px 45px rgb(11 2 0 / .4));
+  pointer-events: none;
+}
+
+/* Specular sheen on the gold: a soft spot masked to the frame's own shape. */
+.hero__sheen {
+  position: absolute;
+  top: 0;
+  left: 1px;
+  width: 1437px;
+  height: 1023px;
+  overflow: hidden;
+  opacity: 0;
+  mix-blend-mode: color-dodge;
+  -webkit-mask: url("assets/hero/frame.webp") 0 0 / 100% 100% no-repeat;
+  mask: url("assets/hero/frame.webp") 0 0 / 100% 100% no-repeat;
+  transition: opacity .7s var(--ease-out);
+  pointer-events: none;
+}
+
+.hero__sheen-spot {
+  position: absolute;
+  top: -210px;
+  left: -210px;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side,
+    rgb(255 226 170 / .36), rgb(255 218 160 / .3) 15%, rgb(255 208 145 / .2) 34%,
+    rgb(255 200 130 / .1) 54%, rgb(255 200 130 / .035) 74%, rgb(255 200 130 / 0));
+  translate: var(--sx, 0px) var(--sy, 0px);
+  will-change: translate;
+}
+
+.hero.is-pointing .hero__shade,
+.hero.is-pointing .hero__lantern,
+.hero.is-pointing .hero__sheen { opacity: 1; }
+
+/* Doves: the wrapper flies in once, the image glides on its own loop. */
+.hero__doves {
+  inset: 0;
+  pointer-events: none;
+}
+
+.dove { position: absolute; }
+
+.dove img {
+  width: 100%;
+  height: auto;
+  filter: sepia(.12) brightness(.97) drop-shadow(0 14px 22px rgb(10 2 0 / .45));
+  transform-origin: 50% 60%;
+}
+
+.dove--near { --from-x: -180px; --from-y: 70px; --arrive: .4s; --glide: 9s; top: 185px; left: 114px; width: 131px; }
+.dove--far { --from-x: -110px; --from-y: 40px; --arrive: .75s; --glide: 13s; top: 34px; left: 318px; width: 104px; opacity: .85; }
+.dove--mid { --from-x: 170px; --from-y: 60px; --arrive: .6s; --glide: 10.5s; top: 150px; left: 1222px; width: 136px; }
+.dove--far img { filter: sepia(.12) brightness(.9) blur(.6px); }
+.dove--mid img { animation-direction: reverse; }
+
+.hero__beams {
+  top: -600px;
+  left: -200px;
+  opacity: .4;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.hero__dust {
+  top: 0;
+  left: 0;
+  overflow: visible;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/* Vignette sits between artwork and type, sized to the viewport rather than the artboard. */
+.hero__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 calc(250px * var(--stage-scale, 1)) calc(20px * var(--stage-scale, 1)) rgb(10 3 0 / .88);
+}
+
+.hero__label {
+  top: 164px;
+  left: 599px;
+  width: 242px;
   margin: 0;
-  color: var(--color-label);
-  font-family: var(--font-interface);
-  font-size: clamp(12px, 14 * var(--unit), 14px);
+  color: #000;
+  font-family: var(--font-label);
+  font-size: 22px;
   font-weight: 500;
+  font-variation-settings: "opsz" 14;
   line-height: 1.4;
+  letter-spacing: .2em;
+  text-align: center;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-.story-card__copy {
-  display: flex;
-  flex-direction: column;
-  gap: calc(24 * var(--unit));
-  margin: calc(52 * var(--unit)) calc(31 * var(--unit)) 0;
-}
-
-h1 {
+.hero__title {
+  /* Figma's text box starts at 442; +12 compensates for Svetze's browser baseline. */
+  top: 454px;
+  left: 68px;
+  width: 1304px;
   margin: 0;
-  color: var(--color-heading);
-  font-size: calc(90 * var(--unit));
-  font-weight: 700;
-  line-height: normal;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 250px;
+  font-weight: 400;
+  /* Figma's auto line height for Svetze at 250px; browser "normal" is taller. */
+  line-height: 175px;
   letter-spacing: .1em;
   text-transform: uppercase;
-  text-box-trim: trim-both;
-  text-box-edge: cap alphabetic;
+  white-space: nowrap;
 }
 
-.story-card__description {
-  width: 373px;
-  max-width: 100%;
+/* Text columns (Figma frames 23/24): 176px wide, both ending at y 960 so re-wrapping grows upward. */
+.hero__col { bottom: 64px; width: 176px; }
+.hero__col--left { left: 56px; }
+.hero__col--right { left: 1208px; text-align: right; }
+
+.hero__kicker {
+  margin: 0 0 12px;
+  color: var(--color-hero-kicker);
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: normal;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.hero__copy {
   margin: 0;
-  font-size: 16px;
-  font-weight: 400;
+  color: #fff;
+  font-family: var(--font-ruqaa);
+  font-size: 14px;
   line-height: 1.5;
+  letter-spacing: .01em;
 }
 
-.story-card__footer {
-  margin-top: calc(44 * var(--unit));
-  padding: 0 20px 20px;
-}
-
+/* Sits 32px under the left paragraph. */
 .scroll-cue {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 16px;
-  width: 235px;
-  max-width: 100%;
-  margin-left: auto;
-  color: inherit;
+  gap: 8px;
+  height: 24px;
+  margin-top: 32px;
+  color: #fff;
   text-decoration: none;
   user-select: none;
 }
 
 .scroll-cue:focus-visible {
-  outline: 1px solid var(--color-heading);
+  outline: 1px solid #fff;
   outline-offset: 6px;
 }
 
-.scroll-cue__line {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  height: 3px;
-}
-
-.scroll-cue__line img {
-  position: absolute;
-  top: 50%;
-  left: -1.4435px;
-  transform: translateY(-50%);
-  /* Preserve the exported SVG's native 156.887 × 2.88675 dimensions. */
-}
-
 .scroll-cue__label {
-  display: flex;
-  flex: none;
-  align-items: center;
-  gap: 8px;
-  color: #fff;
-  font-family: var(--font-interface);
+  font-family: var(--font-ruqaa);
   font-size: 12px;
-  font-weight: 300;
   line-height: 1.55;
 }
+
+.scroll-cue__label { transition: translate .5s var(--ease-out); }
 
 .scroll-cue__circle {
   display: grid;
   place-items: center;
+  flex: none;
   width: 24px;
   height: 24px;
-  flex: none;
+  overflow: hidden;
   border-radius: 50%;
-  background: var(--color-arrow);
-  transition: background-color .3s ease, transform .5s var(--ease-out);
+  background: #fff;
+  transition: scale .5s var(--ease-out), background-color .5s var(--ease-out);
 }
+
+.scroll-cue:hover .scroll-cue__label,
+.scroll-cue:focus-visible .scroll-cue__label { translate: 3px 0; }
 
 .scroll-cue:hover .scroll-cue__circle,
-.scroll-cue:focus-visible .scroll-cue__circle {
-  background: color-mix(in srgb, var(--color-arrow), #fff 16%);
-  transform: scale(1.1);
-}
+.scroll-cue:focus-visible .scroll-cue__circle { scale: 1.15; background-color: #ffe5bd; }
 
-/* Hero entrance — plays once on load. */
+/* Hero motion — entrance once, then slow ambient loops. */
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes rise-in { from { opacity: 0; transform: translateY(24px); } }
-@keyframes settle-in { from { transform: scale(1.06); } }
-@keyframes draw-in { from { clip-path: inset(0 100% 0 0); } }
-/* Idle hint: a short downward nudge every few seconds. */
-@keyframes nudge {
-  0%, 72%, 100% { transform: none; }
-  82% { transform: translateY(3px); }
-  90% { transform: translateY(-1px); }
+@keyframes draw-in { from { transform: scaleX(0); } }
+@keyframes title-in { from { opacity: 0; letter-spacing: .16em; } }
+@keyframes rise-in-t { from { opacity: 0; translate: 0 24px; } }
+/* "Next is to the side": the arrow slides out right and re-enters from the left. */
+@keyframes arrow-loop {
+  0%, 28% { transform: translateX(0); opacity: 1; }
+  48% { transform: translateX(16px); opacity: 0; }
+  48.1% { transform: translateX(-16px); opacity: 0; }
+  70%, 100% { transform: translateX(0); opacity: 1; }
+}
+@keyframes cue-ring {
+  0%, 30% { box-shadow: 0 0 0 0 rgb(255 255 255 / .45); }
+  70%, 100% { box-shadow: 0 0 0 10px rgb(255 255 255 / 0); }
+}
+@keyframes dove-arrive { from { opacity: 0; transform: translate(var(--from-x), var(--from-y)) scale(.9); } }
+@keyframes dove-glide {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(7px, -11px) rotate(-1.6deg); }
+  50% { transform: translate(13px, -4px) rotate(.6deg); }
+  75% { transform: translate(5px, 7px) rotate(2deg); }
+}
+@keyframes beam-breathe { to { opacity: .3; } }
+@keyframes mote-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(5px, -12px); }
 }
 
-.backdrop { animation: fade-in 1.4s ease-out both; }
-.story-card { animation: rise-in 1.2s var(--ease-out) .15s both; }
-.story-card__illustration { animation: settle-in 2.6s var(--ease-out) .15s both; }
-.story-card__eyebrow { animation: fade-in .9s ease-out .75s both; }
-.story-card h1 { animation: rise-in 1s var(--ease-out) .55s both; }
-.story-card__description { animation: rise-in 1s var(--ease-out) .7s both; }
-.scroll-cue__line { animation: draw-in 1.1s var(--ease-out) 1.1s both; }
-.scroll-cue__label { animation: fade-in .8s ease-out 1.5s both; }
-.scroll-cue__circle img { animation: nudge 3s ease-in-out 2.6s infinite; }
+.hero__sky,
+.hero__atmosphere { animation: fade-in 1.4s ease-out both; }
+.hero__arch { animation: rise-in-t 1.3s var(--ease-out) .15s both; }
+.hero__beams { animation: fade-in 2s ease-out .3s both, beam-breathe 9s ease-in-out 2.3s infinite alternate; }
+.hero__dust { animation: fade-in 2.4s ease-out .6s both; }
+.hero__mote-layer--fine { animation: mote-drift 11s ease-in-out infinite; }
+.hero__mote-layer--soft { animation: mote-drift 15s ease-in-out -4s infinite reverse; }
+.hero__mote-layer--bokeh { animation: mote-drift 19s ease-in-out -9s infinite; }
+.dove { animation: dove-arrive 2.4s var(--ease-out) var(--arrive) both; }
+.dove img { animation: dove-glide var(--glide) ease-in-out calc(var(--arrive) + 2.4s) infinite; }
+.hero__label { animation: fade-in 1s ease-out .8s both; }
+.hero__title { animation: title-in 1.8s var(--ease-out) .45s both; }
+.hero__col--left { animation: rise-in 1s var(--ease-out) 1s both; }
+.hero__col--right { animation: rise-in 1s var(--ease-out) 1.15s both; }
+.scroll-cue { animation: fade-in .8s ease-out 1.3s both; }
+.scroll-cue__circle { animation: cue-ring 2.4s ease-out 2.6s infinite; }
+.scroll-cue__circle svg { animation: arrow-loop 2.4s cubic-bezier(.65, 0, .35, 1) 2.6s infinite; }
 
-/* When cap-height trimming is unavailable, use the font's matching cap metrics. */
-@supports not (text-box-trim: trim-both) {
-  h1 { line-height: .7; padding-top: .06em; }
-}
-
-/* Keep the complete composition visible on shorter desktop displays. */
-@media (max-height: 950px) {
-  .story-card { width: min(548px, calc((100svh - 80px) * 548 / 847)); }
-  .story-card__description { font-size: max(14px, 2.919708cqw); }
+/*
+ * The hero's trailing edge dissolves into the story colour. A gradient overlay scaled
+ * with transform (compositor-only) instead of an animated mask-image: changing the mask
+ * every frame forced the whole hero to re-rasterise, and Chrome showed missing tiles
+ * (dark rectangles) mid-scroll. Stops mirror the old ease-in-out mask exactly.
+ */
+.hero__edge-fade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  will-change: transform;
+  background: linear-gradient(
+    to right,
+    rgb(23 6 1 / 0),
+    rgb(23 6 1 / .04) 15%,
+    rgb(23 6 1 / .16) 30%,
+    rgb(23 6 1 / .38) 45%,
+    rgb(23 6 1 / .62) 60%,
+    rgb(23 6 1 / .84) 75%,
+    rgb(23 6 1 / .96) 90%,
+    var(--color-story)
+  );
 }
 
 .hero__fade {
@@ -346,48 +553,13 @@ h1 {
   pointer-events: none;
 }
 
-/* Story — Figma 47:10 (default); period hovers 37:6780, 37:7409, 37:8048 (section 37:8667). */
+/* Story — Figma 122:14 (section 108:13541). Coordinates are artboard pixels (1440 × 1024). */
 .story {
   background: var(--color-story);
   color: #fff;
 }
 
-@property --texture-reveal {
-  syntax: "<percentage>";
-  inherits: false;
-  initial-value: 0%;
-}
-
-.story__texture {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  -webkit-mask-image: radial-gradient(var(--texture-reveal) var(--texture-reveal) at 50% 50%, #000 55%, transparent);
-  mask-image: radial-gradient(var(--texture-reveal) var(--texture-reveal) at 50% 50%, #000 55%, transparent);
-  transition:
-    opacity 1.2s ease-out,
-    --texture-reveal 3.2s cubic-bezier(.45, 0, .2, 1);
-}
-
-.story.is-settled .story__texture {
-  --texture-reveal: 150%;
-  opacity: 1;
-}
-
-.story__tiles,
-.story__vignette {
-  position: absolute;
-  inset: 0;
-}
-
-.story__tiles { background: url("assets/story/texture-tile.svg") 0 0 / 72px 72px repeat; }
-
-/* Figma radial gradient: 1773 × 1536 radius on a 1440 × 1024 frame. */
-.story__vignette {
-  background: radial-gradient(123.125% 150% at 50% 50%, var(--color-story), rgb(19 16 14 / .7));
-}
-
-/* The 1440 × 1024 artboard, scaled to fit the viewport by script.js. */
+/* The 1440 × 1024 artboard, scaled to fit the viewport by journey.js. */
 .story__stage {
   position: absolute;
   top: 50%;
@@ -397,34 +569,155 @@ h1 {
   transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
 }
 
+/*
+ * Murals creep out of the corners once the story has arrived: each stem draws from
+ * its root, and every leaf, flower and palmette buds when the tip passes it.
+ * Delays live on the elements (--s/--t for stems, --d for buds, in seconds).
+ */
+.story__murals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity .5s ease-out;
+}
+
+/* While a period is open, the murals step back behind its detail. */
+.story[data-active] .story__murals { opacity: .45; }
+
+/* Artboard sizes × the shared stage scale, pinned to the screen corners. */
+.story__mural { position: absolute; }
+.story__mural svg { display: block; width: 100%; height: auto; overflow: visible; }
+.story__mural--tl { top: 0; left: 0; width: calc(320px * var(--stage-scale, 1)); opacity: .45; }
+.story__mural--br { right: 0; bottom: 0; width: calc(560px * var(--stage-scale, 1)); opacity: .62; }
+
+.m-stem {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition: stroke-dashoffset .4s ease-in;
+}
+
+.m-bud {
+  opacity: 0;
+  transform: scale(0);
+  transform-box: fill-box;
+  transition: opacity .3s ease-in, transform .3s ease-in;
+}
+
+.m-leaf { transform-origin: 0 50%; }     /* grows from its stalk */
+.m-palm { transform-origin: 50% 85%; }   /* opens upward from the tip of the scroll */
+.m-flower,
+.m-dot { transform-origin: 50% 50%; }
+
+.story.has-arrived .m-stem {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset calc(var(--t) * 1s) cubic-bezier(.35, .1, .3, 1) calc(var(--s) * 1s);
+}
+
+.story.has-arrived .m-bud {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .35s ease-out calc(var(--d) * 1s),
+    transform .7s cubic-bezier(.22, 1, .36, 1) calc(var(--d) * 1s);
+}
+
 .story__eyebrow {
   position: absolute;
   top: 241px;
-  left: 140px;
+  left: 87px;
+  display: flex;
+  align-items: center;
+}
+
+.story__eyebrow-text {
   margin: 0;
-  font-family: var(--font-interface);
+  color: #ffeaca;
+  font-family: var(--font-label);
   font-size: 20px;
   font-weight: 500;
-  line-height: 1.4;
-  letter-spacing: 8px;
+  font-variation-settings: "opsz" 14;
+  line-height: 28px;
+  letter-spacing: .4em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
+/* Eight-point star (Figma 124:14), 14px at x 274; hairline 120 × 1 at x 298. */
+.story__star {
+  display: inline-block;
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: #c8a15a;
+  opacity: .9;
+  clip-path: polygon(50% 0, 58% 30.6%, 85.4% 14.6%, 69.4% 42%, 100% 50%, 69.4% 58%, 85.4% 85.4%, 58% 69.4%, 50% 100%, 42% 69.4%, 14.6% 85.4%, 30.6% 58%, 0 50%, 30.6% 42%, 14.6% 14.6%, 42% 30.6%);
+}
+
+.story__star--eyebrow {
+  position: absolute;
+  top: 7px;
+  left: 187px;
+  width: 14px;
+  height: 14px;
+}
+
+.story__hairline {
+  position: absolute;
+  top: 14px;
+  left: 211px;
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, rgb(200 161 90 / .8), rgb(200 161 90 / 0));
+}
+
+.story__star--a { position: absolute; top: 870px; left: 760px; width: 7px; height: 7px; opacity: .5; }
+.story__star--b { position: absolute; top: 470px; left: 1320px; width: 6px; height: 6px; opacity: .45; }
+
 .story__title-line { display: block; }
 
+/* Svetze 220px / 120%; the box is trimmed to cap height, as in Figma (top 303). */
 .story__title {
   position: absolute;
-  top: 335px;
-  left: 108px;
-  width: 1224.586px;
+  top: 303px;
+  left: 87px;
   margin: 0;
-  font-size: 187px;
-  font-style: italic;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 220px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 264px;
+  white-space: nowrap;
   text-box-trim: trim-both;
   text-box-edge: cap alphabetic;
+}
+
+.story__hint {
+  position: absolute;
+  top: 948px;
+  left: 87px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: rgb(255 255 255 / .55);
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: 16px;
+  letter-spacing: 1px;
+}
+
+/* The colour-burned splatter in the top right. */
+.story__splatter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(492px * var(--stage-scale, 1));
+  height: calc(531px * var(--stage-scale, 1));
+  object-fit: cover;
+  mix-blend-mode: color-burn;
+  pointer-events: none;
 }
 
 .periods {
@@ -459,6 +752,29 @@ h1 {
   width: 120px;
   height: 120px;
   object-fit: cover;
+}
+
+.period__badge {
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0 0 0 1.5px; /* balances the trailing letter-spacing */
+  border: 1px solid #c8a15a;
+  border-radius: 20px;
+  background: var(--color-story);
+  color: #c8a15a;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: 1;
+  letter-spacing: 1.5px;
+  pointer-events: none;
 }
 
 .period__thumb:focus-visible {
@@ -584,6 +900,5 @@ h1 {
 
 @media print {
   .hero { padding: 0; }
-  .story-card { break-inside: avoid; }
   body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

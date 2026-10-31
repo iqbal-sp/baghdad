@@ -4,3 +4,6 @@
 node_modules/
 # Not used by the page.
 assets/Baghdad-hero.jpg
+# Raw AI generations and design explorations: kept locally, not shipped.
+assets/generated/
+explorations/
