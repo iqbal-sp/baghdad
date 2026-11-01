@@ -43,7 +43,7 @@ baghdad/
 │   ├── hero/                  Atmosfer, ilustrasi, bingkai emas (WebP transparan), tiga merpati
 │   ├── story/                 Dua mural bunga (SVG), tekstur bercak, tiga gambar periode (kota bundar juga dipakai bab Periode I), garis detail
 │   ├── foundations/           Tekstur grunge dan cat tinta bab Periode I
-│   └── fonts/                 Svetze dan DM Sans (hanya dua font)
+│   └── fonts/                 Svetze dan DM Sans (hanya dua font), WOFF2
 ├── lib/
 │   ├── journey.js             Segmen scroll: geser ke story, jeda, dive, baca bab
 │   ├── dive.js                Zoom ke kartu Periode I dan pembukaan bab Foundations
@@ -82,3 +82,11 @@ Konten periode ada di `index.html` (`.period`). Copy ketiga periode mengikuti Fi
 ## Verifikasi
 
 Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Situs hanya memakai dua font: Svetze untuk judul (hero, story, nama periode) dan DM Sans untuk semua teks lain. Svetze disalin dari font terinstal; lisensi webnya belum diverifikasi. DM Sans berlisensi OFL (lihat `assets/fonts/DMSans-OFL.txt`).
+
+## Ukuran aset
+
+Total aset yang dimuat halaman sekitar 3.1 MB (sebelumnya 8.9 MB untuk seluruh repo, 6.1 MB di antaranya dua PNG periode). Gambar foto/lukisan disimpan sebagai JPEG kualitas 88 progresif (`scholar-reading.jpg` dan `scholars-garden.jpg` turun dari ±3 MB ke ±460 KB, PSNR ±35 dB), gambar transparan sebagai WebP (merpati turun 75–80%, PSNR ±41 dB di atas latar hero), dan font sebagai WOFF2. DM Sans di-subset ke rentang "latin" Google Fonts (sumbu `opsz` dan `wght` serta semua fitur OpenType tetap) dari 234 KB ke 68 KB; `@font-face` mencantumkan `unicode-range` yang sama. Svetze hanya diubah formatnya (22 → 14 KB, semua glyph). Untuk teks baru di luar Latin, subset DM Sans perlu dibuat ulang dari file asli Google Fonts, misalnya:
+
+```sh
+pyftsubset DMSans-Variable.ttf --unicodes="U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD" --layout-features='*' --flavor=woff2 --output-file=assets/fonts/DMSans-Variable.woff2
+```
