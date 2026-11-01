@@ -1105,12 +1105,743 @@ img { display: block; }
 .journey:not(.is-landed) .chapter__image,
 .journey.is-landed .dive { visibility: hidden; }
 
+/*
+ * Period I scenes — Figma 153:14207 and 158:91, 1440 × 1249 artboards in normal page flow after
+ * the journey. Same stage scale and centring as the chapter, so the columns sit under its painting.
+ */
+.scene {
+  position: relative;
+  height: calc(1249px * var(--stage-scale, 1));
+  overflow: hidden;
+  color: #0b0a0a;
+}
+
+.scene--new-centre { background: #efefef; }
+
+/*
+ * Scene 2 rests over scene 1's empty bottom: 126px, from the painting's bottom edge (1123) to the
+ * end of the artboard (1249), so it stops right under the painting. lib/scenes.js holds it down by
+ * that much at first and lets it slide up over scene 1 as the page scrolls (--overlap 0 → 1); its
+ * soft shadow on scene 1 fades as it settles. Without JS it simply rests there.
+ */
+.scene--river {
+  margin-top: calc(-126px * var(--stage-scale, 1));
+  background: #fff;
+  box-shadow: 0 calc(-18px * var(--stage-scale, 1)) calc(64px * var(--stage-scale, 1)) rgb(11 10 10 / calc(.1 * (1 - var(--overlap, 1))));
+}
+
+/*
+ * Lift-off from the chapter to scene 1. The cover is pulled up over the journey's last viewport
+ * and painted beneath it (z-index −1, so the journey's blend modes stay unisolated): scene 1 sticks
+ * to the top behind the pinned chapter, the chapter then scrolls up off it, and once it has gone
+ * the scene scrolls on as usual. --uncover (0 → 1, set on <html> by lib/scenes.js) follows the
+ * chapter's bottom edge up the screen; without JS it stays 1 (:root).
+ */
+:root { --uncover: 1; }
+
+.scene-cover {
+  position: relative;
+  z-index: -1;
+  height: calc(100vh + 1249px * var(--stage-scale, 1));
+  margin-top: -100vh;
+}
+
+.scene-cover > .scene {
+  position: sticky;
+  top: 0;
+}
+
+/* Still in the chapter's shade and slightly sunk while covered; it comes up into the light as the
+   chapter lifts away. */
+.scene-cover .scene__stage {
+  scale: calc(.985 + .015 * var(--uncover));
+  translate: 0 calc((1 - var(--uncover)) * 28px);
+}
+
+.scene-cover .scene::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-story);
+  opacity: calc((1 - var(--uncover)) * .22);
+  pointer-events: none;
+}
+
+/* The lifting chapter casts a long, faint shadow onto the scene below its bottom edge (eased
+   stops, so it has no visible start); it fades over the last 40% of the lift, so none of it stays
+   on the uncovered scene. */
+.journey::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(360px * var(--stage-scale, 1));
+  background: linear-gradient(rgb(23 6 1 / .3), rgb(23 6 1 / .17) 20%, rgb(23 6 1 / .08) 42%, rgb(23 6 1 / .025) 68%, rgb(23 6 1 / 0));
+  opacity: clamp(0, calc((1 - var(--uncover)) * 2.5), 1);
+  pointer-events: none;
+}
+
+.scene__stage {
+  position: absolute;
+  top: 0;
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 1249px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: 720px 0;
+}
+
+.scene__stage > * { position: absolute; }
+.scene p,
+.scene h3 { margin: 0; }
+
+/* "01 · 750": DM Sans Medium 20px / 1.4, 40% tracking, at (89, 120). */
+.scene__marker {
+  top: 120px;
+  left: 89px;
+  font-family: var(--font-label);
+  font-size: 20px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.4;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Svetze 90px / 120%, −2% tracking. */
+.scene__title {
+  font-family: var(--font-display);
+  font-size: 90px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+}
+
+.scene__story {
+  font-family: var(--font-label);
+  font-size: 18px;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.5;
+}
+
+.scene__image { overflow: hidden; }
+
+.scene__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 153:14207 — title box trimmed to cap height at (397, 120), 691 wide; story at (397, 335). */
+.scene--new-centre .scene__title {
+  top: 120px;
+  left: 397px;
+  width: 691px;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.scene--new-centre .scene__story {
+  top: 335px;
+  left: 397px;
+  width: 648px;
+}
+
+/* 690 × 640 frame at (397, 483) cropping the 702 × 652 painting by 6px on each side. */
+.scene--new-centre .scene__image {
+  top: 483px;
+  left: 397px;
+  width: 690px;
+  height: 640px;
+}
+
+.scene--new-centre .scene__image img {
+  width: 702px;
+  height: 652px;
+  margin: -6px 0 0 -6px;
+}
+
+/* 158:91 — "Text": column at (397, 120), 636 wide, 28px gap. Figma clips the 648px story at 636
+   (it loses "y."), so the column does not clip here. The story's last line sets ≈1px wider in
+   the browser than in Figma, so it gets 4px more to keep Figma's four lines. */
+.scene__text {
+  top: 120px;
+  left: 397px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 636px;
+}
+
+.scene--river .scene__story { width: 652px; }
+
+/* "762": Svetze 440px / 88%, −4% tracking, at (76, 528); the painting overlaps its last digit. */
+.scene__year {
+  top: 528px;
+  left: 76px;
+  font-family: var(--font-display);
+  font-size: 440px;
+  font-weight: 400;
+  line-height: .88;
+  letter-spacing: -17.6px;
+  white-space: nowrap;
+}
+
+.scene__image--river {
+  top: 624px;
+  left: 656px;
+  width: 560px;
+  height: 420px;
+  box-shadow: 10px 10px 30px rgb(4 10 18 / .11);
+}
+
+/* "Number in context": 520 wide at (89, 936), 10px gaps. */
+.scene__context {
+  top: 936px;
+  left: 89px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 520px;
+  font-family: var(--font-label);
+  font-variation-settings: "opsz" 14;
+}
+
+.scene__label {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.scene__star {
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+}
+
+.scene__caption {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.scene__note {
+  color: rgb(11 10 10 / .55);
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/*
+ * Scroll reveal (not in Figma; lib/scenes.js). Armed only with motion allowed, so without JS or
+ * with prefers-reduced-motion every part stays where Figma has it. Each part runs once, when it
+ * enters the view, after its own --delay.
+ */
+.scene.is-armed [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+}
+
+.scene.is-armed [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .9s var(--ease-out) var(--delay, 0s),
+    transform 1.2s var(--ease-out) var(--delay, 0s),
+    clip-path 1.4s cubic-bezier(.7, 0, .2, 1) var(--delay, 0s);
+}
+
+/* Titles rise word by word once split (they stay hidden until then, so they never flash). */
+.scene.is-armed [data-reveal="words"] { transform: none; }
+.scene.is-armed [data-reveal="words"]:not(.is-split) { opacity: 0; }
+.scene.is-armed [data-reveal="words"].is-split { opacity: 1; }
+
+.scene__word {
+  display: inline-block;
+  transform-origin: 0 100%;
+}
+
+.scene.is-armed .scene__word {
+  opacity: 0;
+  transform: translate3d(0, 48px, 0) rotate(4deg);
+}
+
+.scene.is-armed .is-in .scene__word {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity .8s var(--ease-out) calc(var(--i) * 80ms + 100ms),
+    transform 1.1s var(--ease-out) calc(var(--i) * 80ms + 100ms);
+}
+
+/* Paintings open from their bottom edge while the picture settles from a slight zoom. */
+.scene.is-armed [data-reveal="unveil"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(100% 0 0);
+}
+
+.scene.is-armed [data-reveal="unveil"] img {
+  scale: calc(var(--rest-scale, 1) * 1.08);
+  transition: scale 1.8s var(--ease-out) var(--delay, 0s);
+}
+
+.scene.is-armed [data-reveal="unveil"].is-in { clip-path: inset(0); }
+.scene.is-armed [data-reveal="unveil"].is-in img { scale: var(--rest-scale, 1); }
+
+/* Scene 1's painting drifts inside its frame while the page scrolls (lib/scenes.js, ±64px); it
+   rests 20% larger (71px past the top and bottom edges) so the frame never shows its edges. */
+.scene.is-armed [data-parallax="inner"] { --rest-scale: 1.2; }
+
+/* The year climbs out of its baseline. */
+.scene.is-armed [data-reveal="rise"] {
+  transform: translate3d(0, 140px, 0);
+  clip-path: inset(100% 0 0);
+}
+
+.scene.is-armed [data-reveal="rise"].is-in { clip-path: inset(0); }
+
+/* Once a clip has opened it is dropped, so it never trims a glyph or the painting's shadow. */
+.scene.is-armed [data-reveal].is-done { clip-path: none; }
+
+/*
+ * Scene 3 — "A city drawn as a circle" (Figma "Scene 3 — B final"). A pinned intro (1440 × 1024,
+ * lib/city-intro.js), then the Round City plan, drawn in (lib/city-draw.js) and pinned for four
+ * steps (same stage scale and centring as the chapter). lib/city.js draws the plan, ring and marks
+ * and sets data-step 0–3.
+ */
+.city {
+  --gold: #c8a15a;
+  --gold-light: #ecd09a;
+  --cream: 255 235 202;
+  background: var(--color-story);
+  color: #fff;
+}
+
+/*
+ * Intro (165:108), pinned for 180vh after it reaches the top. lib/city-intro.js clips the white
+ * .city__tittle to a circle that starts over the whole screen (scene 2's white carried on) and
+ * shrinks onto the dot of the "i" in "city" (set dotless, so the circle is the dot). A gold hairline
+ * follows its edge, and two ripples spread from the dot when it lands.
+ * The heading reuses the Foundations chapter classes (title and intro, no meta row), so its type
+ * and reveal are the same; only positions and the title size (124px, so the longer line spans the
+ * same 92–1348) differ. The block is centred on the 1024 artboard: title 262, intro 401, cue 741.
+ */
+.city__intro { position: relative; height: 280vh; }
+
+.city__intro-viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  /* Sideways only: the white reaches up under scene 2 (see .city__tittle). */
+  overflow-x: clip;
+}
+
+.city__intro-stage {
+  position: absolute;
+  top: calc(50% - 512px);
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 1024px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: 720px 512px;
+}
+
+.city__intro-stage > * { position: absolute; margin: 0; }
+.city__intro-stage .chapter__title { top: 262px; font-size: 124px; line-height: 149px; letter-spacing: -2.48px; }
+.city__intro-stage .chapter__intro { top: 401px; left: 400px; width: 640px; }
+
+.city__tittle,
+.city__halo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  pointer-events: none;
+}
+
+/* 3px taller than the frame, under scene 2's white: at a fractional seam the antialiased edge
+   would otherwise let the dark background through as a grey line. */
+.city__tittle { top: -3px; height: calc(100% + 3px); background: #fff; }
+.city__intro.is-live .city__tittle,
+.city__intro.is-live .city__halo { display: block; }
+.city__halo { overflow: hidden; fill: none; stroke: var(--gold); }
+.city__halo-edge { stroke-width: 1; }
+.city__halo-ripple { stroke-width: 1; opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .city__intro { height: 100vh; }
+}
+
+.city__cue {
+  top: 741px;
+  left: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 1440px;
+  color: rgb(var(--cream) / .7);
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.city__cue .story__star { width: 12px; height: 12px; opacity: 1; }
+.city__cue-arrow { color: var(--gold); font-size: 16px; letter-spacing: 0; animation: city-cue 2.4s var(--ease-out) infinite; }
+
+@keyframes city-cue {
+  0%, 100% { translate: 0 0; opacity: 1; }
+  50% { translate: 0 5px; opacity: .6; }
+}
+
+/* Pinned explorer: one viewport, 80vh for the plan to be drawn in (lib/city-draw.js), then 75vh
+   of scroll per step. It rides up over the intro's empty bottom so the plan's compass star sits
+   160 artboard px under the intro's cue (cue bottom 764, star top 163; when the screen is taller
+   than the artboard, its extra height is taken out too). The viewport's top half is see-through
+   so the overlap (at most ~40% of the view) shows the intro beneath; its bottom half is painted
+   so the splatter has a backdrop to colour-burn into (sticky makes the viewport its own group). */
+.city__explore {
+  position: relative;
+  height: 480vh;
+  margin-top: calc(761px * var(--stage-scale, 1) - 100vh);
+}
+
+.city__viewport {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: clip;
+  background: linear-gradient(transparent 50%, var(--color-story) 50%);
+}
+
+.city__stage {
+  position: absolute;
+  top: calc(50% - 512px);
+  left: calc(50% - 720px);
+  width: 1440px;
+  height: 1024px;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: 720px 512px;
+}
+
+.city__stage > * { position: absolute; margin: 0; }
+
+/* Artboard px left beside the 1440 artboard on each side when the screen is wider than 1440:1024
+   (the stage scales by height). The list and panel move out into it, up to 96px further from the
+   ring (gap 64 → 160), then the panel widens by up to 50px for shorter lines. */
+.city__stage {
+  --spare: max(0px, (100vw / var(--stage-scale, 1) - 1440px) / 2);
+  --push: min(var(--spare), 96px);
+  --grow: min(max(0px, var(--spare) - 96px), 50px);
+}
+
+/* Texturelabs splatter (the story's), turned 180° into the bottom-left corner, colour-burn. */
+.city__splatter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(278px * var(--stage-scale, 1));
+  height: calc(300px * var(--stage-scale, 1));
+  object-fit: cover;
+  mix-blend-mode: color-burn;
+  rotate: 180deg;
+  pointer-events: none;
+}
+
+/* Progress ring (r 330 around the plan) and the compass star; full-artboard SVG. */
+.city__ring {
+  inset: 0;
+  width: 1440px;
+  height: 1024px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.city__arc {
+  stroke-dasharray: var(--ring-length) var(--ring-length);
+  stroke-dashoffset: calc(var(--ring-length) * (1 - var(--progress, .25)));
+  transition: stroke-dashoffset .8s var(--ease-out);
+}
+
+.city__head,
+.city__compass {
+  transform-box: view-box;
+  transform-origin: 720px 520px;
+  transition: transform .8s var(--ease-out);
+}
+
+.city__compass { transform-box: fill-box; transform-origin: center; transition-duration: .9s; transition-timing-function: cubic-bezier(.65, 0, .35, 1); }
+.city__tick { stroke-opacity: .35; transition: stroke-opacity .4s; }
+
+/* While the plan is drawn in: the ring sweeps in clockwise from 12 o'clock (--sweep), and the
+   marks, panel and per-step details wait for the drawing to finish. */
+.city__ring.is-sweeping {
+  -webkit-mask-image: conic-gradient(from 0deg at 720px 520px, #000 var(--sweep, 0deg), transparent 0);
+  mask-image: conic-gradient(from 0deg at 720px 520px, #000 var(--sweep, 0deg), transparent 0);
+}
+
+.city__explore.is-drawing .city__mark,
+.city__explore.is-drawing .city__panel.is-active { visibility: hidden; opacity: 0; }
+.city__explore.is-drawing .city__fx.is-active { opacity: 0; }
+.city__drawing { pointer-events: none; }
+.city__construct > circle { stroke-width: 1.4; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.city__bloom { stroke-width: 1; opacity: 0; }
+.city__pen { opacity: 0; }
+
+/* The intro's dot on its way to the plan's centre (lib/city-intro.js); 20px, scaled to size. */
+.city__seed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  width: 20px;
+  height: 20px;
+  margin: -10px 0 0 -10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 18px rgb(255 255 255 / .35);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.city__tick.is-passed { stroke-opacity: .9; }
+
+/* The plan in a 600px lens centred on the artboard (420, 220). */
+.city__lens {
+  top: 220px;
+  left: 420px;
+  width: 600px;
+  height: 600px;
+  overflow: visible;
+}
+
+.city__plan { color: var(--gold); }
+.city__plan * { vector-effect: non-scaling-stroke; }
+
+/* The camera zooms 1.5× into the centre for the mosque and the palace (transform set by city.js). */
+.city__camera { transition: transform 1.2s cubic-bezier(.65, 0, .35, 1); }
+
+.city__plan .plan-part,
+.city__plan .plan-ring,
+.city__plan .plan-court,
+.city__plan .plan-ornament { transition: opacity .6s var(--ease-out), color .6s var(--ease-out), filter .8s var(--ease-out); }
+.city__plan .plan-part { opacity: .26; }
+.city__plan .plan-ring { opacity: .36; }
+.city__plan .plan-court { opacity: .7; }
+.city__plan .plan-ornament { opacity: .55; }
+.city__plan .plan-part.is-active {
+  opacity: 1;
+  color: var(--gold-light);
+  filter: drop-shadow(0 0 3px rgb(236 208 154 / .45));
+}
+
+/* No glow while the plan is drawn in: a filter over the whole part would repaint on every frame
+   of its sweep. It fades in once the drawing is done. */
+.city__explore.is-drawing .city__plan .plan-part.is-active { filter: none; }
+
+/* The lens edge fades and a fine rim appears only while zoomed in. */
+.city__lens-edge,
+.city__lens-rim { opacity: 0; transition: opacity .8s var(--ease-out); }
+.city__explore[data-zoomed] .city__lens-edge,
+.city__explore[data-zoomed] .city__lens-rim { opacity: 1; }
+
+/* Focus marks: brackets close in, the medallion pops and sends out one pulse (after the zoom). */
+.city__mark { visibility: hidden; }
+.city__mark.is-active { visibility: visible; }
+.city__brackets,
+.city__medal { transform-box: fill-box; transform-origin: center; opacity: 0; }
+.city__mark.is-active .city__brackets { animation: city-brackets .5s var(--ease-out) var(--mark-delay, .2s) both; }
+.city__mark.is-active .city__medal { animation: city-medal .5s var(--ease-out) calc(var(--mark-delay, .2s) + .1s) both; }
+.city__pulse { transform-box: fill-box; transform-origin: center; opacity: 0; }
+.city__mark.is-active .city__pulse { animation: city-pulse 1.2s var(--ease-out) calc(var(--mark-delay, .2s) + .35s) both; }
+
+@keyframes city-brackets { from { opacity: 0; scale: 1.25; } to { opacity: 1; scale: 1; } }
+@keyframes city-medal { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
+@keyframes city-pulse { 0% { opacity: .7; scale: .6; } 100% { opacity: 0; scale: 1.6; } }
+
+/* Per-step details. Loops run only while their step is active. */
+.city__fx { opacity: 0; transition: opacity .6s var(--ease-out); }
+.city__fx.is-active { opacity: 1; }
+.city__fx * { animation-play-state: paused; }
+.city__fx.is-active * { animation-play-state: running; }
+
+/* 01 · Walls: light glides along the moat; towers light up clockwise. */
+.city__shimmer { stroke-dasharray: 40 960; animation: city-shimmer 4s linear infinite; }
+@keyframes city-shimmer { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1000; } }
+.city__explore[data-step="0"] .plan-tower { animation: city-tower .9s var(--ease-out) calc(var(--i) * 20ms + .2s) both; }
+@keyframes city-tower { 0% { fill: #3d1c0d; } 35% { fill: var(--gold-light); } 100% { fill: #3d1c0d; } }
+
+/* 02 · Gates: domes pop in turn; travellers drift inward along the avenues. */
+.plan-dome { transform-box: fill-box; transform-origin: center; }
+.city__explore[data-step="1"] .plan-dome { animation: city-dome .6s var(--ease-out) calc(var(--i) * 120ms + .2s) both; }
+@keyframes city-dome { 0% { scale: .8; } 60% { scale: 1.12; } 100% { scale: 1; } }
+.city__traveller { animation: city-travel 4s cubic-bezier(.45, 0, .55, 1) calc(var(--k) * -2s) infinite; }
+@keyframes city-travel { 0% { translate: 0 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { translate: var(--travel) 0; opacity: 0; } }
+
+/* 03 · Mosque: light sweeps the prayer hall's columns, row by row. */
+.city__explore[data-step="2"] .plan-column { animation: city-column 1.6s var(--ease-out) calc(var(--row) * 60ms + .9s) both; }
+@keyframes city-column { 0% { fill-opacity: .85; } 30% { fill-opacity: 1; fill: #fff4dc; } 100% { fill-opacity: .85; } }
+
+/* 04 · Palace: light rings radiate from the dome; the processional ways flow toward it. */
+.city__ripple { transform-box: fill-box; transform-origin: center; animation: city-ripple 2.4s var(--ease-out) calc(var(--k) * .8s) infinite; }
+@keyframes city-ripple { 0% { scale: 1; opacity: .6; } 100% { scale: 2.6; opacity: 0; } }
+.city__flow { stroke-dasharray: 3 6; animation: city-flow 3s linear infinite; }
+@keyframes city-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -36; } }
+
+/* Parts list and panel sit the same distance from the ring (x 390–1050): 64px on a 1440:1024
+   screen (longest name ends at 326, panel starts at 1114), up to 160px on wider ones. Both are
+   centred on the plan vertically. */
+.city__parts { top: 520px; left: calc(143px - var(--push)); width: 230px; translate: 0 -50%; }
+.city__parts ol { display: grid; gap: 18px; margin: 0; padding: 0; list-style: none; }
+
+.city__parts-label,
+.city__kicker,
+.city__next {
+  margin: 0;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.city__parts-label { margin-bottom: 18px; color: rgb(var(--cream) / .5); }
+
+.city__part {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: rgb(var(--cream) / .38);
+  cursor: pointer;
+  font: inherit;
+  transition: color .4s var(--ease-out);
+}
+
+.city__part:hover,
+.city__part:focus-visible { color: rgb(var(--cream) / .7); }
+.city__part:focus-visible { outline: 1px solid var(--gold); outline-offset: 6px; }
+.city__part[aria-current="step"] { color: #fff; }
+
+/* The mark grows 8 → 24px by scaling (not width), so changing step never reflows the list; the
+   numbers keep the active row's column. */
+.city__part-mark {
+  width: 24px;
+  height: 1.5px;
+  background: var(--gold);
+  opacity: .35;
+  transform: scaleX(.3333);
+  transform-origin: 0 50%;
+  transition: transform .5s var(--ease-out), opacity .5s;
+}
+
+.city__part[aria-current="step"] .city__part-mark { transform: none; opacity: 1; }
+
+.city__part-num {
+  color: var(--gold);
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  opacity: .55;
+}
+
+.city__part[aria-current="step"] .city__part-num { opacity: 1; }
+.city__part-name { font-family: var(--font-display); font-size: 32px; line-height: 1.2; }
+
+/* Explanation panel (250–300 wide from x 1114 + push). One panel per step, stacked. */
+.city__panels { top: 520px; left: calc(1114px + var(--push)); width: calc(250px + var(--grow)); }
+
+.city__panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  translate: 0 -50%;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .25s, visibility 0s .25s;
+}
+
+.city__panel.is-active { visibility: visible; opacity: 1; transition: opacity .25s; }
+.city__kicker { color: var(--gold); }
+
+.city__heading {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.city__rule {
+  display: block;
+  width: 40px;
+  height: 1px;
+  margin-top: 18px;
+  background: var(--gold);
+  transform-origin: 0 0;
+}
+
+.city__body {
+  margin: 18px 0 0;
+  color: rgb(240 223 211 / .9);
+  font-family: var(--font-label);
+  font-size: 16px;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.65;
+}
+
+.city__next { margin-top: 48px; color: rgb(var(--cream) / .45); }
+
+/* Panel entrance: kicker slides in, heading rises word by word, rule draws, body and next fade up. */
+.city__panel .city__kicker,
+.city__panel .city__word,
+.city__panel .city__body,
+.city__panel .city__next { opacity: 0; }
+.city__panel .city__rule { scale: 0 1; }
+.city__word { display: inline-block; }
+.city__panel.is-active .city__kicker { animation: city-slide .6s var(--ease-out) .15s both; }
+.city__panel.is-active .city__word { animation: city-rise .8s var(--ease-out) calc(var(--i) * 70ms + .25s) both; }
+.city__panel.is-active .city__rule { animation: city-draw .6s var(--ease-out) .55s both; }
+.city__panel.is-active .city__body { animation: city-rise-soft .7s var(--ease-out) .65s both; }
+.city__panel.is-active .city__next { animation: city-rise-soft .7s var(--ease-out) .9s both; }
+
+@keyframes city-slide { from { opacity: 0; translate: 16px 0; } to { opacity: 1; translate: 0 0; } }
+@keyframes city-rise { from { opacity: 0; translate: 0 .5em; } to { opacity: 1; translate: 0 0; } }
+@keyframes city-rise-soft { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+@keyframes city-draw { from { scale: 0 1; } to { scale: 1 1; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;
     animation: none !important;
     transition: none !important;
   }
+
+  /* Scene 3's entrances start hidden and only end visible through an animation. */
+  .city__panel .city__kicker,
+  .city__panel .city__word,
+  .city__panel .city__body,
+  .city__panel .city__next,
+  .city__brackets,
+  .city__medal { opacity: 1; }
+  .city__panel .city__rule { scale: 1 1; }
 }
 
 @media print {

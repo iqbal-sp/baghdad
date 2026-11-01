@@ -2,11 +2,14 @@ import { startJourney } from './lib/journey.js';
 import { startPeriods } from './lib/periods.js';
 import { startHeroInteraction } from './lib/hero-interaction.js';
 import { startHeroSmoke } from './lib/hero-smoke.js';
+import { startScenes } from './lib/scenes.js';
+import { startCity } from './lib/city.js';
+import { startCityIntro } from './lib/city-intro.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
 const heroSmoke = startHeroSmoke(heroElement);
-startJourney(document.querySelector('#journey'), {
+const { lenis } = startJourney(document.querySelector('#journey'), {
   onProgress(progress, width, scale) {
     hero.setProgress(progress, width, scale);
     // The hero is fully off screen once the story has settled.
@@ -14,3 +17,6 @@ startJourney(document.querySelector('#journey'), {
   },
 });
 startPeriods(document.querySelector('#story'));
+startScenes(document.querySelectorAll('.scene'), document.querySelector('#journey'));
+startCityIntro(document.querySelector('.city__intro'), { explore: document.querySelector('.city__explore') });
+startCity(document.querySelector('.city__explore'), { lenis });
