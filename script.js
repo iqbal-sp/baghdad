@@ -5,6 +5,7 @@ import { startHeroSmoke } from './lib/hero-smoke.js';
 import { startScenes } from './lib/scenes.js';
 import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
+import { startNavbar } from './lib/navbar.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
@@ -20,3 +21,4 @@ startPeriods(document.querySelector('#story'));
 startScenes(document.querySelectorAll('.scene'), document.querySelector('#journey'));
 startCityIntro(document.querySelector('.city__intro'), { explore: document.querySelector('.city__explore') });
 startCity(document.querySelector('.city__explore'), { lenis });
+startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'));
