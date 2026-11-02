@@ -6,6 +6,7 @@ import { startScenes } from './lib/scenes.js';
 import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
 import { startNavbar } from './lib/navbar.js';
+import { startCapital } from './lib/capital.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
@@ -22,3 +23,4 @@ startScenes(document.querySelectorAll('.scene'), document.querySelector('#journe
 startCityIntro(document.querySelector('.city__intro'), { explore: document.querySelector('.city__explore') });
 startCity(document.querySelector('.city__explore'), { lenis });
 startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'));
+startCapital(document.querySelector('.scene--capital'));

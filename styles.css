@@ -27,6 +27,10 @@
   /* Two families only: Svetze for display type, DM Sans for everything else. */
   --font-display: Svetze, Georgia, "Times New Roman", serif;
   --font-label: "DM Sans", Arial, sans-serif;
+  /* Scroll the Round City plan rests on Palace, then the scroll scene 4 takes to open over it
+     (lib/city.js HOLD is their sum in viewports). */
+  --capital-rest: 60vh;
+  --capital-wipe: 130vh;
 }
 
 * { box-sizing: border-box; }
@@ -1571,10 +1575,12 @@ img { display: block; }
    160 artboard px under the intro's cue (cue bottom 764, star top 163; when the screen is taller
    than the artboard, its extra height is taken out too). The viewport's top half is see-through
    so the overlap (at most ~40% of the view) shows the intro beneath; its bottom half is painted
-   so the splatter has a backdrop to colour-burn into (sticky makes the viewport its own group). */
+   so the splatter has a backdrop to colour-burn into (sticky makes the viewport its own group).
+   At the end the plan holds on Palace: first a rest, so its zoom and panel can be read, then while
+   scene 4 opens over it (.capital-cover). lib/city.js leaves both out of the steps. */
 .city__explore {
   position: relative;
-  height: 480vh;
+  height: calc(480vh + var(--capital-rest) + var(--capital-wipe));
   margin-top: calc(761px * var(--stage-scale, 1) - 100vh);
 }
 
@@ -1690,8 +1696,9 @@ img { display: block; }
 .city__plan { color: var(--gold); }
 .city__plan * { vector-effect: non-scaling-stroke; }
 
-/* The camera zooms 1.5× into the centre for the mosque and the palace (transform set by city.js). */
-.city__camera { transition: transform 1.2s cubic-bezier(.65, 0, .35, 1); }
+/* The camera zooms 4.5× onto the mosque or the palace, and pans between them (transform set by
+   city.js). */
+.city__camera { transition: transform 1.4s cubic-bezier(.65, 0, .35, 1); }
 
 .city__plan .plan-part,
 .city__plan .plan-ring,
@@ -1707,6 +1714,10 @@ img { display: block; }
   filter: drop-shadow(0 0 3px rgb(236 208 154 / .45));
 }
 
+/* The glow sits inside the camera, so a close-up would blow it up 4.5×: there it is kept to
+   about the same 3px on screen, and dimmer. */
+.city__explore[data-zoomed] .city__plan .plan-part.is-active { filter: drop-shadow(0 0 .7px rgb(236 208 154 / .25)); }
+
 /* No glow while the plan is drawn in: a filter over the whole part would repaint on every frame
    of its sweep. It fades in once the drawing is done. */
 .city__explore.is-drawing .city__plan .plan-part.is-active { filter: none; }
@@ -1717,19 +1728,13 @@ img { display: block; }
 .city__explore[data-zoomed] .city__lens-edge,
 .city__explore[data-zoomed] .city__lens-rim { opacity: 1; }
 
-/* Focus marks: brackets close in, the medallion pops and sends out one pulse (after the zoom). */
+/* Focus marks (the gates' brackets) close in. */
 .city__mark { visibility: hidden; }
 .city__mark.is-active { visibility: visible; }
-.city__brackets,
-.city__medal { transform-box: fill-box; transform-origin: center; opacity: 0; }
-.city__mark.is-active .city__brackets { animation: city-brackets .5s var(--ease-out) var(--mark-delay, .2s) both; }
-.city__mark.is-active .city__medal { animation: city-medal .5s var(--ease-out) calc(var(--mark-delay, .2s) + .1s) both; }
-.city__pulse { transform-box: fill-box; transform-origin: center; opacity: 0; }
-.city__mark.is-active .city__pulse { animation: city-pulse 1.2s var(--ease-out) calc(var(--mark-delay, .2s) + .35s) both; }
+.city__brackets { transform-box: fill-box; transform-origin: center; opacity: 0; }
+.city__mark.is-active .city__brackets { animation: city-brackets .5s var(--ease-out) .2s both; }
 
 @keyframes city-brackets { from { opacity: 0; scale: 1.25; } to { opacity: 1; scale: 1; } }
-@keyframes city-medal { from { opacity: 0; scale: .6; } to { opacity: 1; scale: 1; } }
-@keyframes city-pulse { 0% { opacity: .7; scale: .6; } 100% { opacity: 0; scale: 1.6; } }
 
 /* Per-step details. Loops run only while their step is active. */
 .city__fx { opacity: 0; transition: opacity .6s var(--ease-out); }
@@ -1750,15 +1755,11 @@ img { display: block; }
 .city__traveller { animation: city-travel 4s cubic-bezier(.45, 0, .55, 1) calc(var(--k) * -2s) infinite; }
 @keyframes city-travel { 0% { translate: 0 0; opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { translate: var(--travel) 0; opacity: 0; } }
 
-/* 03 · Mosque: light sweeps the prayer hall's columns, row by row. */
-.city__explore[data-step="2"] .plan-column { animation: city-column 1.6s var(--ease-out) calc(var(--row) * 60ms + .9s) both; }
-@keyframes city-column { 0% { fill-opacity: .85; } 30% { fill-opacity: 1; fill: #fff4dc; } 100% { fill-opacity: .85; } }
-
-/* 04 · Palace: light rings radiate from the dome; the processional ways flow toward it. */
-.city__ripple { transform-box: fill-box; transform-origin: center; animation: city-ripple 2.4s var(--ease-out) calc(var(--k) * .8s) infinite; }
-@keyframes city-ripple { 0% { scale: 1; opacity: .6; } 100% { scale: 2.6; opacity: 0; } }
-.city__flow { stroke-dasharray: 3 6; animation: city-flow 3s linear infinite; }
-@keyframes city-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -36; } }
+/* 03 · Mosque and 04 · Palace: the camera's zoom onto the building is the motion. Their close-up
+   detail (lib/round-city-plan.js) is too fine for the whole plan, so it fades in only once the
+   camera is most of the way there, and out as it leaves. */
+.plan-detail { opacity: 0; transition: opacity .4s var(--ease-out); }
+.city__explore[data-zoomed] .plan-detail { opacity: 1; transition: opacity .6s var(--ease-out) .7s; }
 
 /* Parts list and panel sit the same distance from the ring (x 390–1050): 64px on a 1440:1024
    screen (longest name ends at 326, panel starts at 1114), up to 160px on wider ones. Both are
@@ -1887,6 +1888,332 @@ img { display: block; }
 @keyframes city-rise-soft { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
 @keyframes city-draw { from { scale: 0 1; } to { scale: 1 1; } }
 
+/*
+ * Scene 4 — "A capital that drew the world in" (Figma 172:376; routes and ruling from 182:49). A
+ * 1440 × 1533 artboard on #442f1e under the Texturelabs plaster at 60% overlay (2066 × 1533,
+ * centred: full-bleed here). It reveals like scenes 1–2 (lib/scenes.js). The side paintings, the
+ * place labels and the routes reach the edges of the view: --spare is the artboard px left beside
+ * the stage on a wider screen (as in .city__stage), and lib/capital.js leads the routes out to it.
+ */
+.scene--capital {
+  --spare: max(0px, (100vw / var(--stage-scale, 1) - 1440px) / 2);
+  --gold: #c8a15a;
+  --cream: 255 229 189;
+  height: calc(1533px * var(--stage-scale, 1));
+  background: #442f1e;
+  color: #fff;
+  isolation: isolate;
+}
+
+.scene--capital::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/capital/ink-plaster.jpg") center / cover;
+  opacity: .6;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.scene--capital .scene__stage { height: 1533px; }
+
+/*
+ * Cover from the corner (not in Figma). The wrapper starts --capital-wipe before the Round City
+ * explorer unpins (the plan holds still on Palace by then, lib/city.js) and is that much taller
+ * than the scene, so the scene sticks to the top for exactly that scroll, over the still plan,
+ * then scrolls on. lib/capital.js opens it from the top-right corner of the view in one sweep,
+ * the scene showing right up to the edge, and its painting settles from a slight zoom:
+ * - with CSS paint worklets (.is-ink), the mask is an uneven, soft front like spreading ink
+ *   (lib/ink-paint.js, --ink-*), and the front element paints a soft shadow ahead of it and a
+ *   faint warm light along it;
+ * - without them, a circle with a feathered edge (--wipe-r, --wipe-feather), a gold hairline
+ *   along it and a soft shadow ahead of it.
+ * Without JS, or with prefers-reduced-motion, the scene simply slides up over the plan and rests
+ * there for that scroll.
+ */
+.capital-cover {
+  position: relative;
+  z-index: 1;
+  height: calc(var(--capital-wipe) + 1533px * var(--stage-scale, 1));
+  margin-top: calc(-100vh - var(--capital-wipe));
+}
+
+.capital-cover > .scene {
+  position: sticky;
+  top: 0;
+}
+
+.capital-cover__front {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100vh;
+  margin-bottom: -100vh;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.capital-cover.is-wiping > .scene {
+  mask-image: radial-gradient(circle at 100% 0, #000 calc(var(--wipe-r) - var(--wipe-feather)), transparent var(--wipe-r));
+}
+
+.capital-cover.is-wiping.is-ink > .scene { mask-image: paint(ink-mask); }
+
+.capital-cover.is-wiping.is-ink .capital-cover__front {
+  opacity: 1;
+  background: paint(ink-front);
+}
+
+.capital-cover.is-wiping .scene__stage { scale: calc(1.04 - .04 * var(--wipe)); }
+
+.capital-cover.is-wiping:not(.is-ink) .capital-cover__front {
+  opacity: var(--wipe-front);
+  background:
+    radial-gradient(circle at 100% 0, transparent calc(var(--wipe-r) - 1px), rgb(236 208 154 / .7) var(--wipe-r), transparent calc(var(--wipe-r) + 1px)),
+    radial-gradient(circle at 100% 0, transparent var(--wipe-r), rgb(6 1 0 / .3) calc(var(--wipe-r) + 1px), rgb(6 1 0 / .12) calc(var(--wipe-r) + 60px), rgb(6 1 0 / 0) calc(var(--wipe-r) + 200px));
+}
+
+/* Frames: the market 778 × 674 at (357, 271); the side paintings 374 × 468 at (−74, 477) and
+   (1192, 272), each running out past the edge of the view. */
+.capital__image--hub { top: 271px; left: 357px; width: 778px; height: 674px; }
+
+.capital__image--left {
+  top: 477px;
+  left: calc(-74px - var(--spare));
+  width: calc(374px + var(--spare));
+  height: 468px;
+}
+
+.capital__image--right {
+  top: 272px;
+  left: 1192px;
+  width: calc(374px + var(--spare));
+  height: 468px;
+}
+
+.capital__title {
+  top: 120px;
+  left: 301px;
+  width: 838px;
+  text-align: right;
+}
+
+/* Routes (182:75, not in the original frame): gold hairlines in from the edges, each ending on a
+   gate (ring and cream dot) at a painting's edge, with waystations along the way and dashed
+   branches running off to other places. */
+.capital__routes {
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 1533px;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.capital__routes path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: .9;
+  stroke-linecap: round;
+}
+
+.capital__line { stroke-opacity: .5; }
+.capital__branch { stroke-opacity: .32; stroke-dasharray: 2 5; }
+.capital__stop { fill: var(--gold); fill-opacity: .7; }
+.capital__gate { transform-box: fill-box; transform-origin: center; }
+.capital__gate-ring { fill: none; stroke: var(--gold); stroke-opacity: .9; stroke-width: .75; }
+.capital__gate-dot { fill: rgb(var(--cream) / .9); }
+
+/* "Route label": place in DM Sans Medium 10px, 22% tracking; what it sent in 12px; 24px in from
+   the edge of the view. */
+.capital__places {
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+
+.capital__place {
+  position: absolute;
+  left: calc(24px - var(--spare));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-label);
+  font-variation-settings: "opsz" 14;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.capital__place--right {
+  left: auto;
+  right: calc(24px - var(--spare));
+  align-items: flex-end;
+  text-align: right;
+}
+
+.capital__place-name {
+  color: rgb(var(--cream) / .78);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+}
+
+.capital__place--right .capital__place-name { margin-right: -.22em; }
+
+.capital__place-gift {
+  color: rgb(var(--cream) / .5);
+  font-size: 12px;
+}
+
+/* Body: 581 wide at (430, 1009), 44px apart. Figma's badges (I, II) and the 23 leading spaces
+   that made room for them are left out, as asked; the leading is opened from Figma's 165% to
+   185% so the ruling below sits clear of the text. */
+.capital__text {
+  top: 1009px;
+  left: 430px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  width: 581px;
+}
+
+.capital__para {
+  position: relative;
+  isolation: isolate;
+  color: #8a8686;
+  line-height: 1.85;
+}
+
+/* Mistara ruling (182:71, not in the original frame): the blind lines a scribe's ruling board left
+   on the page, one 8px under each baseline (31px into each 33.3px line, clear of the descenders),
+   running 26px past the column, with a pinhole where the cord met each margin. The margins run
+   14px past the text. */
+.capital__para::before {
+  content: "";
+  position: absolute;
+  inset: 0 -26px;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 1px 31px, rgb(var(--cream) / .3) 1px, transparent 1.5px) 0 0 / 2px 1.85em repeat-y,
+    radial-gradient(circle at 1px 31px, rgb(var(--cream) / .3) 1px, transparent 1.5px) 100% 0 / 2px 1.85em repeat-y,
+    linear-gradient(transparent 30.5px, rgb(200 161 90 / .16) 30.5px 31.5px, transparent 31.5px) 0 0 / 100% 1.85em repeat-y;
+  pointer-events: none;
+}
+
+.capital__margins {
+  position: absolute;
+  inset: -14px -26px;
+  border-inline: 1px solid rgb(200 161 90 / .16);
+  pointer-events: none;
+}
+
+/* Motion (lib/scenes.js arms it): each route draws in from the edge of the view to its gate, its
+   waystations and branch appear as the line passes them, then the gate opens. The ruling sweeps
+   across under each paragraph as it fades up, and the margins drop down beside it. */
+.scene.is-armed .capital__route[data-reveal] { opacity: 1; transform: none; }
+.scene.is-armed .capital__line { stroke-dasharray: 1; stroke-dashoffset: 1; }
+
+.scene.is-armed .is-in .capital__line {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 2.4s cubic-bezier(.45, .05, .25, 1) var(--delay, 0s);
+}
+
+.scene.is-armed .capital__branch,
+.scene.is-armed .capital__stop { opacity: 0; }
+
+.scene.is-armed .is-in :is(.capital__branch, .capital__stop) {
+  opacity: 1;
+  transition: opacity .8s var(--ease-out) calc(var(--delay, 0s) + var(--at) * 2.4s);
+}
+
+.scene.is-armed .capital__gate { opacity: 0; scale: .3; }
+
+.scene.is-armed .is-in .capital__gate {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity .5s var(--ease-out) calc(var(--delay, 0s) + 2.2s),
+    scale .9s cubic-bezier(.16, 1, .3, 1) calc(var(--delay, 0s) + 2.2s);
+}
+
+.scene.is-armed .capital__para::before { clip-path: inset(0 100% 0 0); }
+
+.scene.is-armed .capital__para.is-in::before {
+  clip-path: inset(0);
+  transition: clip-path 1.6s cubic-bezier(.7, 0, .2, 1) var(--delay, 0s);
+}
+
+.scene.is-armed .capital__margins[data-reveal] { transform: none; clip-path: inset(0 0 100%); }
+.scene.is-armed .capital__margins[data-reveal].is-in { clip-path: inset(0); }
+
+/* Scene 4's own entrances, each starting as the opening reaches it (lib/capital.js). No second
+   sweep: the scene's arrival is the only one. Paintings fade in where they are, developing out
+   of a dark sepia wash and settling from a zoom. Title words rise out of a blur, the paragraphs
+   lift out of a softer one, and place names draw their letters in. */
+.scene--capital.is-armed .capital__image[data-reveal] { opacity: 0; clip-path: none; }
+
+.scene--capital.is-armed .capital__image[data-reveal].is-in {
+  opacity: 1;
+  transition: opacity 1.4s var(--ease-out) var(--delay, 0s);
+}
+
+/* Paintings rest 12% large (6% past each edge) so they can drift inside their frames (below). */
+.scene--capital.is-armed .capital__image[data-reveal] img {
+  scale: 1.32;
+  filter: sepia(.7) brightness(.45) contrast(1.15);
+  transition:
+    scale 2.6s var(--ease-out) var(--delay, 0s),
+    filter 2.2s cubic-bezier(.4, 0, .2, 1) calc(var(--delay, 0s) + .2s);
+}
+
+.scene--capital.is-armed .capital__image[data-reveal].is-in img { scale: 1.12; filter: none; }
+
+.scene--capital.is-armed .scene__word { filter: blur(14px); }
+
+.scene--capital.is-armed .is-in .scene__word {
+  filter: none;
+  transition:
+    opacity 1s var(--ease-out) calc(var(--i) * 90ms + 100ms),
+    transform 1.4s var(--ease-out) calc(var(--i) * 90ms + 100ms),
+    filter 1.2s var(--ease-out) calc(var(--i) * 90ms + 100ms);
+}
+
+.scene--capital.is-armed .capital__para[data-reveal] { filter: blur(6px); }
+
+.scene--capital.is-armed .capital__para[data-reveal].is-in {
+  filter: none;
+  transition:
+    opacity 1.2s var(--ease-out) var(--delay, 0s),
+    transform 1.5s var(--ease-out) var(--delay, 0s),
+    filter 1.4s var(--ease-out) var(--delay, 0s);
+}
+
+.scene--capital.is-armed .capital__place-name { letter-spacing: .6em; }
+
+.scene--capital.is-armed .capital__place.is-in .capital__place-name {
+  letter-spacing: .22em;
+  transition: letter-spacing 1.8s var(--ease-out) var(--delay, 0s);
+}
+
+/* Depth (lib/capital.js). Each painting moves at its own pace (--drift-*, artboard px): the left
+   one rises fastest, as if nearest, the right one sinks the other way, and the market rises more
+   slowly; all three are at their Figma places just as the scene has opened. The routes move
+   with the market, as every gate sits on its edge, and the title slowest, behind it all. Inside
+   its frame each painting lags the other way (--inner-*), like a view through a window. While
+   the scene opens (--wipe 0 → 1) the side paintings also slide in from their edges and the
+   title from the corner. Without JS or with reduced motion every variable is unset: Figma. */
+.capital__image--hub,
+.capital__routes { translate: 0 var(--drift-hub, 0px); }
+.capital__image--left { translate: calc((1 - var(--wipe, 1)) * -120px) var(--drift-left, 0px); }
+.capital__image--right { translate: calc((1 - var(--wipe, 1)) * 120px) var(--drift-right, 0px); }
+.capital__title { translate: calc((1 - var(--wipe, 1)) * 60px) var(--drift-title, 0px); }
+.capital__image--hub img { translate: 0 var(--inner-hub, 0px); }
+.capital__image--left img { translate: 0 var(--inner-left, 0px); }
+.capital__image--right img { translate: 0 var(--inner-right, 0px); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     scroll-behavior: auto !important;
@@ -1899,8 +2226,7 @@ img { display: block; }
   .city__panel .city__word,
   .city__panel .city__body,
   .city__panel .city__next,
-  .city__brackets,
-  .city__medal { opacity: 1; }
+  .city__brackets { opacity: 1; }
   .city__panel .city__rule { scale: 1 1; }
 }
 

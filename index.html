@@ -365,6 +365,83 @@
           </div>
         </div>
       </section>
+
+      <!-- Scene 4 (Figma "screen 4" 172:376, with the routes and ruling of 182:49): a 1440 × 1533
+           artboard with the same reveals as scenes 1–2 (lib/scenes.js). Gold routes draw in from
+           the edges of the view to the paintings, each from a place that sent people or knowledge
+           to Baghdad; lib/capital.js runs them out to the edge of a view wider than the artboard. -->
+      <!-- Cover from the corner: the scene sticks to the top while the Round City plan holds still
+           beneath it, and spreads in over the plan from the top-right corner like ink, through a
+           soft, uneven mask (lib/ink-paint.js); .capital-cover__front paints the shadow and light
+           along its edge. Then it scrolls on. -->
+      <div class="capital-cover">
+        <div class="capital-cover__front" aria-hidden="true"></div>
+        <section class="scene scene--capital" id="capital" aria-labelledby="capital-title" data-node-id="182:49">
+          <div class="scene__stage">
+            <div class="scene__image capital__image capital__image--left" data-reveal="unveil" style="--delay: 300ms" data-node-id="177:1258">
+              <img src="assets/capital/02-newcomers-and-skills.jpg" width="960" height="1200" alt="Newcomers carrying books and woven goods meet in a street outside a city gate, beside a weaver at his loom" loading="lazy" decoding="async">
+            </div>
+            <div class="scene__image capital__image capital__image--hub" data-reveal="unveil" style="--delay: 150ms" data-node-id="177:1255">
+              <img src="assets/capital/01-beyond-the-walls.jpg" width="1400" height="1200" alt="A busy arcade market beyond the city walls: carpet sellers, a potter, a bookseller and scholars under awnings, with boats on the river behind" loading="lazy" decoding="async">
+            </div>
+            <div class="scene__image capital__image capital__image--right" data-reveal="unveil" style="--delay: 450ms" data-node-id="177:1262">
+              <img src="assets/capital/03-patrons-and-translators.jpg" width="960" height="1200" alt="Scholars at work in a library: a patron receives a book while a translator writes at a low desk" loading="lazy" decoding="async">
+            </div>
+
+            <svg class="capital__routes" viewBox="0 0 1440 1533" aria-hidden="true" data-node-id="182:72">
+              <g class="capital__route" data-reveal style="--delay: 200ms">
+                <path class="capital__line" pathLength="1" d="M -10 196 C 130 190, 250 300, 357 420"/>
+                <path class="capital__branch" style="--at: .4" d="M 148.8 237.7 C 108.8 267.7, 60 330, -10 330"/>
+                <circle class="capital__stop" style="--at: .3" cx="110.8" cy="219.1" r="1.5"/>
+                <circle class="capital__stop" style="--at: .62" cx="229" cy="293.3" r="1.5"/>
+                <g class="capital__gate"><circle class="capital__gate-ring" cx="357" cy="420" r="6"/><circle class="capital__gate-dot" cx="357" cy="420" r="2"/></g>
+              </g>
+              <g class="capital__route" data-reveal style="--delay: 450ms">
+                <path class="capital__line" pathLength="1" d="M 1450 160 C 1300 160, 1165 220, 1135 340"/>
+                <path class="capital__branch" style="--at: .35" d="M 1301.9 182 C 1351.9 212, 1390 250, 1450 250"/>
+                <circle class="capital__stop" style="--at: .3" cx="1321.5" cy="176.2" r="1.5"/>
+                <circle class="capital__stop" style="--at: .62" cx="1209.7" cy="229.2" r="1.5"/>
+                <g class="capital__gate"><circle class="capital__gate-ring" cx="1135" cy="340" r="6"/><circle class="capital__gate-dot" cx="1135" cy="340" r="2"/></g>
+              </g>
+              <g class="capital__route" data-reveal style="--delay: 200ms">
+                <path class="capital__line" pathLength="1" d="M 1450 872 C 1320 872, 1215 812, 1135 770"/>
+                <circle class="capital__stop" style="--at: .3" cx="1339.7" cy="857.9" r="1.5"/>
+                <circle class="capital__stop" style="--at: .62" cx="1237" cy="821.4" r="1.5"/>
+                <g class="capital__gate"><circle class="capital__gate-ring" cx="1135" cy="770" r="6"/><circle class="capital__gate-dot" cx="1135" cy="770" r="2"/></g>
+              </g>
+              <g class="capital__route" data-reveal style="--delay: 200ms">
+                <path class="capital__line" pathLength="1" d="M -10 1075 C 150 1075, 310 1035, 395 945"/>
+                <circle class="capital__stop" style="--at: .3" cx="132" cy="1063.9" r="1.5"/>
+                <circle class="capital__stop" style="--at: .62" cx="269.7" cy="1026.5" r="1.5"/>
+                <g class="capital__gate"><circle class="capital__gate-ring" cx="395" cy="945" r="6"/><circle class="capital__gate-dot" cx="395" cy="945" r="2"/></g>
+              </g>
+              <g class="capital__route" data-reveal style="--delay: 400ms">
+                <path class="capital__line" pathLength="1" d="M 1450 1330 C 1270 1316, 1140 1130, 1085 945"/>
+                <path class="capital__branch" style="--at: .45" d="M 1239.7 1222.4 C 1299.7 1192.4, 1350 1175, 1450 1175"/>
+                <circle class="capital__stop" style="--at: .3" cx="1302.2" cy="1275.6" r="1.5"/>
+                <circle class="capital__stop" style="--at: .62" cx="1178.8" cy="1146.8" r="1.5"/>
+                <g class="capital__gate"><circle class="capital__gate-ring" cx="1085" cy="945" r="6"/><circle class="capital__gate-dot" cx="1085" cy="945" r="2"/></g>
+              </g>
+            </svg>
+
+            <ul class="capital__places" aria-label="Where people and knowledge came from" data-node-id="182:94">
+              <li class="capital__place" data-reveal style="--delay: 700ms; top: 152px"><span class="capital__place-name">Byzantium</span> <span class="capital__place-gift">Greek manuscripts</span></li>
+              <li class="capital__place capital__place--right" data-reveal style="--delay: 950ms; top: 106px"><span class="capital__place-name">Khurasan · Samarkand</span> <span class="capital__place-gift">Paper</span></li>
+              <li class="capital__place capital__place--right" data-reveal style="--delay: 700ms; top: 890px"><span class="capital__place-name">Jundishapur</span> <span class="capital__place-gift">Physicians</span></li>
+              <li class="capital__place" data-reveal style="--delay: 700ms; top: 1093px"><span class="capital__place-name">Harran</span> <span class="capital__place-gift">Astronomers</span></li>
+              <li class="capital__place capital__place--right" data-reveal style="--delay: 900ms; top: 1348px"><span class="capital__place-name">Basra · Sind</span> <span class="capital__place-gift">Spices, Indian astronomy</span></li>
+            </ul>
+
+            <h3 class="scene__title capital__title" id="capital-title" data-reveal="words" data-node-id="172:1226">A capital that drew the world in</h3>
+
+            <div class="capital__text" data-node-id="172:1241">
+              <span class="capital__margins" data-reveal style="--delay: 200ms" aria-hidden="true" data-node-id="182:71"></span>
+              <p class="scene__story capital__para" data-reveal style="--delay: 300ms" data-node-id="172:1231">The circle could not hold for long. Markets, workshops, and neighbourhoods spread beyond the original enclosure as people arrived from across the empire, drawn by work at court and by trade. Baghdad became an Arabic-speaking metropolis with a strong Persian presence, and with the people came their skills and their knowledge. Skills and ideas needed patrons, and Baghdad had them.</p>
+              <p class="scene__story capital__para" data-reveal style="--delay: 300ms" data-node-id="172:1239">Under Harun al-Rashid, who ruled from 786 to 809, the court commanded immense wealth; under al-Ma’mun, from 813 to 833, translation and scholarship won prominent support. A court needed physicians and experts in calculation, and a patron surrounded by scholars gained prestige. Officials and wealthy families followed, and many of them paid for one demanding task: translation.</p>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
   </body>
 </html>
