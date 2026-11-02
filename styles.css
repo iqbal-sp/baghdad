@@ -515,6 +515,8 @@ a.menu__link:focus-visible {
   filter: blur(95px);
   opacity: .6;
   mix-blend-mode: screen;
+  /* Its own layer: the 95px blur is drawn once and reused, not redrawn as the hero moves. */
+  will-change: transform;
 }
 
 /*
@@ -809,6 +811,10 @@ a.menu__link:focus-visible {
 .hero__sky,
 .hero__atmosphere { animation: fade-in 1.4s ease-out both; }
 .hero__arch { animation: rise-in-t 1.3s var(--ease-out) .15s both; }
+/* Looping animations hold while out of view (lib/offscreen.js) and carry on when back. */
+.is-offscreen.is-offscreen,
+.is-offscreen.is-offscreen svg { animation-play-state: paused; }
+
 .hero__beams { animation: fade-in 2s ease-out .3s both, beam-breathe 9s ease-in-out 2.3s infinite alternate; }
 .hero__dust { animation: fade-in 2.4s ease-out .6s both; }
 .hero__mote-layer--fine { animation: mote-drift 11s ease-in-out infinite; }

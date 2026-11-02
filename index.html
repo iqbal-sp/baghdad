@@ -9,7 +9,7 @@
     <link rel="icon" href="data:,">
     <link rel="preload" href="assets/fonts/Svetze-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/fonts/DMSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="assets/hero/illustration.jpg" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/hero/illustration.avif" as="image" type="image/avif" fetchpriority="high">
     <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
     <link rel="stylesheet" href="styles.css">
     <script type="module" src="script.js"></script>
@@ -37,7 +37,7 @@
          lib/menu.js). Its top row is the navbar's own, with "Close" where "Menu" was. -->
     <div class="menu" id="site-menu" tabindex="-1" hidden data-node-id="218:375">
       <div class="menu__sheet">
-        <img class="menu__atmosphere" src="assets/hero/atmosphere.jpg" width="2400" height="1600" alt="" aria-hidden="true" decoding="async" data-node-id="219:652">
+        <img class="menu__atmosphere" src="assets/hero/atmosphere.avif" width="2400" height="1600" alt="" aria-hidden="true" decoding="async" data-node-id="219:652">
         <div class="menu__bar" data-node-id="219:638">
           <a class="navbar__home" href="#" data-go="intro" data-node-id="219:636">Baghdad</a>
           <button class="navbar__menu menu__close" type="button" data-node-id="219:637">Close</button>
@@ -48,10 +48,10 @@
           <div class="menu__picture" aria-hidden="true" data-node-id="220:61">
             <img src="assets/menu/scholars-market.jpg" width="1106" height="737" alt="" decoding="async" data-node-id="219:646">
             <!-- Each chapter's own painting, shown while it is pointed at. -->
-            <img src="assets/hero/illustration.jpg" width="1410" height="940" alt="" decoding="async" loading="lazy" data-for="intro">
+            <img src="assets/hero/illustration.avif" width="1410" height="940" alt="" decoding="async" loading="lazy" data-for="intro">
             <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="foundations">
-            <img src="assets/story/scholar-reading.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="flourishing">
-            <img src="assets/story/scholars-garden.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="brilliance">
+            <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="flourishing">
+            <img src="assets/story/scholars-garden.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="brilliance">
           </div>
           <nav class="menu__list" aria-label="Chapters" data-node-id="219:645">
             <ol role="list">
@@ -75,7 +75,7 @@
             <section class="panel panel--hero hero" aria-labelledby="baghdad-title" data-node-id="108:13408">
               <!-- Full-bleed so the texture reaches every edge on any aspect ratio. lib/hero-smoke.js
                    replaces it with a WebGL canvas that makes the same smoke flow; this stays as the fallback. -->
-              <img class="hero__atmosphere" src="assets/hero/atmosphere.jpg" width="1622" height="1081" alt="" aria-hidden="true" data-node-id="108:13410">
+              <img class="hero__atmosphere" src="assets/hero/atmosphere.avif" width="1622" height="1081" alt="" aria-hidden="true" data-node-id="108:13410">
 
               <!-- 1440 × 1024 artboard from Figma, scaled to the viewport by journey.js. -->
               <div class="hero__stage">
@@ -87,7 +87,7 @@
                      on pointer and scroll, a lantern light follows the cursor, and a sheen slides over the gold. -->
                 <div class="hero__arch">
                   <div class="hero__window">
-                    <img class="hero__painting" src="assets/hero/illustration.jpg" width="1410" height="940" alt="An illustrated Baghdad along the Tigris, with palm trees, blue domes and boats on the river, in a carved gilded arch." fetchpriority="high" data-node-id="108:13414">
+                    <img class="hero__painting" src="assets/hero/illustration.avif" width="1410" height="940" alt="An illustrated Baghdad along the Tigris, with palm trees, blue domes and boats on the river, in a carved gilded arch." fetchpriority="high" data-node-id="108:13414">
                     <div class="hero__shade" aria-hidden="true"></div>
                     <div class="hero__lantern" aria-hidden="true"></div>
                   </div>
@@ -204,7 +204,7 @@
                   <li class="period period--2" data-parallax style="--x: 865px; --y: 501px; --depth: .6" data-node-id="122:19">
                     <span class="period__badge" aria-hidden="true" data-node-id="124:19">II</span>
                     <div class="period__thumb" tabindex="0" aria-describedby="period-2">
-                      <img src="assets/story/scholar-reading.jpg" width="1254" height="1254" alt="A scholar reading at a desk" decoding="async" data-node-id="122:20">
+                      <img src="assets/story/scholar-reading-thumb.avif" width="384" height="384" alt="A scholar reading at a desk" decoding="async" data-node-id="122:20">
                     </div>
                     <div class="period__detail" id="period-2" data-node-id="37:8021">
                       <span class="period__rule" aria-hidden="true">
@@ -221,7 +221,7 @@
                   <li class="period period--3" data-parallax style="--x: 417px; --y: 661px; --depth: .15" data-node-id="122:17">
                     <span class="period__badge" aria-hidden="true" data-node-id="124:21">III</span>
                     <div class="period__thumb" tabindex="0" aria-describedby="period-3">
-                      <img src="assets/story/scholars-garden.jpg" width="1254" height="1254" alt="Scholars in conversation in a courtyard garden" decoding="async" data-node-id="122:18">
+                      <img src="assets/story/scholars-garden-thumb.avif" width="384" height="384" alt="Scholars in conversation in a courtyard garden" decoding="async" data-node-id="122:18">
                     </div>
                     <div class="period__detail" id="period-3" data-node-id="37:8660">
                       <span class="period__rule" aria-hidden="true">
@@ -241,7 +241,7 @@
                 <span class="story__star story__star--b" aria-hidden="true" data-node-id="124:29"></span>
 
               </div>
-              <img class="story__splatter" src="assets/story/splatter.jpg" width="492" height="531" alt="" aria-hidden="true" data-node-id="122:24">
+              <img class="story__splatter" src="assets/story/splatter.avif" width="492" height="531" alt="" aria-hidden="true" data-node-id="122:24">
             </section>
 
           </div>
@@ -311,7 +311,7 @@
             <h3 class="scene__title" id="new-centre-title" data-reveal="words" data-node-id="153:14208">A new centre for a new dynasty</h3>
             <p class="scene__story" data-reveal data-reveal-with="title" style="--delay: 450ms" data-node-id="153:14211">In 750, the Abbasids overthrew the Umayyad dynasty and took control of a vast caliphate. Power was shifting east, and the new rulers wanted a capital that reflected it. They looked to Iraq, a land of old cities, near the former Sasanian capital of Ctesiphon. The question was where, exactly, to build.</p>
             <div class="scene__image" data-reveal="unveil" data-parallax="inner" style="--delay: 150ms" data-node-id="153:14213">
-              <img src="assets/story/new-centre-new-dynasty.jpg" width="1302" height="1208" alt="Abbasid officials gather around a map on a low table beside the Tigris; one points across the river beneath a black banner" loading="lazy" decoding="async" data-node-id="153:14229">
+              <img src="assets/story/new-centre-new-dynasty.avif" width="1302" height="1208" alt="Abbasid officials gather around a map on a low table beside the Tigris; one points across the river beneath a black banner" loading="lazy" decoding="async" data-node-id="153:14229">
             </div>
           </div>
         </section>
@@ -361,7 +361,7 @@
 
         <div class="city__explore" data-step="0" data-node-id="165:116">
           <div class="city__viewport">
-            <img class="city__splatter" src="assets/story/splatter.jpg" width="492" height="531" alt="" aria-hidden="true" loading="lazy">
+            <img class="city__splatter" src="assets/story/splatter.avif" width="492" height="531" alt="" aria-hidden="true" loading="lazy">
             <div class="city__stage">
               <svg class="city__ring" viewBox="0 0 1440 1024" aria-hidden="true"></svg>
               <svg class="city__lens" viewBox="0 0 600 600" role="img" aria-label="Reconstructed plan of the Round City of Baghdad: a moat and rings of walls, four gates with avenues, a ring of houses, and the palace and mosque at the centre"></svg>
@@ -421,13 +421,13 @@
         <section class="scene scene--capital" id="capital" aria-labelledby="capital-title" data-node-id="182:49">
           <div class="scene__stage">
             <div class="scene__image capital__image capital__image--left" data-reveal="unveil" style="--delay: 300ms" data-node-id="177:1258">
-              <img src="assets/capital/02-newcomers-and-skills.jpg" width="960" height="1200" alt="Newcomers carrying books and woven goods meet in a street outside a city gate, beside a weaver at his loom" loading="lazy" decoding="async">
+              <img src="assets/capital/02-newcomers-and-skills.avif" width="960" height="1200" alt="Newcomers carrying books and woven goods meet in a street outside a city gate, beside a weaver at his loom" loading="lazy" decoding="async">
             </div>
             <div class="scene__image capital__image capital__image--hub" data-reveal="unveil" style="--delay: 150ms" data-node-id="177:1255">
-              <img src="assets/capital/01-beyond-the-walls.jpg" width="1400" height="1200" alt="A busy arcade market beyond the city walls: carpet sellers, a potter, a bookseller and scholars under awnings, with boats on the river behind" loading="lazy" decoding="async">
+              <img src="assets/capital/01-beyond-the-walls.avif" width="1400" height="1200" alt="A busy arcade market beyond the city walls: carpet sellers, a potter, a bookseller and scholars under awnings, with boats on the river behind" loading="lazy" decoding="async">
             </div>
             <div class="scene__image capital__image capital__image--right" data-reveal="unveil" style="--delay: 450ms" data-node-id="177:1262">
-              <img src="assets/capital/03-patrons-and-translators.jpg" width="960" height="1200" alt="Scholars at work in a library: a patron receives a book while a translator writes at a low desk" loading="lazy" decoding="async">
+              <img src="assets/capital/03-patrons-and-translators.avif" width="960" height="1200" alt="Scholars at work in a library: a patron receives a book while a translator writes at a low desk" loading="lazy" decoding="async">
             </div>
 
             <svg class="capital__routes" viewBox="0 0 1440 1533" aria-hidden="true" data-node-id="182:72">
@@ -510,7 +510,7 @@
           <div class="knowledge__painting" data-reveal style="--delay: 200ms" data-node-id="206:77">
             <div class="knowledge__backing" aria-hidden="true" data-node-id="206:76"><img src="assets/knowledge/arch-backing.svg" alt=""></div>
             <div class="knowledge__window">
-              <img class="knowledge__scholars" src="assets/knowledge/scholars.jpg" width="1254" height="1254" alt="Two scholars compare open manuscripts at a desk, with books and an astrolabe behind them" loading="lazy" decoding="async" data-node-id="206:79">
+              <img class="knowledge__scholars" src="assets/knowledge/scholars.avif" width="1254" height="1254" alt="Two scholars compare open manuscripts at a desk, with books and an astrolabe behind them" loading="lazy" decoding="async" data-node-id="206:79">
             </div>
           </div>
 
@@ -557,7 +557,7 @@
               </div>
               <div class="closing__window" data-reveal="unveil" style="--delay: 250ms" data-node-id="215:365">
                 <div class="closing__view">
-                  <img src="assets/closing/dusk-833.jpg" width="1484" height="1060" alt="Dusk over Baghdad: on a rooftop by an oil lamp a scholar pauses over his manuscript while, far off along the Tigris, a procession with black banners leaves the city" loading="lazy" decoding="async" data-node-id="215:368">
+                  <img src="assets/closing/dusk-833.avif" width="1484" height="1060" alt="Dusk over Baghdad: on a rooftop by an oil lamp a scholar pauses over his manuscript while, far off along the Tigris, a procession with black banners leaves the city" loading="lazy" decoding="async" data-node-id="215:368">
                   <span class="closing__lamp" aria-hidden="true"></span>
                 </div>
               </div>

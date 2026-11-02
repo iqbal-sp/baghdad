@@ -57,6 +57,7 @@ baghdad/
 │   ├── scenes.js              Animasi masuk dan parallax adegan Periode I
 │   ├── navbar.js              Navbar yang muncul mulai adegan 1
 │   ├── menu.js                Menu bab: lembar yang turun dari navbar, ditutup dengan "Close"
+│   ├── offscreen.js           Gambar didekode sebelum section-nya tampil; animasi berulang berhenti di luar layar
 │   ├── city-intro.js          Adegan 3: transisi putih → titik "i" dan heading intro
 │   ├── city-draw.js           Adegan 3: denah digambar dengan jangka saat penjelajah datang
 │   ├── city.js                Adegan 3: denah Round City yang menempel selama 4 langkah

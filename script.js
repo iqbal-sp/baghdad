@@ -7,6 +7,7 @@ import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
 import { startNavbar } from './lib/navbar.js';
 import { startMenu } from './lib/menu.js';
+import { decodeAhead, pauseOffscreen } from './lib/offscreen.js';
 import { startCapital } from './lib/capital.js';
 import { startKnowledge } from './lib/knowledge.js';
 import { startClosing } from './lib/closing.js';
@@ -38,3 +39,10 @@ startCapital(document.querySelector('.scene--capital'));
 startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
 startClosing(document.querySelector('.scene--closing'), { lenis });
 startPeriodMap(document.querySelector('.closing-pin'), { lenis });
+decodeAhead(document.querySelectorAll('main section'), {
+  menu: document.querySelector('#site-menu'),
+  menuButton: document.querySelector('.navbar__menu'),
+});
+pauseOffscreen(document.querySelectorAll(
+  '.hero__beams, .hero__mote-layer, .dove img, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp',
+));
