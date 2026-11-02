@@ -769,7 +769,7 @@ img { display: block; }
   border: 0;
   background: var(--color-story);
   filter: drop-shadow(0 12px 25px rgb(0 0 0 / .45)) brightness(1) saturate(1);
-  cursor: pointer;
+  cursor: default;
   transition:
     transform .6s var(--ease-out),
     filter .6s var(--ease-out);
@@ -1891,15 +1891,17 @@ img { display: block; }
 /*
  * Scene 4 — "A capital that drew the world in" (Figma 172:376; routes and ruling from 182:49). A
  * 1440 × 1533 artboard on #442f1e under the Texturelabs plaster at 60% overlay (2066 × 1533,
- * centred: full-bleed here). It reveals like scenes 1–2 (lib/scenes.js). The side paintings, the
- * place labels and the routes reach the edges of the view: --spare is the artboard px left beside
- * the stage on a wider screen (as in .city__stage), and lib/capital.js leads the routes out to it.
+ * centred: full-bleed here), with 80px more plaster below Figma's artboard (--capital-height),
+ * so its last lines are read in full, with room to spare, before the next section covers it. It
+ * reveals like scenes 1–2 (lib/scenes.js). The side paintings, the place labels and the routes
+ * reach the edges of the view: --spare is the artboard px left beside the stage on a wider
+ * screen (as in .city__stage), and lib/capital.js leads the routes out to it.
  */
 .scene--capital {
   --spare: max(0px, (100vw / var(--stage-scale, 1) - 1440px) / 2);
   --gold: #c8a15a;
   --cream: 255 229 189;
-  height: calc(1533px * var(--stage-scale, 1));
+  height: calc(var(--capital-height) * var(--stage-scale, 1));
   background: #442f1e;
   color: #fff;
   isolation: isolate;
@@ -1928,9 +1930,10 @@ img { display: block; }
  * simply slides up over the plan and rests there for that scroll.
  */
 .capital-cover {
+  --capital-height: 1613px;
   position: relative;
   z-index: 1;
-  height: calc(var(--capital-wipe) + 1533px * var(--stage-scale, 1));
+  height: calc(var(--capital-wipe) + var(--capital-height) * var(--stage-scale, 1));
   margin-top: calc(-100vh - var(--capital-wipe));
   /* Sideways only: the card lands from the right and turned, and must not widen the page. */
   overflow-x: clip;
@@ -2045,9 +2048,9 @@ img { display: block; }
   font-size: 12px;
 }
 
-/* Body: 581 wide at (430, 1009), 44px apart. Figma's badges (I, II) and the 23 leading spaces
-   that made room for them are left out, as asked; the leading is opened from Figma's 165% to
-   185% so the ruling below sits clear of the text. */
+/* Body: 581 wide at (430, 1009), 44px apart. The first-line indent matches Figma's
+   leading space without adding whitespace to the copy. The badges (I, II) stay omitted;
+   leading is 185% so the ruling below sits clear of the text. */
 .capital__text {
   top: 1009px;
   left: 430px;
@@ -2061,6 +2064,7 @@ img { display: block; }
   position: relative;
   isolation: isolate;
   color: #8a8686;
+  text-indent: 110px;
   line-height: 1.85;
 }
 
@@ -2190,6 +2194,533 @@ img { display: block; }
 .capital__image--hub img { translate: 0 var(--inner-hub, 0px); }
 .capital__image--left img { translate: 0 var(--inner-left, 0px); }
 .capital__image--right img { translate: 0 var(--inner-right, 0px); }
+
+/* Knowledge — Figma 206:66 (rest) / 206:109 (after 60vh and cursor light).
+   Same 1440px stage as the preceding scenes; the rows use real grid layout.
+   It covers scene 4 as it comes up (not in Figma): scene 4 is held back while this section
+   slides over it (lib/cover.js: --arrived on this section, --covered on scene 4), its top edge
+   casting a faint shadow that fades as it lands, and scene 4 dims a little beneath it. The title
+   keeps Figma's 120px below that edge. The Period I closing covers this section the same way. */
+/* 120px more ground below Figma's 1491 artboard, so the last row is read in full before the
+   Period I closing covers it. */
+.scene--knowledge {
+  z-index: 2;
+  height: calc(1611px * var(--stage-scale, 1));
+  background: #1f160e;
+  color: #fff;
+  isolation: isolate;
+}
+
+.scene--knowledge,
+.scene--closing {
+  box-shadow: 0 calc(-6px * var(--stage-scale, 1)) calc(36px * var(--stage-scale, 1)) rgb(4 2 0 / calc(.18 * (1 - var(--arrived, 1))));
+}
+
+.scene--capital::after,
+.scene--knowledge::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: calc(var(--covered, 0) * .25);
+  pointer-events: none;
+}
+
+.knowledge__stage { height: 1491px; }
+
+.knowledge__title {
+  top: 120px;
+  left: 405px;
+  width: 630px;
+  text-align: center;
+}
+
+.knowledge__intro {
+  top: 352px;
+  left: 429px;
+  width: 581px;
+  color: rgb(240 223 211 / .9);
+  line-height: 1.65;
+  text-align: center;
+}
+
+.knowledge__painting {
+  top: 404px;
+  left: 392px;
+  width: 654px;
+  height: 654px;
+}
+
+.knowledge__backing { position: absolute; top: 84px; left: 1px; }
+
+.knowledge__window {
+  width: 654px;
+  height: 654px;
+  overflow: hidden;
+  mask: url("assets/knowledge/arch-mask.svg") 1px 84px / 653px 485px no-repeat;
+}
+
+/* The painting drifts inside its arch (--inner-scholars, lib/knowledge.js), so with motion it
+   rests 8% large: 26px spare above and below. */
+.knowledge__scholars {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  translate: 0 var(--inner-scholars, 0px);
+}
+
+.scene--knowledge.is-armed .knowledge__scholars { scale: 1.08; }
+
+.knowledge__points {
+  top: 882px;
+  left: 320px;
+  width: 800px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: #38291c;
+  font-variation-settings: "opsz" 14;
+}
+
+.knowledge__point {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 153px minmax(0, 1fr);
+  column-gap: 24px;
+  align-items: start;
+  padding: 32px;
+  min-height: 194px;
+}
+
+.knowledge__point + .knowledge__point { padding-top: 32.5px; }
+.knowledge__point + .knowledge__point::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: .5px;
+  background: #5a432f;
+  transform-origin: 0 50%;
+}
+.knowledge__point:last-child { min-height: 220.5px; }
+
+.knowledge__number {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 28.6px;
+  letter-spacing: .78px;
+}
+
+.knowledge__point-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.scene .knowledge__point-copy {
+  margin: 0 0 0 24px;
+  /* 48px title–copy gap, 24px number–title gap. */
+  color: rgb(240 223 211 / .9);
+  /* 14px (Figma 16px), keeping its 1.625 leading. */
+  font-size: 14px;
+  line-height: 1.625;
+}
+
+.knowledge__orbits,
+.knowledge__lit-orbits {
+  inset: 0;
+  pointer-events: none;
+}
+
+.knowledge__arc { position: absolute; width: 1507px; height: 1508px; }
+.knowledge__arc img { position: absolute; }
+.knowledge__arc--left { left: -788px; top: 881.5px; translate: 0 var(--arc-mid-y, 0px); }
+.knowledge__arc--right { left: 569px; top: 894.5px; translate: 0 var(--arc-mid-y, 0px); }
+.knowledge__arc--near { left: -136px; top: 670.5px; translate: 0 var(--arc-near-y, 0px); }
+.knowledge__arc--far { left: -33px; top: -665.5px; translate: 0 var(--arc-far-y, 0px); }
+/* Keep SVGs at their intrinsic export dimensions, including stroke/blur overflow. */
+.knowledge__orbits :is(.knowledge__arc--left, .knowledge__arc--right) img { left: -.3px; top: -.3px; }
+.knowledge__orbits .knowledge__arc--far img { left: -.8px; top: -.8px; }
+.knowledge__lit-orbits .knowledge__arc img { top: .5px; }
+
+/* Stars brighten as the cursor's light nears them (--near 0–1 per star, lib/knowledge.js). */
+.knowledge__star {
+  position: absolute;
+  filter: brightness(calc(1 + var(--near, 0) * .6)) drop-shadow(0 0 calc(var(--near, 0) * 7px) rgb(236 204 150 / calc(var(--near, 0) * .9)));
+}
+.knowledge__star--1 { left: 318px; top: 722px; }
+.knowledge__star--2 { left: 1160px; top: 902px; }
+.knowledge__star--3 { left: 76px; top: 883px; }
+
+/* The lit lines and the glow share one reach: 231px, the glow's 330px radius at .7. */
+.knowledge__lit-orbits {
+  opacity: var(--lantern-opacity, 0);
+  mask-image: radial-gradient(circle 231px at var(--lantern-x, 1010px) var(--lantern-y, 790px), #000, rgb(0 0 0 / .65) 30%, transparent);
+}
+
+.knowledge__lantern {
+  left: calc(var(--lantern-x, 1010px) - 330px);
+  top: calc(var(--lantern-y, 790px) - 330px);
+  /* Preserve the SVG's intrinsic size; scale it to a 462px light. */
+  transform: scale(.7);
+  mix-blend-mode: screen;
+  opacity: var(--lantern-opacity, 0);
+  pointer-events: none;
+}
+
+/* The arrival should be legible at normal scrolling speed. Keep the final
+   Figma layout unchanged; animate the title, arch reveal, and row contents. */
+@media (prefers-reduced-motion: no-preference) {
+  .scene--knowledge.is-armed .scene__word {
+    opacity: 0;
+    transform: translate3d(0, 72px, 0) rotate(5deg);
+    filter: blur(9px);
+  }
+
+  .scene--knowledge.is-armed .is-in .scene__word {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    transition:
+      opacity 1s var(--ease-out) calc(var(--i) * 110ms),
+      transform 1.5s var(--ease-out) calc(var(--i) * 110ms),
+      filter 1.3s var(--ease-out) calc(var(--i) * 110ms);
+  }
+
+  .scene--knowledge.is-armed .knowledge__painting[data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 60px, 0);
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .scene--knowledge.is-armed .knowledge__painting[data-reveal].is-in {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0);
+    transition:
+      opacity .7s ease-out,
+      transform 1.8s var(--ease-out),
+      clip-path 1.8s cubic-bezier(.22, .68, .2, 1);
+  }
+
+  .scene--knowledge.is-armed .knowledge__orbits {
+    opacity: 0;
+    clip-path: circle(8% at 50% 48%);
+    transition: opacity 1s ease-out .2s, clip-path 2.4s var(--ease-out) .2s;
+  }
+
+  .scene--knowledge.is-armed.is-entered .knowledge__orbits {
+    opacity: 1;
+    clip-path: circle(110% at 50% 48%);
+  }
+
+  /* Stars catch the light once the orbits have opened: they turn in and grow, one by one. */
+  .scene--knowledge.is-armed .knowledge__star {
+    opacity: 0;
+    scale: .2;
+    rotate: -120deg;
+  }
+
+  .scene--knowledge.is-armed.is-entered .knowledge__star {
+    opacity: 1;
+    scale: 1;
+    rotate: 0deg;
+    transition:
+      opacity .6s ease-out var(--star-delay),
+      scale 1.1s cubic-bezier(.16, 1, .3, 1) var(--star-delay),
+      rotate 1.4s var(--ease-out) var(--star-delay);
+  }
+
+  .knowledge__star--1 { --star-delay: 1.2s; }
+  .knowledge__star--2 { --star-delay: 1.45s; }
+  .knowledge__star--3 { --star-delay: 1.7s; }
+
+  /* The list's panel opens downward before its rows rise in; each divider draws from the left. */
+  .scene--knowledge.is-armed .knowledge__points { clip-path: inset(0 0 100% 0); }
+
+  .scene--knowledge.is-armed .knowledge__points.is-in {
+    clip-path: inset(0);
+    transition: clip-path 1.3s cubic-bezier(.7, 0, .2, 1);
+  }
+
+  .scene--knowledge.is-armed .knowledge__point + .knowledge__point::before { scale: 0 1; }
+
+  .scene--knowledge.is-armed .knowledge__point.is-in::before {
+    scale: 1 1;
+    transition: scale 1.2s var(--ease-out) .1s;
+  }
+
+  .scene--knowledge.is-armed .knowledge__point > * {
+    opacity: 0;
+    transform: translate3d(0, 40px, 0);
+    transition: opacity .85s var(--ease-out), transform 1.2s var(--ease-out);
+  }
+
+  .scene--knowledge.is-armed .knowledge__point > :nth-child(2) { transition-delay: .12s; }
+  .scene--knowledge.is-armed .knowledge__point > :nth-child(3) { transition-delay: .24s; }
+  .scene--knowledge.is-armed .knowledge__point.is-in > * { opacity: 1; transform: none; }
+}
+
+/*
+ * Period I closing — Figma 215:340, 1440 × 1491 on #1c170c. A sheet of paper with a wax seal,
+ * held up in a gloved hand (1042 × 1563 at (199, 0), running past the bottom), carries the last
+ * word on Period I: kicker and title at (405, 327), the dusk painting inside an arch 701 × 521 at
+ * (369, 533), "833" over it at (389, 734) in overlay at 35%, and the body at (404, 1094).
+ * Everything on the sheet is placed in the sheet's own coordinates so it moves with it.
+ * Motion (not in Figma, lib/closing.js): it covers the knowledge section (lib/cover.js); while it
+ * arrives the sheet is handed up into place, turning level (--sheet-y, --sheet-turn), and leans a
+ * little toward the cursor (--tilt-*); the painting settles from a slight push-in (--push) and
+ * drifts in its arch once landed (--inner). "833" stays still: an accent on the painting.
+ */
+.scene--closing {
+  z-index: 3;
+  height: calc(1491px * var(--stage-scale, 1));
+  background: #1c170c;
+  color: #060503;
+  isolation: isolate;
+}
+
+.closing__stage { height: 1491px; }
+
+.closing__sheet {
+  top: 0;
+  left: 199px;
+  width: 1042px;
+  height: 1563px;
+  translate: 0 var(--sheet-y, 0px);
+  rotate: var(--sheet-turn, 0deg);
+  transform: perspective(1800px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  /* Turned about the hand that holds it. */
+  transform-origin: 50% 92%;
+}
+
+.closing__sheet > * { position: absolute; margin: 0; }
+.closing__paper { top: 0; left: 0; width: 1042px; height: 1563px; }
+
+.closing__head {
+  top: 327px;
+  left: 206px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 630px;
+  text-align: center;
+}
+
+.closing__kicker {
+  margin: 0;
+  color: #8d6b2e;
+  font-family: var(--font-label);
+  font-size: 12px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+/* Svetze 68 / 1.1, −2% tracking; the width breaks it after "gone." as in Figma. */
+.closing__title {
+  color: #060503;
+  font-size: 68px;
+  line-height: 1.1;
+  letter-spacing: -1.36px;
+}
+
+.closing__window {
+  top: 533px;
+  left: 170px;
+  width: 701.47px;
+  height: 521px;
+  overflow: hidden;
+  mask: url("assets/closing/arch-mask.svg") 0 0 / 100% 100% no-repeat;
+}
+
+/* The painting as placed in Figma (955 × 679, 254 px left of and 79 px above the arch), with its
+   warm glow at 50%. */
+.closing__view {
+  position: absolute;
+  top: -79px;
+  left: -254px;
+  width: 955px;
+  height: 679px;
+  translate: 0 var(--inner, 0px);
+  scale: var(--push, 1);
+  transform-origin: 62% 60%;
+}
+
+.closing__view img { width: 100%; height: 100%; object-fit: cover; }
+
+.closing__view::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 434px 309px at 607.7px 524.7px, rgb(242 195 122 / .55), rgb(242 195 122 / 0));
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* The oil lamp on the scholar's desk: a warm glow that breathes like a flame. */
+.closing__lamp {
+  position: absolute;
+  top: 324px;
+  left: 176px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 196 120 / .6), rgb(255 150 60 / .2) 42%, rgb(255 150 60 / 0) 70%);
+  mix-blend-mode: screen;
+  opacity: .75;
+  animation: closing-flame 3.6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes closing-flame {
+  0%, 100% { opacity: .75; scale: 1; }
+  14% { opacity: .62; scale: .97; }
+  27% { opacity: .86; scale: 1.03; }
+  41% { opacity: .7; scale: .99; }
+  58% { opacity: .9; scale: 1.05; }
+  73% { opacity: .64; scale: .98; }
+  86% { opacity: .82; scale: 1.02; }
+}
+
+.closing__year {
+  top: 734px;
+  left: 190px;
+  opacity: .35;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.closing__year-text {
+  display: block;
+  color: #f0dfd3;
+  font-family: var(--font-display);
+  font-size: 367.143px;
+  line-height: .88;
+  letter-spacing: -14.6857px;
+  white-space: nowrap;
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
+.scene .closing__body {
+  top: 1094px;
+  left: 205px;
+  width: 631px;
+  color: rgb(0 0 0 / .9);
+  line-height: 1.65;
+  text-align: center;
+}
+
+/* A sheen that crosses the wax seal once, as the sheet lands (.is-sealed). */
+.closing__glint {
+  top: 85px;
+  left: 414px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(115deg, rgb(255 240 205 / 0) 38%, rgb(255 240 205 / .85) 50%, rgb(255 240 205 / 0) 62%) 130% 0 / 300% 100% no-repeat;
+  mask: radial-gradient(circle, #000 44%, transparent 48%);
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scene--closing.is-sealed .closing__glint { animation: closing-glint 1.6s ease-in-out .15s both; }
+
+  /* The painting develops out of a dark sepia wash as its arch opens. */
+  .scene--closing.is-armed .closing__window img {
+    filter: sepia(.7) brightness(.45) contrast(1.15);
+    transition:
+      scale 1.8s var(--ease-out) var(--delay, 0s),
+      filter 2.2s cubic-bezier(.4, 0, .2, 1) calc(var(--delay, 0s) + .2s);
+  }
+
+  .scene--closing.is-armed .closing__window.is-in img { filter: none; }
+}
+
+@keyframes closing-glint {
+  from { opacity: 0; background-position: 130% 0; }
+  20% { opacity: 1; }
+  to { opacity: 0; background-position: -30% 0; }
+}
+
+/*
+ * Back to the three ages (not in Figma; lib/period-map.js). The pin is the closing plus
+ * --return-length of scroll: once its bottom reaches the bottom of the view the closing sticks
+ * there, and over that scroll it shrinks into card I of .period-map, a copy of the story made
+ * from the story's own markup, stuck to the view behind it. The map's camera pulls back
+ * (--map-zoom about card I) as it fades in, the closing fades into card I's own painting, and
+ * card I is marked done while card II steps forward with its detail, as what comes next.
+ */
+.closing-pin {
+  --return-length: 200vh;
+  position: relative;
+  z-index: 3;
+  height: calc(1491px * var(--stage-scale, 1) + var(--return-length));
+}
+
+.closing-pin > .scene--closing {
+  position: sticky;
+  top: calc(100vh - 1491px * var(--stage-scale, 1));
+}
+
+.period-map {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  margin-bottom: -100vh;
+  overflow: hidden;
+  background: var(--color-story);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.period-map__camera {
+  position: absolute;
+  inset: 0;
+  transform-origin: var(--map-ox, 50%) var(--map-oy, 50%);
+  scale: var(--map-zoom, 1);
+}
+
+.period-map .story {
+  position: absolute;
+  inset: 0;
+}
+
+/* Card I, read: a gold badge with a check, and a gold rule drawn under the card. */
+.story--map .period__badge {
+  transition: background-color .5s var(--ease-out), color .5s var(--ease-out);
+}
+
+.story--map .period__badge svg {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  opacity: 0;
+  scale: .4;
+  transition: opacity .4s var(--ease-out) .15s, scale .7s cubic-bezier(.16, 1, .3, 1) .15s;
+}
+
+.story--map .period.is-done .period__badge { background: #c8a15a; color: transparent; }
+.story--map .period.is-done .period__badge svg { opacity: 1; scale: 1; }
+
+.story--map .period--1::after {
+  content: "";
+  position: absolute;
+  top: 134px;
+  left: 0;
+  width: 120px;
+  height: 1px;
+  background: #c8a15a;
+  scale: 0 1;
+  transform-origin: 0 50%;
+  transition: scale .9s var(--ease-out) .3s;
+}
+
+.story--map .period--1.is-done::after { scale: 1 1; }
 
 /*
  * Small screens (not in Figma). Until the responsive version exists, below 1024px the page is

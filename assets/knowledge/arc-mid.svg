@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="1507.6" height="1508.6" viewBox="0 0 1507.6 1508.6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Arc (mid)" opacity="0.8" filter="url(#filter0_f_0_15)">
+<circle id="lip (light)" cx="753.8" cy="754.8" r="753.25" stroke="#6B5238" stroke-opacity="0.3" stroke-width="0.5"/>
+<path id="groove (shadow)" d="M1507.05 753.8C1507.05 1169.81 1169.81 1507.05 753.8 1507.05C337.792 1507.05 0.55 1169.81 0.55 753.8C0.55 337.792 337.792 0.55 753.8 0.55C1169.81 0.55 1507.05 337.792 1507.05 753.8Z" stroke-width="0.5" stroke="#0E0905"/>
+<path id="line" d="M1507.05 754.3C1507.05 1170.31 1169.81 1507.55 753.8 1507.55C337.792 1507.55 0.55 1170.31 0.55 754.3C0.55 338.292 337.792 1.05 753.8 1.05C1169.81 1.05 1507.05 338.292 1507.05 754.3Z" stroke-width="0.5" stroke="#3D2D1F"/>
+</g>
+<defs>
+<filter id="filter0_f_0_15" x="0" y="0" width="1507.6" height="1508.6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="0.15" result="effect1_foregroundBlur_0_15"/>
+</filter>
+</defs>
+</svg>

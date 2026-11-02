@@ -7,6 +7,9 @@ import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
 import { startNavbar } from './lib/navbar.js';
 import { startCapital } from './lib/capital.js';
+import { startKnowledge } from './lib/knowledge.js';
+import { startClosing } from './lib/closing.js';
+import { startPeriodMap } from './lib/period-map.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
@@ -24,3 +27,6 @@ startCityIntro(document.querySelector('.city__intro'), { explore: document.query
 startCity(document.querySelector('.city__explore'), { lenis });
 startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'));
 startCapital(document.querySelector('.scene--capital'));
+startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
+startClosing(document.querySelector('.scene--closing'), { lenis });
+startPeriodMap(document.querySelector('.closing-pin'), { lenis });
