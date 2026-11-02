@@ -2475,7 +2475,8 @@ img { display: block; }
 .scene--closing {
   z-index: 3;
   height: calc(1491px * var(--stage-scale, 1));
-  background: #1c170c;
+  /* --closing-fill: its ground dissolves as it shrinks into card I (lib/period-map.js). */
+  background: rgb(28 23 12 / var(--closing-fill, 1));
   color: #060503;
   isolation: isolate;
 }
@@ -2652,8 +2653,9 @@ img { display: block; }
  * --return-length of scroll: once its bottom reaches the bottom of the view the closing sticks
  * there, and over that scroll it shrinks into card I of .period-map, a copy of the story made
  * from the story's own markup, stuck to the view behind it. The map's camera pulls back
- * (--map-zoom about card I) as it fades in, the closing fades into card I's own painting, and
- * card I is marked done while card II steps forward with its detail, as what comes next.
+ * (--map-zoom about card I) as the closing's ground dissolves; as it comes down, it turns over
+ * into card I's own painting (.period-map__turn), and card I is marked done while card II steps
+ * forward with its detail, as what comes next.
  */
 .closing-pin {
   --return-length: 200vh;
@@ -2690,10 +2692,34 @@ img { display: block; }
   inset: 0;
 }
 
+/*
+ * Card I's painting turning up from the back of the shrinking closing, on the same path
+ * (transform from lib/period-map.js); card I itself shows once it has landed.
+ */
+.period-map__turn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  background: var(--color-story);
+  filter: drop-shadow(0 calc(12px * var(--stage-scale, 1)) calc(25px * var(--stage-scale, 1)) rgb(0 0 0 / .45));
+}
+
+.period-map__turn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story--map .period--1:not(.is-turned) .period__thumb { visibility: hidden; }
+
 /* Card I, read: a gold badge with a check, and a gold rule drawn under the card. */
 .story--map .period__badge {
-  transition: background-color .5s var(--ease-out), color .5s var(--ease-out);
+  transition: opacity .3s var(--ease-out), background-color .5s var(--ease-out), color .5s var(--ease-out);
 }
+
+.story--map .period--1:not(.is-turned) .period__badge { opacity: 0; }
 
 .story--map .period__badge svg {
   position: absolute;
