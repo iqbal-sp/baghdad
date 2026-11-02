@@ -35,7 +35,7 @@
 
 * { box-sizing: border-box; }
 
-/* Desktop-only for now: smaller viewports scroll horizontally instead of reflowing. */
+/* Desktop-only for now: below 1024px the page gives way to .small-screen instead of reflowing. */
 /* #13100e behind everything so overscroll never flashes a light edge. */
 html {
   min-width: 1024px;
@@ -1932,6 +1932,8 @@ img { display: block; }
   z-index: 1;
   height: calc(var(--capital-wipe) + 1533px * var(--stage-scale, 1));
   margin-top: calc(-100vh - var(--capital-wipe));
+  /* Sideways only: the card lands from the right and turned, and must not widen the page. */
+  overflow-x: clip;
 }
 
 .capital-cover > .scene {
@@ -2188,6 +2190,72 @@ img { display: block; }
 .capital__image--hub img { translate: 0 var(--inner-hub, 0px); }
 .capital__image--left img { translate: 0 var(--inner-left, 0px); }
 .capital__image--right img { translate: 0 var(--inner-right, 0px); }
+
+/*
+ * Small screens (not in Figma). Until the responsive version exists, below 1024px the page is
+ * taken out and only this notice shows, set like the plan's panels: gold kicker, Svetze heading,
+ * gold rule, DM Sans body. Nothing else is laid out, so there is nothing to scroll sideways.
+ */
+.small-screen { display: none; }
+
+@media (max-width: 1023px) {
+  html { min-width: 0; }
+  body > :not(.small-screen) { display: none; }
+
+  .small-screen {
+    --gold: #c8a15a;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 48px 24px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgb(200 161 90 / .12), transparent 70%),
+      var(--color-hero);
+    color: var(--color-story-copy);
+  }
+
+  .small-screen__inner { width: 100%; max-width: 420px; }
+
+  .small-screen__kicker {
+    margin: 0;
+    color: var(--gold);
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+  }
+
+  .small-screen__heading {
+    margin: 14px 0 0;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: clamp(32px, 9vw, 44px);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+
+  .small-screen__rule {
+    display: block;
+    width: 40px;
+    height: 1px;
+    margin-top: 20px;
+    background: var(--gold);
+  }
+
+  .small-screen__body {
+    margin: 18px 0 0;
+    color: rgb(240 223 211 / .85);
+    font-family: var(--font-label);
+    font-size: 16px;
+    font-variation-settings: "opsz" 14;
+    line-height: 1.65;
+  }
+
+  .small-screen__body + .small-screen__body { margin-top: 12px; color: rgb(255 229 189 / .55); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

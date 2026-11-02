@@ -15,6 +15,17 @@
     <script type="module" src="script.js"></script>
   </head>
   <body>
+    <!-- Shown instead of the page below 1024px wide, until the responsive version exists. -->
+    <aside class="small-screen" aria-labelledby="small-screen-title">
+      <div class="small-screen__inner">
+        <p class="small-screen__kicker">Baghdad</p>
+        <h2 class="small-screen__heading" id="small-screen-title">Made for a larger screen</h2>
+        <span class="small-screen__rule" aria-hidden="true"></span>
+        <p class="small-screen__body">This story is built for desktop for now. The version for phones and tablets is still being made.</p>
+        <p class="small-screen__body">Open it on a screen at least 1024 pixels wide, or widen this window, to begin.</p>
+      </div>
+    </aside>
+
     <!-- Appears once the Foundations chapter has lifted off scene 1, and stays for the rest of the
          page (lib/navbar.js). Inverts against what is beneath it, light scenes and dark alike. -->
     <header class="navbar" aria-label="Site">
