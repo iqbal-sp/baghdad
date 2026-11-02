@@ -502,7 +502,7 @@
             <div class="knowledge__arc knowledge__arc--near"><img src="assets/knowledge/line-lit.svg" alt=""></div>
             <div class="knowledge__arc knowledge__arc--far"><img src="assets/knowledge/line-lit-far.svg" alt=""></div>
           </div>
-          <img class="knowledge__lantern" src="assets/knowledge/lantern-glow.svg" alt="" aria-hidden="true" data-node-id="206:157">
+          <div class="knowledge__lantern" aria-hidden="true" data-node-id="206:157"></div>
 
           <h3 class="scene__title knowledge__title" id="knowledge-title" data-reveal="words" data-node-id="206:74">How knowledge took root</h3>
           <p class="scene__story knowledge__intro" data-reveal style="--delay: 150ms" data-node-id="206:75">Patronage paid for the work. What made it last were three things: careful translation, places to keep the books, and scholars who turned what they read into new methods.</p>
@@ -549,6 +549,8 @@
             <div class="closing__sheet" data-node-id="215:361">
               <img class="closing__paper" src="assets/closing/sheet.avif" width="1024" height="1536" alt="" decoding="async" data-node-id="215:362">
               <span class="closing__glint" aria-hidden="true"></span>
+              <!-- Shrinks within the paper as the closing is cropped into card I (lib/period-map.js). -->
+              <div class="closing__content">
               <div class="closing__head" data-node-id="215:374">
                 <p class="closing__kicker" data-reveal data-node-id="215:370">End of Period I · 762–833</p>
                 <h3 class="scene__title closing__title" id="closing-title" data-reveal="words" data-node-id="215:364">The patron is gone. The books stay</h3>
@@ -561,6 +563,7 @@
               </div>
               <div class="closing__year" aria-hidden="true" data-node-id="215:372"><span class="closing__year-text">833</span></div>
               <p class="scene__story closing__body" data-reveal style="--delay: 150ms" data-node-id="215:363">In 833 al-Ma’mun died on campaign. Within three years the court had moved north to Samarra, and Baghdad would be without its caliphs for more than half a century. But what the city had gathered did not leave with them: the translators, the libraries, the new methods. In the century ahead they would be tested, argued over, and built upon.</p>
+              </div>
             </div>
           </div>
         </section>

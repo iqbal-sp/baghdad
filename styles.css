@@ -2635,17 +2635,25 @@ a.menu__link:focus-visible {
 .knowledge__star--2 { left: 1160px; top: 902px; }
 .knowledge__star--3 { left: 76px; top: 883px; }
 
-/* The lit lines and the glow share one reach: 231px, the glow's 330px radius at .7. */
+/*
+ * The lit lines and the glow share one reach (--lantern-reach) and one falloff: a bell curve in
+ * 12 steps, so the light thins out smoothly instead of in rings. Smaller and softer than the
+ * exported glow (206:157, linear 16% over 231px), which read as a hard disc on the dark ground.
+ */
+.knowledge__stage { --lantern-reach: 170px; }
+
 .knowledge__lit-orbits {
   opacity: var(--lantern-opacity, 0);
-  mask-image: radial-gradient(circle 231px at var(--lantern-x, 1010px) var(--lantern-y, 790px), #000, rgb(0 0 0 / .65) 30%, transparent);
+  mask-image: radial-gradient(circle var(--lantern-reach) at var(--lantern-x, 1010px) var(--lantern-y, 790px), rgb(0 0 0 / 1.000) 0.0%, rgb(0 0 0 / 0.971) 8.3%, rgb(0 0 0 / 0.888) 16.7%, rgb(0 0 0 / 0.766) 25.0%, rgb(0 0 0 / 0.621) 33.3%, rgb(0 0 0 / 0.474) 41.7%, rgb(0 0 0 / 0.340) 50.0%, rgb(0 0 0 / 0.228) 58.3%, rgb(0 0 0 / 0.142) 66.7%, rgb(0 0 0 / 0.080) 75.0%, rgb(0 0 0 / 0.040) 83.3%, rgb(0 0 0 / 0.015) 91.7%, rgb(0 0 0 / 0.000) 100.0%);
 }
 
 .knowledge__lantern {
-  left: calc(var(--lantern-x, 1010px) - 330px);
-  top: calc(var(--lantern-y, 790px) - 330px);
-  /* Preserve the SVG's intrinsic size; scale it to a 462px light. */
-  transform: scale(.7);
+  position: absolute;
+  left: calc(var(--lantern-x, 1010px) - var(--lantern-reach));
+  top: calc(var(--lantern-y, 790px) - var(--lantern-reach));
+  width: calc(var(--lantern-reach) * 2);
+  height: calc(var(--lantern-reach) * 2);
+  background: radial-gradient(closest-side, rgb(255 148 64 / 0.1500) 0.0%, rgb(255 148 64 / 0.1456) 8.3%, rgb(255 148 64 / 0.1332) 16.7%, rgb(255 148 64 / 0.1148) 25.0%, rgb(255 148 64 / 0.0932) 33.3%, rgb(255 148 64 / 0.0712) 41.7%, rgb(255 148 64 / 0.0510) 50.0%, rgb(255 148 64 / 0.0342) 58.3%, rgb(255 148 64 / 0.0213) 66.7%, rgb(255 148 64 / 0.0121) 75.0%, rgb(255 148 64 / 0.0060) 83.3%, rgb(255 148 64 / 0.0022) 91.7%, rgb(255 148 64 / 0.0000) 100.0%);
   mix-blend-mode: screen;
   opacity: var(--lantern-opacity, 0);
   pointer-events: none;
@@ -2758,8 +2766,7 @@ a.menu__link:focus-visible {
 .scene--closing {
   z-index: 3;
   height: calc(1491px * var(--stage-scale, 1));
-  /* --closing-fill: its ground dissolves as it shrinks into card I (lib/period-map.js). */
-  background: rgb(28 23 12 / var(--closing-fill, 1));
+  background: #1c170c;
   color: #060503;
   isolation: isolate;
 }
@@ -2778,8 +2785,21 @@ a.menu__link:focus-visible {
   transform-origin: 50% 92%;
 }
 
-.closing__sheet > * { position: absolute; margin: 0; }
+.closing__sheet > *,
+.closing__content > * { position: absolute; margin: 0; }
 .closing__paper { top: 0; left: 0; width: 1042px; height: 1563px; }
+
+/* Heading, painting, "833" and paragraph together: 327–1242.5 × 170–871.5 on the sheet. As the
+   closing is cropped to a square of its paper (lib/period-map.js), they shrink about their own
+   centre (--fit), so the card still holds all of them with a margin. */
+.closing__content {
+  top: 0;
+  left: 0;
+  width: 1042px;
+  height: 1563px;
+  transform-origin: 520.75px 784.75px;
+  scale: var(--fit, 1);
+}
 
 .closing__head {
   top: 327px;
