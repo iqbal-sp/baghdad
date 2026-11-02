@@ -1918,18 +1918,14 @@ img { display: block; }
 .scene--capital .scene__stage { height: 1533px; }
 
 /*
- * Cover from the corner (not in Figma). The wrapper starts --capital-wipe before the Round City
+ * Cover as a card (not in Figma). The wrapper starts --capital-wipe before the Round City
  * explorer unpins (the plan holds still on Palace by then, lib/city.js) and is that much taller
  * than the scene, so the scene sticks to the top for exactly that scroll, over the still plan,
- * then scrolls on. lib/capital.js opens it from the top-right corner of the view in one sweep,
- * the scene showing right up to the edge, and its painting settles from a slight zoom:
- * - with CSS paint worklets (.is-ink), the mask is an uneven, soft front like spreading ink
- *   (lib/ink-paint.js, --ink-*), and the front element paints a soft shadow ahead of it and a
- *   faint warm light along it;
- * - without them, a circle with a feathered edge (--wipe-r, --wipe-feather), a gold hairline
- *   along it and a soft shadow ahead of it.
- * Without JS, or with prefers-reduced-motion, the scene simply slides up over the plan and rests
- * there for that scroll.
+ * then scrolls on. lib/capital.js lays it on the plan like a card: from below the view, a little
+ * to the right and turned anticlockwise (about its top middle), it rises, turns level and lands
+ * (--sheet-x, --sheet-y, --sheet-turn), its shadow on the plan fading as it settles, and its
+ * painting settles from a slight zoom. Without JS, or with prefers-reduced-motion, the scene
+ * simply slides up over the plan and rests there for that scroll.
  */
 .capital-cover {
   position: relative;
@@ -1943,35 +1939,14 @@ img { display: block; }
   top: 0;
 }
 
-.capital-cover__front {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  height: 100vh;
-  margin-bottom: -100vh;
-  opacity: 0;
-  pointer-events: none;
-}
-
 .capital-cover.is-wiping > .scene {
-  mask-image: radial-gradient(circle at 100% 0, #000 calc(var(--wipe-r) - var(--wipe-feather)), transparent var(--wipe-r));
-}
-
-.capital-cover.is-wiping.is-ink > .scene { mask-image: paint(ink-mask); }
-
-.capital-cover.is-wiping.is-ink .capital-cover__front {
-  opacity: 1;
-  background: paint(ink-front);
+  translate: var(--sheet-x, 0) var(--sheet-y, 0);
+  rotate: var(--sheet-turn, 0deg);
+  transform-origin: 50% 0;
+  box-shadow: 0 -24px 90px rgb(8 2 0 / calc(.6 * (1 - var(--wipe, 1))));
 }
 
 .capital-cover.is-wiping .scene__stage { scale: calc(1.04 - .04 * var(--wipe)); }
-
-.capital-cover.is-wiping:not(.is-ink) .capital-cover__front {
-  opacity: var(--wipe-front);
-  background:
-    radial-gradient(circle at 100% 0, transparent calc(var(--wipe-r) - 1px), rgb(236 208 154 / .7) var(--wipe-r), transparent calc(var(--wipe-r) + 1px)),
-    radial-gradient(circle at 100% 0, transparent var(--wipe-r), rgb(6 1 0 / .3) calc(var(--wipe-r) + 1px), rgb(6 1 0 / .12) calc(var(--wipe-r) + 60px), rgb(6 1 0 / 0) calc(var(--wipe-r) + 200px));
-}
 
 /* Frames: the market 778 × 674 at (357, 271); the side paintings 374 × 468 at (−74, 477) and
    (1192, 272), each running out past the edge of the view. */
@@ -2203,13 +2178,13 @@ img { display: block; }
    slowly; all three are at their Figma places just as the scene has opened. The routes move
    with the market, as every gate sits on its edge, and the title slowest, behind it all. Inside
    its frame each painting lags the other way (--inner-*), like a view through a window. While
-   the scene opens (--wipe 0 → 1) the side paintings also slide in from their edges and the
-   title from the corner. Without JS or with reduced motion every variable is unset: Figma. */
+   the scene opens (--wipe 0 → 1) the side paintings also slide in from their edges. Without JS
+   or with reduced motion every variable is unset: Figma. */
 .capital__image--hub,
 .capital__routes { translate: 0 var(--drift-hub, 0px); }
 .capital__image--left { translate: calc((1 - var(--wipe, 1)) * -120px) var(--drift-left, 0px); }
 .capital__image--right { translate: calc((1 - var(--wipe, 1)) * 120px) var(--drift-right, 0px); }
-.capital__title { translate: calc((1 - var(--wipe, 1)) * 60px) var(--drift-title, 0px); }
+.capital__title { translate: 0 var(--drift-title, 0px); }
 .capital__image--hub img { translate: 0 var(--inner-hub, 0px); }
 .capital__image--left img { translate: 0 var(--inner-left, 0px); }
 .capital__image--right img { translate: 0 var(--inner-right, 0px); }
