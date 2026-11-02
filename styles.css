@@ -872,6 +872,8 @@ a.menu__link:focus-visible {
 /* Story — Figma 122:14 (section 108:13541). Coordinates are artboard pixels (1440 × 1024). */
 .story {
   background: var(--color-story);
+  /* Covers the hero's last pixels mid-slide: its edge fade antialiases to a light hairline at the seam. */
+  box-shadow: -2px 0 0 var(--color-story);
   color: #fff;
 }
 

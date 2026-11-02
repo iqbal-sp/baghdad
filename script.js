@@ -19,8 +19,7 @@ const heroSmoke = startHeroSmoke(heroElement);
 const { lenis, goToChapter } = startJourney(document.querySelector('#journey'), {
   onProgress(progress, width, scale) {
     hero.setProgress(progress, width, scale);
-    // The hero is fully off screen once the story has settled.
-    heroSmoke.setActive(progress < .999);
+    heroSmoke.setProgress(progress);
   },
 });
 startPeriods(document.querySelector('#story'));
