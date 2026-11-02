@@ -30,8 +30,41 @@
          page (lib/navbar.js). Inverts against what is beneath it, light scenes and dark alike. -->
     <header class="navbar" aria-label="Site">
       <a class="navbar__home" href="#">Baghdad</a>
-      <button class="navbar__menu" type="button">Menu</button>
+      <button class="navbar__menu" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
     </header>
+
+    <!-- The chapters, let down over the page from the navbar's "Menu" (Figma 218:375;
+         lib/menu.js). Its top row is the navbar's own, with "Close" where "Menu" was. -->
+    <div class="menu" id="site-menu" tabindex="-1" hidden data-node-id="218:375">
+      <div class="menu__sheet">
+        <img class="menu__atmosphere" src="assets/hero/atmosphere.jpg" width="2400" height="1600" alt="" aria-hidden="true" decoding="async" data-node-id="219:652">
+        <div class="menu__bar" data-node-id="219:638">
+          <a class="navbar__home" href="#" data-go="intro" data-node-id="219:636">Baghdad</a>
+          <button class="navbar__menu menu__close" type="button" data-node-id="219:637">Close</button>
+        </div>
+        <div class="menu__stage">
+          <!-- The pointed chapter's name, very large at 5% (lib/menu.js builds its words). -->
+          <div class="menu__echo" aria-hidden="true"></div>
+          <div class="menu__picture" aria-hidden="true" data-node-id="220:61">
+            <img src="assets/menu/scholars-market.jpg" width="1106" height="737" alt="" decoding="async" data-node-id="219:646">
+            <!-- Each chapter's own painting, shown while it is pointed at. -->
+            <img src="assets/hero/illustration.jpg" width="1410" height="940" alt="" decoding="async" loading="lazy" data-for="intro">
+            <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="foundations">
+            <img src="assets/story/scholar-reading.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="flourishing">
+            <img src="assets/story/scholars-garden.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="brilliance">
+          </div>
+          <nav class="menu__list" aria-label="Chapters" data-node-id="219:645">
+            <ol role="list">
+              <li style="--i: 0"><a class="menu__link" href="#" data-go="intro" data-picture="intro" data-echo="Intro" data-node-id="219:640">Intro</a></li>
+              <li style="--i: 1"><a class="menu__link" href="#foundations" data-go="foundations" data-picture="foundations" data-echo="Foundations" data-node-id="219:642">I. Foundations</a></li>
+              <!-- Not built yet: listed, not linked. -->
+              <li style="--i: 2"><span class="menu__link" aria-disabled="true" data-picture="flourishing" data-echo="Flourishing" data-node-id="219:643">II. The Flourishing</span></li>
+              <li style="--i: 3"><span class="menu__link" aria-disabled="true" data-picture="brilliance" data-echo="Brilliance" data-node-id="219:644">III. Enduring Brilliance</span></li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
 
     <!-- Vertical scrolling drives the horizontal track: hero → story. -->
     <main>

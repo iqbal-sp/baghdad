@@ -6,6 +6,7 @@ import { startScenes } from './lib/scenes.js';
 import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
 import { startNavbar } from './lib/navbar.js';
+import { startMenu } from './lib/menu.js';
 import { startCapital } from './lib/capital.js';
 import { startKnowledge } from './lib/knowledge.js';
 import { startClosing } from './lib/closing.js';
@@ -14,7 +15,7 @@ import { startPeriodMap } from './lib/period-map.js';
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
 const heroSmoke = startHeroSmoke(heroElement);
-const { lenis } = startJourney(document.querySelector('#journey'), {
+const { lenis, goToChapter } = startJourney(document.querySelector('#journey'), {
   onProgress(progress, width, scale) {
     hero.setProgress(progress, width, scale);
     // The hero is fully off screen once the story has settled.
@@ -26,6 +27,13 @@ startScenes(document.querySelectorAll('.scene'), document.querySelector('#journe
 startCityIntro(document.querySelector('.city__intro'), { explore: document.querySelector('.city__explore') });
 startCity(document.querySelector('.city__explore'), { lenis });
 startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'));
+startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'), {
+  lenis,
+  places: {
+    intro: () => lenis.scrollTo(0, { immediate: true, force: true }),
+    foundations: () => goToChapter(true),
+  },
+});
 startCapital(document.querySelector('.scene--capital'));
 startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
 startClosing(document.querySelector('.scene--closing'), { lenis });

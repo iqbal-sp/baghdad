@@ -53,7 +53,8 @@ body {
 img { display: block; }
 
 /*
- * Navbar (not in Figma): the title and "Menu" at either end, 60px from the screen's sides. Hidden
+ * Navbar, set as in Figma 219:638: "Baghdad" and "Menu" at either end of a 1276px row at
+ * (80, 44), DM Sans Regular 16, 5% tracking, uppercase, trimmed to the cap height. Hidden
  * until lib/navbar.js finds scene 1 uncovered; it then drops in, and hides again above it. White
  * with difference blending, so it reads dark on the light scenes and light on the dark ones.
  */
@@ -64,7 +65,7 @@ img { display: block; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 60px;
+  padding: 44px 84px 0 80px;
   color: #fff;
   mix-blend-mode: difference;
   pointer-events: none;
@@ -85,15 +86,15 @@ img { display: block; }
 .navbar__home,
 .navbar__menu {
   color: inherit;
-  text-decoration: none;
-}
-
-.navbar__home {
   font-family: var(--font-label);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 400;
   font-variation-settings: "opsz" 14;
-  line-height: 1.4;
+  line-height: normal;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-box: trim-both cap alphabetic;
 }
 
 .navbar__menu {
@@ -101,16 +102,298 @@ img { display: block; }
   border: 0;
   background: none;
   cursor: pointer;
-  font-family: var(--font-label);
-  font-size: 16px;
-  font-weight: 500;
-  font-variation-settings: "opsz" 14;
-  line-height: 1.4;
-  text-transform: uppercase;
 }
 
 .navbar__home:focus-visible,
 .navbar__menu:focus-visible { outline: 1px solid currentColor; outline-offset: 6px; }
+
+/* While the menu is open the navbar stays, wherever the page is (lib/menu.js). */
+.navbar.is-menu-open {
+  pointer-events: auto;
+  opacity: 1;
+  translate: 0 0;
+  visibility: visible;
+}
+
+/*
+ * Menu — Figma 218:375, a 1440 × 1024 frame on the story's #170601 with the hero's atmosphere
+ * texture colour-dodged into it (219:652: 1622 × 1081 at (−45, 66), 80%). The frame is laid out
+ * at the page's shared scale, centred in the view; the texture is sized to the view like the
+ * hero's, so its edge never shows. Its top row (219:638) is the navbar's own, with "Close".
+ *
+ * Motion (not in Figma, lib/menu.js): the menu is a sheet let down from above the page like a
+ * sheet of paper, its straight lower edge catching a little light and casting a soft shadow on
+ * the page beneath, which it covers as it settles. Its top row comes down
+ * with it, so its "Close" covers the navbar's "Menu" in the same spot. Once it has landed the
+ * chapters rise in one after another and the painting opens from its left edge. Pointing at a
+ * chapter sets the others back, raises that chapter's own painting into the frame
+ * (.menu__picture img[data-for]) and shows its name very large behind (.menu__echo). Closing
+ * lifts the sheet back up, the page coming back from below. With reduced motion it only fades.
+ */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 21;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.menu.is-open { pointer-events: auto; }
+.menu:focus { outline: none; }
+
+/* Raised, it waits above the view with its shadow; down, it fills the view. */
+.menu__sheet {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  isolation: isolate;
+  background: var(--color-story);
+  box-shadow: 0 calc(30px * var(--stage-scale, 1)) calc(90px * var(--stage-scale, 1)) rgb(8 2 0 / .55);
+  translate: 0 calc(-100% - 160px);
+  transition: translate .95s cubic-bezier(.7, 0, .2, 1);
+}
+
+/* The sheet's lower edge, catching the light. */
+.menu__sheet::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2;
+  height: 1px;
+  background: rgb(255 214 170 / .14);
+  pointer-events: none;
+}
+
+.menu.is-open .menu__sheet {
+  translate: 0 0;
+  transition: translate 1.05s cubic-bezier(.65, 0, .15, 1);
+}
+
+.menu__atmosphere {
+  position: absolute;
+  top: 59.23%;
+  left: 53.19%;
+  width: max(112.64%, 158.35vh);
+  height: auto;
+  aspect-ratio: 1622 / 1081;
+  opacity: .8;
+  mix-blend-mode: color-dodge;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* The navbar's row, on the sheet: same type and place (219:638). */
+.menu__bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 44px 84px 0 80px;
+  color: #fff;
+}
+
+.menu__bar .navbar__home:focus-visible,
+.menu__bar .navbar__menu:focus-visible { outline: 1px solid currentColor; outline-offset: 6px; }
+
+.menu__stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1440px;
+  height: 1024px;
+  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
+}
+
+/* 220:61: 553 × 369 at (−224, 293), running off the frame's left edge. */
+.menu__picture {
+  position: absolute;
+  top: 293px;
+  left: -224px;
+  width: 553px;
+  height: 369px;
+  overflow: clip;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0s .95s;
+}
+
+.menu__picture img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu__picture > img:first-child {
+  scale: 1.12;
+  transition: scale 0s .95s;
+}
+
+.menu.is-open .menu__picture {
+  clip-path: inset(0);
+  transition: clip-path 1.2s cubic-bezier(.65, 0, .35, 1) .75s;
+}
+
+.menu.is-open .menu__picture > img:first-child {
+  scale: 1;
+  transition: scale 1.6s var(--ease-out) .75s;
+}
+
+/*
+ * A chapter's own painting waits below the frame, rises into it while its chapter is pointed at
+ * (.is-in), and carries on up out of it when let go or replaced (.is-out), before lib/menu.js
+ * puts it back below, unseen. Moving from one chapter to the next, the two pass in the frame.
+ */
+/* Scaled from its top edge, so while it waits below the frame no part of it reaches back in. */
+.menu__picture img[data-for] {
+  z-index: 1;
+  transform-origin: 50% 0;
+  translate: 0 101%;
+  scale: 1.1;
+}
+
+.menu__picture img[data-for].is-in {
+  z-index: 2;
+  translate: 0 0;
+  scale: 1;
+  transition: translate .9s cubic-bezier(.65, 0, .35, 1), scale 1.4s var(--ease-out);
+}
+
+.menu__picture img[data-for].is-out {
+  translate: 0 -100%;
+  scale: 1;
+  transition: translate .9s cubic-bezier(.65, 0, .35, 1);
+}
+
+/*
+ * The pointed chapter's name, very large behind everything at 5% (not in Figma): its letters
+ * rise in one after another out of a blur, and drift up and away when it goes. Svetze 300 on the
+ * artboard, from (64, 712), running off the bottom of the frame.
+ */
+.menu__echo {
+  position: absolute;
+  top: 712px;
+  left: 64px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 300px;
+  line-height: 1;
+  letter-spacing: -6px;
+  white-space: nowrap;
+  opacity: .05;
+  pointer-events: none;
+}
+
+.menu__echo-word {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.menu__echo-word span {
+  display: block;
+  opacity: 0;
+  translate: 0 .3em;
+  filter: blur(18px);
+}
+
+.menu__echo-word.is-in span {
+  opacity: 1;
+  translate: 0 0;
+  filter: blur(0);
+  transition:
+    opacity .9s var(--ease-out) calc(var(--n) * 40ms),
+    translate 1.3s cubic-bezier(.16, 1, .3, 1) calc(var(--n) * 40ms),
+    filter 1s var(--ease-out) calc(var(--n) * 40ms);
+}
+
+.menu__echo-word.is-out span {
+  opacity: 0;
+  translate: 0 -.2em;
+  filter: blur(12px);
+  transition:
+    opacity .5s ease-in calc(var(--n) * 20ms),
+    translate .7s cubic-bezier(.5, 0, .75, 0) calc(var(--n) * 20ms),
+    filter .5s ease-in calc(var(--n) * 20ms);
+}
+
+/* 219:645: Svetze 80 / 1.2, −1.6px, white, 44 apart; the column is centred 25px below the middle. */
+.menu__list {
+  position: absolute;
+  top: 279px;
+  left: 631px;
+}
+
+.menu__list ol {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu__list li {
+  opacity: 0;
+  translate: 0 40px;
+  transition: opacity 0s .95s, translate 0s .95s;
+}
+
+.menu.is-open .menu__list li {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity .8s var(--ease-out) calc(.7s + var(--i) * .08s),
+    translate 1s cubic-bezier(.16, 1, .3, 1) calc(.7s + var(--i) * .08s);
+}
+
+.menu__link {
+  display: block;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 80px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.6px;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: opacity .5s var(--ease-out);
+}
+
+.menu__link[aria-disabled] { cursor: default; }
+
+.menu__list.has-pointed .menu__link:not(.is-pointed) { opacity: .3; }
+
+a.menu__link:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu__sheet,
+  .menu.is-open .menu__sheet {
+    translate: none;
+    opacity: 0;
+    transition: opacity .4s ease-out;
+  }
+  .menu.is-open .menu__sheet { opacity: 1; }
+  .menu__picture,
+  .menu.is-open .menu__picture { clip-path: none; }
+  .menu__picture > img:first-child,
+  .menu.is-open .menu__picture > img:first-child { scale: 1; }
+  .menu__list li,
+  .menu.is-open .menu__list li { opacity: 1; translate: none; }
+  .menu__link { transition: none; }
+  .menu__picture img[data-for],
+  .menu__picture img[data-for].is-out { translate: none; scale: none; opacity: 0; transition: none; }
+  .menu__picture img[data-for].is-in { opacity: 1; }
+  .menu__echo-word span,
+  .menu__echo-word.is-out span { translate: none; filter: none; transition: opacity .3s; }
+}
 
 /*
  * Journey: a pinned viewport driven by page scroll (lib/journey.js). Scroll lengths:
