@@ -1488,16 +1488,22 @@ a.menu__link:focus-visible {
 /*
  * Lift-off from the chapter to scene 1. The cover is pulled up over the journey's last viewport
  * and painted beneath it (z-index −1, so the journey's blend modes stay unisolated): scene 1 sticks
- * to the top behind the pinned chapter, the chapter then scrolls up off it, and once it has gone
- * the scene scrolls on as usual. --uncover (0 → 1, set on <html> by lib/scenes.js) follows the
- * chapter's bottom edge up the screen; without JS it stays 1 (:root).
+ * to the top behind the pinned chapter, the chapter then scrolls up off it, and the scene holds
+ * there for --scene-hold more so its parts finish rising in before it scrolls on as usual.
+ * --uncover (0 → 1, set on <html> by lib/scenes.js) follows the chapter's bottom edge up the
+ * screen; without JS it stays 1 (:root).
  */
-:root { --uncover: 1; }
+:root { --uncover: 1; --scene-hold: 35vh; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Nothing rises in, so there is nothing to wait for. */
+  :root { --scene-hold: 0px; }
+}
 
 .scene-cover {
   position: relative;
   z-index: -1;
-  height: calc(100vh + 1249px * var(--stage-scale, 1));
+  height: calc(100vh + var(--scene-hold) + 1249px * var(--stage-scale, 1));
   margin-top: -100vh;
 }
 
@@ -1781,7 +1787,7 @@ a.menu__link:focus-visible {
 }
 
 /*
- * Intro (165:108), pinned for 180vh after it reaches the top. lib/city-intro.js clips the white
+ * Intro (165:108), pinned for 115vh after it reaches the top. lib/city-intro.js clips the white
  * .city__tittle to a circle that starts over the whole screen (scene 2's white carried on) and
  * shrinks onto the dot of the "i" in "city" (set dotless, so the circle is the dot). A gold hairline
  * follows its edge, and two ripples spread from the dot when it lands.
@@ -1789,7 +1795,7 @@ a.menu__link:focus-visible {
  * and reveal are the same; only positions and the title size (124px, so the longer line spans the
  * same 92–1348) differ. The block is centred on the 1024 artboard: title 262, intro 401, cue 741.
  */
-.city__intro { position: relative; height: 280vh; }
+.city__intro { position: relative; height: 215vh; }
 
 .city__intro-viewport {
   position: sticky;
