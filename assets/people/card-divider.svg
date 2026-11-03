@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="120" height="12" viewBox="0 0 120 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Card divider" clip-path="url(#clip0_0_9)">
+<path id="Vector" d="M0 6H50" stroke="#9E7833" stroke-opacity="0.6"/>
+<path id="Vector_2" d="M70 6H120" stroke="#9E7833" stroke-opacity="0.6"/>
+<g id="Group">
+<path id="Vector_3" d="M64.2451 1.76088L62.1107 5.12923L66.006 6.003L62.1107 6.87677L64.2451 10.2451L60.8768 8.11072L60.003 12.006L59.1292 8.11072L55.7609 10.2451L57.8953 6.87677L54 6.003L57.8953 5.12923L55.7609 1.76088L59.1292 3.89528L60.003 0L60.8768 3.89528L64.2451 1.76088Z" fill="#9E7833"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_0_9">
+<rect width="120" height="12" fill="white"/>
+</clipPath>
+</defs>
+</svg>

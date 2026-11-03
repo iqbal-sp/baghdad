@@ -11,8 +11,8 @@
     <link rel="preload" href="assets/fonts/DMSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/illustration.avif" as="image" type="image/avif" fetchpriority="high">
     <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="styles.css">
-    <script type="module" src="script.js"></script>
+    <link rel="stylesheet" href="styles.css?v=20261103-navbar-aside">
+    <script type="module" src="script.js?v=20261103-navbar-aside"></script>
   </head>
   <body>
     <!-- Shown instead of the page below 1024px wide, until the responsive version exists. -->
@@ -57,8 +57,8 @@
             <ol role="list">
               <li style="--i: 0"><a class="menu__link" href="#" data-go="intro" data-picture="intro" data-echo="Intro" data-node-id="219:640">Intro</a></li>
               <li style="--i: 1"><a class="menu__link" href="#foundations" data-go="foundations" data-picture="foundations" data-echo="Foundations" data-node-id="219:642">I. Foundations</a></li>
+              <li style="--i: 2"><a class="menu__link" href="#flourishing" data-go="flourishing" data-picture="flourishing" data-echo="Flourishing" data-node-id="219:643">II. The Flourishing</a></li>
               <!-- Not built yet: listed, not linked. -->
-              <li style="--i: 2"><span class="menu__link" aria-disabled="true" data-picture="flourishing" data-echo="Flourishing" data-node-id="219:643">II. The Flourishing</span></li>
               <li style="--i: 3"><span class="menu__link" aria-disabled="true" data-picture="brilliance" data-echo="Brilliance" data-node-id="219:644">III. Enduring Brilliance</span></li>
             </ol>
           </nav>
@@ -96,11 +96,11 @@
                   <div class="hero__sheen" aria-hidden="true"><div class="hero__sheen-spot"></div></div>
                 </div>
 
-                <!-- Each dove is its own layer so it can glide independently (Figma 103:14–16). -->
+                <!-- Manuscript SVG doves, still (no motion). -->
                 <div class="hero__doves" aria-hidden="true">
-                  <div class="dove dove--near" data-node-id="108:13425"><img src="assets/hero/dove-near.webp" width="181" height="176" alt=""></div>
-                  <div class="dove dove--far" data-node-id="108:13426"><img src="assets/hero/dove-far.webp" width="104" height="94" alt=""></div>
-                  <div class="dove dove--mid" data-node-id="108:13427"><img src="assets/hero/dove-mid.webp" width="164" height="138" alt=""></div>
+                  <div class="dove dove--near" data-node-id="108:13425"><span class="dove__flight"><img src="assets/hero/doves-manuscript-v1/dove-near.svg" width="1280" height="1280" alt=""></span></div>
+                  <div class="dove dove--far" data-node-id="108:13426"><span class="dove__flight"><img src="assets/hero/doves-manuscript-v1/dove-far.svg" width="1280" height="1280" alt=""></span></div>
+                  <div class="dove dove--mid" data-node-id="108:13427"><span class="dove__flight"><img src="assets/hero/doves-manuscript-v1/dove-mid.svg" width="1280" height="1280" alt=""></span></div>
                 </div>
 
                 <!-- Afternoon light from an off-frame window at the upper left. -->
@@ -541,9 +541,49 @@
            and the lamp in it flickers; "833" stays still, an accent on the painting. -->
       <!-- Back to the three ages (not in Figma): once its last lines are read the closing is held,
            then shrinks into card I of a copy of the story behind it while the camera pulls back
-           to all three cards, and card I is marked done (lib/period-map.js). -->
+           to all three cards, and card I is marked done (lib/period-map.js). Scrolling on dives
+           into card II and Period II opens, as Period I does from the story (lib/dive.js). -->
       <div class="closing-pin">
-        <div class="period-map" aria-hidden="true"><div class="period-map__camera"></div></div>
+        <div class="period-map">
+          <div class="period-map__camera" aria-hidden="true"></div>
+
+          <!-- Period II chapter (Figma 226:451, 1440 × 1114), opened from card II of the map. -->
+          <section class="chapter chapter--flourishing" id="flourishing" aria-labelledby="flourishing-title" data-node-id="226:451">
+            <div class="chapter__reveal">
+              <div class="chapter__scroll">
+                <img class="chapter__texture" src="assets/flourishing/texture.jpg" width="2000" height="1333" alt="" aria-hidden="true" decoding="async" data-node-id="227:466">
+                <div class="chapter__grain" aria-hidden="true" data-node-id="226:455"></div>
+                <div class="chapter__veil" aria-hidden="true">
+                  <span class="chapter__veil-side chapter__veil-side--top"></span>
+                  <span class="chapter__veil-side chapter__veil-side--right"></span>
+                  <span class="chapter__veil-side chapter__veil-side--bottom"></span>
+                  <span class="chapter__veil-side chapter__veil-side--left"></span>
+                </div>
+                <div class="chapter__stage">
+                  <div class="chapter__heading">
+                    <div class="chapter__meta" data-node-id="226:458">
+                      <p class="chapter__kicker" data-node-id="226:459">Period II</p>
+                      <p class="chapter__kicker" data-node-id="226:463">833–945</p>
+                    </div>
+                    <h2 class="chapter__title" id="flourishing-title" data-node-id="226:457">The Flourishing</h2>
+                    <p class="chapter__intro" data-node-id="226:464">For more than a century, Baghdad’s scholars translated, tested, and invented even as the court moved away and power shifted.</p>
+                  </div>
+                  <div class="chapter__image" data-node-id="227:469">
+                    <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="A scholar in a white turban reads a manuscript at a low desk, beside an astrolabe, a stack of books and an arched window onto palms" decoding="async" data-node-id="227:470">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The period II card in flight: from card II of the map onto the chapter's painting. -->
+            <div class="dive" aria-hidden="true">
+              <div class="dive__card">
+                <div class="dive__shadow"></div>
+                <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy">
+              </div>
+            </div>
+          </section>
+        </div>
         <section class="scene scene--closing" id="period-1-end" aria-labelledby="closing-title" data-node-id="215:340">
           <div class="scene__stage closing__stage">
             <div class="closing__sheet" data-node-id="215:361">
@@ -568,6 +608,243 @@
           </div>
         </section>
       </div>
+
+      <!-- Period II, part I (Figma 253:174): the court moves, the learning stays. A track three
+           screens wide; scrolling down moves it sideways and lights the year at the centre of the
+           screen (lib/court-timeline.js). No motion yet beyond that; images are placeholders. -->
+      <section class="court-timeline" id="court-and-city" aria-labelledby="court-timeline-title" data-node-id="253:174">
+        <div class="court-timeline__pin">
+          <div class="court-timeline__track">
+            <div class="court-timeline__head">
+              <p class="court-timeline__kicker">Part I · 833–945</p>
+              <h3 class="court-timeline__heading" id="court-timeline-title"><span>The court moves,</span> <span>the learning stays</span></h3>
+              <p class="court-timeline__intro">Between 833 and 945 the caliph’s court left Baghdad and came back. The city’s learning carried on through all of it.</p>
+            </div>
+
+            <!-- One unbroken line: the city's learning. Gold up to the year in view. -->
+            <div class="court-timeline__line" aria-hidden="true">
+              <span class="court-timeline__progress"></span>
+            </div>
+            <p class="court-timeline__bracket"><span>The court in Samarra · <span class="court-timeline__count">56</span> years</span></p>
+
+            <ol class="court-timeline__years" role="list">
+            <li class="court-timeline__year is-active" style="--x: 1060px">
+              <!-- Image to come: the frame stays, the image inside it drifts; for now, what it will show. -->
+              <div class="court-timeline__picture" aria-hidden="true">
+                <div class="court-timeline__image"><p class="court-timeline__placeholder">A scholar questioned before officials</p></div>
+              </div>
+              <p class="court-timeline__ah">218 AH<span lang="ar" dir="rtl">٢١٨ هـ</span></p>
+              <p class="court-timeline__date">833</p>
+              <span class="court-timeline__stem" aria-hidden="true"></span>
+              <span class="court-timeline__node" aria-hidden="true">
+                <span class="court-timeline__ring"></span>
+                <svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg>
+              </span>
+              <div class="court-timeline__story">
+                <h4 class="court-timeline__title">Learning<br>under pressure</h4>
+                <p class="court-timeline__text">Al-Ma’mun used the state to make scholars accept one theological position. The power that paid for books could also demand agreement.</p>
+                <p class="court-timeline__caliph">Caliph · al-Ma’mun</p>
+              </div>
+            </li>
+            <li class="court-timeline__year" style="--x: 1760px">
+              <!-- Image to come: the frame stays, the image inside it drifts; for now, what it will show. -->
+              <div class="court-timeline__picture" aria-hidden="true">
+                <div class="court-timeline__image"><p class="court-timeline__placeholder">The court’s procession leaving along the Tigris</p></div>
+              </div>
+              <p class="court-timeline__ah">221 AH<span lang="ar" dir="rtl">٢٢١ هـ</span></p>
+              <p class="court-timeline__date">836</p>
+              <span class="court-timeline__stem" aria-hidden="true"></span>
+              <span class="court-timeline__node" aria-hidden="true">
+                <span class="court-timeline__ring"></span>
+                <svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg>
+              </span>
+              <div class="court-timeline__story">
+                <h4 class="court-timeline__title">The court<br>leaves for Samarra</h4>
+                <p class="court-timeline__text">The caliph’s court moved about 125 km up the Tigris to a new city. Baghdad’s libraries stayed open.</p>
+                <p class="court-timeline__caliph">Caliph · al-Mu’tasim</p>
+              </div>
+            </li>
+            <li class="court-timeline__year court-timeline__year--range" style="--x: 2460px">
+              <!-- Image to come: the frame stays, the image inside it drifts; for now, what it will show. -->
+              <div class="court-timeline__picture" aria-hidden="true">
+                <div class="court-timeline__image"><p class="court-timeline__placeholder">Copyists and booksellers in a Baghdad market</p></div>
+              </div>
+              <p class="court-timeline__ah">221–279 AH<span lang="ar" dir="rtl">٢٢١–٢٧٩ هـ</span></p>
+              <p class="court-timeline__date">836–892</p>
+              <span class="court-timeline__stem" aria-hidden="true"></span>
+              <span class="court-timeline__node" aria-hidden="true">
+                <span class="court-timeline__ring"></span>
+                <svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg>
+              </span>
+              <div class="court-timeline__story">
+                <h4 class="court-timeline__title">Meanwhile,<br>the city works</h4>
+                <p class="court-timeline__text">Administrators, teachers, physicians, copyists and booksellers kept Baghdad’s learning going without the court.</p>
+                <ul class="court-timeline__trades" role="list"><li>Translators</li><li>Copyists</li><li>Booksellers</li><li>Teachers</li><li>Physicians</li></ul>
+              </div>
+            </li>
+            <li class="court-timeline__year" style="--x: 3160px">
+              <!-- Image to come: the frame stays, the image inside it drifts; for now, what it will show. -->
+              <div class="court-timeline__picture" aria-hidden="true">
+                <div class="court-timeline__image"><p class="court-timeline__placeholder">The caliph’s court returning to Baghdad</p></div>
+              </div>
+              <p class="court-timeline__ah">279 AH<span lang="ar" dir="rtl">٢٧٩ هـ</span></p>
+              <p class="court-timeline__date">892</p>
+              <span class="court-timeline__stem" aria-hidden="true"></span>
+              <span class="court-timeline__node" aria-hidden="true">
+                <span class="court-timeline__ring"></span>
+                <svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg>
+              </span>
+              <div class="court-timeline__story">
+                <h4 class="court-timeline__title">The court<br>comes home</h4>
+                <p class="court-timeline__text">After 56 years the court returned, to a city whose learning had never stopped.</p>
+                <p class="court-timeline__caliph">Caliph · al-Mu’tadid</p>
+              </div>
+            </li>
+            <li class="court-timeline__year" style="--x: 3860px">
+              <!-- Image to come: the frame stays, the image inside it drifts; for now, what it will show. -->
+              <div class="court-timeline__picture" aria-hidden="true">
+                <div class="court-timeline__image"><p class="court-timeline__placeholder">Buyid emirs entering the city</p></div>
+              </div>
+              <p class="court-timeline__ah">334 AH<span lang="ar" dir="rtl">٣٣٤ هـ</span></p>
+              <p class="court-timeline__date">945</p>
+              <span class="court-timeline__stem" aria-hidden="true"></span>
+              <span class="court-timeline__node" aria-hidden="true">
+                <span class="court-timeline__ring"></span>
+                <svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg>
+              </span>
+              <div class="court-timeline__story">
+                <h4 class="court-timeline__title">Power<br>changes hands</h4>
+                <p class="court-timeline__text">The Buyid emirs took control of Baghdad. The caliphs stayed, and so did the scholars.</p>
+                <p class="court-timeline__caliph">Caliph · al-Mustakfi</p>
+              </div>
+            </li>
+            </ol>
+
+            <p class="court-timeline__next">
+              <span class="court-timeline__next-kicker">Next · Part II</span>
+              <span class="court-timeline__next-title">The people<br>behind it</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Period II, part II (Figma 265:166): the people behind it. An astrolabe disc under a
+           pointed arch; scrolling turns it, bringing each scholar in turn up under the card in the
+           hand, which then shows who they were (lib/people.js). Portraits are placeholders. -->
+      <section class="people" id="people" aria-labelledby="people-title" data-node-id="265:166">
+        <div class="people__pin">
+          <img class="people__ink" src="assets/people/ink-paint.avif" width="2048" height="1520" alt="" aria-hidden="true" decoding="async" loading="lazy">
+          <div class="people__stage">
+            <div class="people__pattern" aria-hidden="true"></div>
+
+            <!-- The rim and its stars turn with the scroll (--turn). -->
+            <div class="people__disc" aria-hidden="true">
+              <img class="people__rim" src="assets/people/rim.svg" width="1040" height="1040" alt="" decoding="async" loading="lazy">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -75deg">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -45deg">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -15deg">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 15deg">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 45deg">
+              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 75deg">
+            </div>
+
+            <img class="people__arch" src="assets/people/arch.svg" width="1440" height="1009" alt="" aria-hidden="true" decoding="async" loading="lazy">
+            <img class="people__finial" src="assets/people/finial.svg" width="32" height="52" alt="" aria-hidden="true">
+
+            <div class="people__head">
+              <p class="people__kicker"><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span>Part II · 833–945</span><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""></p>
+              <h3 class="people__title" id="people-title"><span>The people</span> <span>behind it</span></h3>
+              <p class="people__body">Baghdad’s learning was carried by people: translators who checked every manuscript, a philosopher who broke codes, engineers, and physicians who wrote at the bedside. Here are five of them.</p>
+            </div>
+
+            <!-- Five stations on the disc, 30° apart; the one at the top is under the card. -->
+            <ol class="people__stations" role="list">
+              <li class="people__station" style="--a: -60deg">
+                <button class="people__seat" type="button" aria-label="Hunayn ibn Ishaq">
+                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                  <img class="people__seat-portrait" src="assets/people/portrait.svg" width="104" height="104" alt="">
+                </button>
+                <span class="people__numeral" lang="ar" aria-hidden="true">١</span>
+              </li>
+              <li class="people__station" style="--a: -30deg">
+                <button class="people__seat" type="button" aria-label="Al-Kindi">
+                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                  <img class="people__seat-portrait" src="assets/people/portrait.svg" width="104" height="104" alt="">
+                </button>
+                <span class="people__numeral" lang="ar" aria-hidden="true">٢</span>
+              </li>
+              <li class="people__station" style="--a: 0deg">
+                <button class="people__seat" type="button" aria-label="Banu Musa">
+                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                  <img class="people__seat-portrait" src="assets/people/portrait.svg" width="104" height="104" alt="">
+                </button>
+                <span class="people__numeral" lang="ar" aria-hidden="true">٣</span>
+              </li>
+              <li class="people__station" style="--a: 30deg">
+                <button class="people__seat" type="button" aria-label="Thabit ibn Qurra">
+                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                  <img class="people__seat-portrait" src="assets/people/portrait.svg" width="104" height="104" alt="">
+                </button>
+                <span class="people__numeral" lang="ar" aria-hidden="true">٤</span>
+              </li>
+              <li class="people__station" style="--a: 60deg">
+                <button class="people__seat" type="button" aria-label="Al-Razi">
+                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                  <img class="people__seat-portrait" src="assets/people/portrait.svg" width="104" height="104" alt="">
+                </button>
+                <span class="people__numeral" lang="ar" aria-hidden="true">٥</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- The card in the hand: whoever is at the top of the disc. Its picture is outside the
+               stages so it can lighten what is behind it, ground included. -->
+          <img class="people__hand" src="assets/people/card-in-hand.avif" width="1024" height="1536" alt="" aria-hidden="true" decoding="async" loading="lazy">
+          <div class="people__stage people__stage--front">
+            <div class="people__card">
+              <img class="people__card-portrait" src="assets/people/card-portrait.svg" width="96" height="96" alt="" aria-hidden="true">
+              <img class="people__card-ring" src="assets/people/card-ring.svg" width="110" height="110" alt="" aria-hidden="true">
+              <div class="people__entries">
+                <div class="people__entry is-active">
+                  <h4 class="people__name">Hunayn<br>ibn Ishaq</h4>
+                  <p class="people__line">Gathered every copy of a text before he translated it.</p>
+                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                  <p class="people__fields">Translation · Medicine</p>
+                </div>
+                <div class="people__entry" aria-hidden="true">
+                  <h4 class="people__name">Al-Kindi</h4>
+                  <p class="people__line">The philosopher who broke codes by counting letters.</p>
+                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                  <p class="people__fields">Philosophy · Cryptography · Music</p>
+                </div>
+                <div class="people__entry" aria-hidden="true">
+                  <h4 class="people__name">Banu Musa</h4>
+                  <p class="people__line">Engineers, surveyors and patrons: three brothers in one.</p>
+                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                  <p class="people__fields">Mathematics · Astronomy · Mechanics</p>
+                </div>
+                <div class="people__entry" aria-hidden="true">
+                  <h4 class="people__name">Thabit<br>ibn Qurra</h4>
+                  <p class="people__line">Translated Euclid, then went beyond him.</p>
+                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                  <p class="people__fields">Mathematics · Astronomy</p>
+                </div>
+                <div class="people__entry" aria-hidden="true">
+                  <h4 class="people__name">Al-Razi</h4>
+                  <p class="people__line">A physician who wrote down what he saw at the bedside.</p>
+                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                  <p class="people__fields">Medicine · Alchemy · Philosophy</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>

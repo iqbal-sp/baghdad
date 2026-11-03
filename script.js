@@ -12,6 +12,8 @@ import { startCapital } from './lib/capital.js';
 import { startKnowledge } from './lib/knowledge.js';
 import { startClosing } from './lib/closing.js';
 import { startPeriodMap } from './lib/period-map.js';
+import { startCourtTimeline } from './lib/court-timeline.js';
+import { startPeople } from './lib/people.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
@@ -26,22 +28,29 @@ startPeriods(document.querySelector('#story'));
 startScenes(document.querySelectorAll('.scene'), document.querySelector('#journey'));
 startCityIntro(document.querySelector('.city__intro'), { explore: document.querySelector('.city__explore') });
 startCity(document.querySelector('.city__explore'), { lenis });
-startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'));
+startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'), {
+  returnPin: document.querySelector('.closing-pin'),
+  resume: document.querySelector('.court-timeline'),
+});
 startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'), {
   lenis,
   places: {
     intro: () => lenis.scrollTo(0, { immediate: true, force: true }),
     foundations: () => goToChapter(true),
+    // Set up below, once the closing's map exists; only called from a click.
+    flourishing: () => periodMap.goToChapter?.(true),
   },
 });
 startCapital(document.querySelector('.scene--capital'));
 startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
 startClosing(document.querySelector('.scene--closing'), { lenis });
-startPeriodMap(document.querySelector('.closing-pin'), { lenis });
+const periodMap = startPeriodMap(document.querySelector('.closing-pin'), { lenis });
+startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
+startPeople(document.querySelector('.people'), { lenis });
 decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),
 });
 pauseOffscreen(document.querySelectorAll(
-  '.hero__beams, .hero__mote-layer, .dove img, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp',
+  '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp',
 ));

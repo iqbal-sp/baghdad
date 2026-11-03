@@ -24,9 +24,11 @@
   --color-story: #170601;
   --color-story-copy: #f0dfd3;
   --ease-out: cubic-bezier(.2, .7, .2, 1);
-  /* Two families only: Svetze for display type, DM Sans for everything else. */
+  /* Svetze for display type, DM Sans for everything else; Period II adds Aref Ruqaa Ink. */
   --font-display: Svetze, Georgia, "Times New Roman", serif;
   --font-label: "DM Sans", Arial, sans-serif;
+  /* Period II's intro copy and Hijri years (Figma: Aref Ruqaa Ink, not yet self-hosted). */
+  --font-ruqaa: "Aref Ruqaa Ink", "Geeza Pro", "Noto Naskh Arabic", var(--font-display);
   /* Scroll the Round City plan rests on Palace, then the scroll scene 4 takes to open over it
      (lib/city.js HOLD is their sum in viewports). */
   --capital-rest: 60vh;
@@ -55,7 +57,8 @@ img { display: block; }
 /*
  * Navbar, set as in Figma 219:638: "Baghdad" and "Menu" at either end of a 1276px row at
  * (80, 44), DM Sans Regular 16, 5% tracking, uppercase, trimmed to the cap height. Hidden
- * until lib/navbar.js finds scene 1 uncovered; it then drops in, and hides again above it. White
+ * until lib/navbar.js finds scene 1 uncovered; it then drops in, and hides again above it, and
+ * from the three ages' map until Period II's timeline. White
  * with difference blending, so it reads dark on the light scenes and light on the dark ones.
  */
 .navbar {
@@ -420,6 +423,11 @@ a.menu__link:focus-visible {
   z-index: 1;
   opacity: 0;
   pointer-events: none;
+}
+
+/* The same noise on the Period II chapter (226:455). */
+.journey__grain,
+.chapter__grain {
   background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.6 -.5'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
@@ -630,26 +638,35 @@ a.menu__link:focus-visible {
 .hero.is-pointing .hero__lantern,
 .hero.is-pointing .hero__sheen { opacity: 1; }
 
-/* Doves: the wrapper flies in once, the image glides on its own loop. */
 .hero__doves {
   inset: 0;
   pointer-events: none;
 }
 
+/* Doves: still manuscript SVGs, no motion. */
 .dove { position: absolute; }
 
-.dove img {
-  width: 100%;
+.dove__flight {
+  display: block;
+  position: relative;
+  left: var(--image-x);
+  top: var(--image-y);
+  width: var(--image-size);
   height: auto;
   filter: sepia(.12) brightness(.97) drop-shadow(0 14px 22px rgb(10 2 0 / .45));
-  transform-origin: 50% 60%;
 }
 
-.dove--near { --from-x: -180px; --from-y: 70px; --arrive: .4s; --glide: 9s; top: 185px; left: 114px; width: 131px; }
-.dove--far { --from-x: -110px; --from-y: 40px; --arrive: .75s; --glide: 13s; top: 34px; left: 318px; width: 104px; opacity: .85; }
-.dove--mid { --from-x: 170px; --from-y: 60px; --arrive: .6s; --glide: 10.5s; top: 150px; left: 1222px; width: 136px; }
-.dove--far img { filter: sepia(.12) brightness(.9) blur(.6px); }
-.dove--mid img { animation-direction: reverse; }
+.dove--near { top: 185px; left: 114px; width: 131px; }
+.dove--far { top: 34px; left: 318px; width: 104px; opacity: .85; }
+.dove--mid { top: 150px; left: 1222px; width: 136px; }
+/* Compensate for the 1280px SVG canvases' transparent padding. Visible bird
+   widths stay 131 / 104 / 136px; each pose keeps its natural proportions. */
+.dove--near { --image-size: 152.30px; --image-x: -10.59px; --image-y: -11.42px; }
+.dove--far { --image-size: 124.53px; --image-x: -10.22px; --image-y: -8.76px; }
+.dove--mid { --image-size: 157.97px; --image-x: -10.98px; --image-y: -16.04px; }
+.dove--far .dove__flight { filter: sepia(.12) brightness(.9) blur(.6px); }
+
+.dove__flight > img { width: 100%; height: auto; }
 
 .hero__beams {
   top: -600px;
@@ -795,13 +812,6 @@ a.menu__link:focus-visible {
   0%, 30% { box-shadow: 0 0 0 0 rgb(255 255 255 / .45); }
   70%, 100% { box-shadow: 0 0 0 10px rgb(255 255 255 / 0); }
 }
-@keyframes dove-arrive { from { opacity: 0; transform: translate(var(--from-x), var(--from-y)) scale(.9); } }
-@keyframes dove-glide {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  25% { transform: translate(7px, -11px) rotate(-1.6deg); }
-  50% { transform: translate(13px, -4px) rotate(.6deg); }
-  75% { transform: translate(5px, 7px) rotate(2deg); }
-}
 @keyframes beam-breathe { to { opacity: .3; } }
 @keyframes mote-drift {
   0%, 100% { transform: translate(0, 0); }
@@ -820,8 +830,6 @@ a.menu__link:focus-visible {
 .hero__mote-layer--fine { animation: mote-drift 11s ease-in-out infinite; }
 .hero__mote-layer--soft { animation: mote-drift 15s ease-in-out -4s infinite reverse; }
 .hero__mote-layer--bokeh { animation: mote-drift 19s ease-in-out -9s infinite; }
-.dove { animation: dove-arrive 2.4s var(--ease-out) var(--arrive) both; }
-.dove img { animation: dove-glide var(--glide) ease-in-out calc(var(--arrive) + 2.4s) infinite; }
 .hero__label { animation: fade-in 1s ease-out .8s both; }
 .hero__title { animation: title-in 1.8s var(--ease-out) .45s both; }
 .hero__col--left { animation: rise-in 1s var(--ease-out) 1s both; }
@@ -1209,30 +1217,34 @@ a.menu__link:focus-visible {
     transform .7s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger));
 }
 
-/* Diving into period I (lib/dive.js): the story card hands over to the flying card,
-   and the story stops reacting to the pointer. */
-.journey.is-diving .story__stage { will-change: transform; }
-.journey.is-diving .periods { pointer-events: none; }
-.journey.is-diving .period__detail { visibility: hidden; }
-.journey.is-diving .period--1 .period__thumb { visibility: hidden; }
+/* Diving into a period (lib/dive.js; .is-diving on the journey, or on the map for period II):
+   the story card hands over to the flying card, and the story stops reacting to the pointer. */
+.is-diving .story__stage { will-change: transform; }
+.is-diving .periods { pointer-events: none; }
+.is-diving .period__detail { visibility: hidden; }
+.period.is-flying .period__thumb { visibility: hidden; }
 .period__badge { transition: opacity .3s ease-out; }
-.journey.is-diving .period--1 .period__badge { opacity: 0; }
+.period.is-flying .period__badge { opacity: 0; }
 
 /*
  * Period I chapter — Figma 126:13542, a 1440 × 1259 artboard (coordinates below).
  * Pinned over the track; its top 1024px share the story artboard's box, and the
  * remaining 235px scroll into view after the reveal (--read, lib/dive.js).
+ * Period II (.chapter--flourishing, below) shares all of it, with its own sizes.
  */
 .chapter {
+  --height: 1259px;
+  --read: 235px;
   position: absolute;
   inset: 0;
   z-index: 1;
   color: #fff;
   pointer-events: none;
+  visibility: hidden;
 }
 
-.journey:not(.is-diving) .chapter { visibility: hidden; }
-.journey.is-landed .chapter { pointer-events: auto; }
+.is-diving .chapter { visibility: visible; }
+.is-landed .chapter { pointer-events: auto; }
 
 /* The clip that opens from the card to the full screen (clip-path inset set per frame). */
 .chapter__reveal {
@@ -1246,7 +1258,7 @@ a.menu__link:focus-visible {
 .chapter__scroll {
   position: absolute;
   inset: 0 0 auto;
-  height: calc(100% + 235px * var(--stage-scale, 1));
+  height: calc(100% + var(--read) * var(--stage-scale, 1));
   background: var(--color-story);
   will-change: transform;
 }
@@ -1280,7 +1292,7 @@ a.menu__link:focus-visible {
   top: calc(50vh - 512px);
   left: calc(50% - 720px);
   width: 1440px;
-  height: 1259px;
+  height: var(--height);
   transform: scale(var(--stage-scale, 1));
   transform-origin: 720px 512px;
 }
@@ -1297,6 +1309,9 @@ a.menu__link:focus-visible {
   display: inline-block;
   transform-origin: 0 100%;
 }
+
+/* A word's letters, kept on one line when the title wraps. */
+.chapter__letters { white-space: nowrap; }
 
 .chapter__word { display: inline-block; }
 
@@ -1457,8 +1472,86 @@ a.menu__link:focus-visible {
 }
 
 /* Landed: the chapter's own image takes over from the identical flying card. */
-.journey:not(.is-landed) .chapter__image,
-.journey.is-landed .dive { visibility: hidden; }
+.chapter__image,
+.is-landed .dive { visibility: hidden; }
+.is-landed .chapter__image { visibility: visible; }
+
+/*
+ * Period II chapter — Figma 226:451, a 1440 × 1114 artboard, opened from card II of the map after
+ * the Period I closing (lib/period-map.js). Period I's chapter with its own ground (#5e4935 under
+ * a soft-light texture), the title on two lines, and the meta row low, between title and painting.
+ */
+.chapter--flourishing {
+  --height: 1114px;
+  --read: 90px;
+}
+
+.chapter--flourishing .chapter__scroll { background: #5e4935; }
+
+/* Figma "image 30": 1888 × 1259 across the top of the frame, soft light. Full-bleed here. */
+.chapter__texture {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: soft-light;
+}
+
+.chapter__grain {
+  position: absolute;
+  inset: 0;
+  opacity: .06;
+  pointer-events: none;
+}
+
+/* Frame 25: 1280 wide at (80, 791), a label at either end. */
+.chapter--flourishing .chapter__meta {
+  top: 791px;
+  left: 80px;
+  width: 1280px;
+  justify-content: space-between;
+}
+
+/* Svetze 240px / 110%, −2%; 1134 wide, so it breaks after "The". Trimmed to cap height at (109, 128). */
+.chapter--flourishing .chapter__title {
+  top: 128px;
+  left: 109px;
+  width: 1134px;
+  line-height: 264px;
+  white-space: normal;
+}
+
+/* 424 wide at (725, 227), ranged left (Aref Ruqaa Ink in Figma, DM Sans here). */
+.chapter--flourishing .chapter__intro {
+  top: 227px;
+  left: 725px;
+  width: 424px;
+  text-align: left;
+}
+
+/* Frame 41: 735 wide at (353, 671), showing the top of the square painting. Its 569px box runs
+   past the frame's bottom edge (1114) and is cut there, so it ends there. */
+.chapter--flourishing .chapter__image {
+  top: 671px;
+  left: 353px;
+  width: 735px;
+  height: 443px;
+}
+
+.chapter--flourishing .chapter__image img {
+  width: 735px;
+  height: 735px;
+}
+
+/* The flying card lands at 735px. It leaves card II stepped forward, so its shadow is that
+   card's lifted one (0 20 32, 55%) at 735 / 124.8. */
+.chapter--flourishing .dive__card {
+  width: 735px;
+  height: 735px;
+}
+
+.chapter--flourishing .dive__shadow { box-shadow: 0 118px 188px rgb(0 0 0 / .55); }
 
 /*
  * Period I scenes — Figma 153:14207 and 158:91, 1440 × 1249 artboards in normal page flow after
@@ -2509,12 +2602,14 @@ a.menu__link:focus-visible {
 }
 
 .scene--knowledge,
-.scene--closing {
+.scene--closing,
+.court-timeline {
   box-shadow: 0 calc(-6px * var(--stage-scale, 1)) calc(36px * var(--stage-scale, 1)) rgb(4 2 0 / calc(.18 * (1 - var(--arrived, 1))));
 }
 
 .scene--capital::after,
-.scene--knowledge::after {
+.scene--knowledge::after,
+.period-map::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -2522,6 +2617,9 @@ a.menu__link:focus-visible {
   opacity: calc(var(--covered, 0) * .25);
   pointer-events: none;
 }
+
+/* Above the Flourishing chapter, which the Period II timeline covers (lib/court-timeline.js). */
+.period-map::after { z-index: 5; }
 
 .knowledge__stage { height: 1491px; }
 
@@ -2978,7 +3076,10 @@ a.menu__link:focus-visible {
   --return-length: 200vh;
   position: relative;
   z-index: 3;
-  height: calc(1491px * var(--stage-scale, 1) + var(--return-length));
+  /* Then, still pinned: rest .3 and dive 2 viewports into card II, and read Period II's last 90
+     artboard px (REST, DIVE and READ in lib/period-map.js). */
+  --onward-length: calc(230vh + 90px * var(--stage-scale, 1));
+  height: calc(1491px * var(--stage-scale, 1) + var(--return-length) + var(--onward-length));
 }
 
 .closing-pin > .scene--closing {
@@ -3064,6 +3165,1045 @@ a.menu__link:focus-visible {
 }
 
 .story--map .period--1.is-done::after { scale: 1 1; }
+
+/*
+ * Period II, part I — Figma 253:174: the court moves, the learning stays. A 4320 × 1024 artboard
+ * on #1c170c, three screens wide, laid out at the page's shared scale. The section is the track's travel tall
+ * (2880 artboard px) plus a view; the track is pinned and lib/court-timeline.js turns the scroll
+ * into --shift (0 → 1), which moves it sideways so that the first screen starts centred and the
+ * last ends centred. The year nearest the centre of the screen is lit (.is-active), and the line
+ * is gold up to it (--progress). Images are placeholders in their arches.
+ *
+ * Motion (not in Figma; lib/court-timeline.js sets the classes, .is-armed only with motion
+ * allowed, so without it everything simply shows):
+ * - entrance (.is-entered, as the section comes up): the kicker, each heading line and the intro
+ *   rise in one after another, and the line draws from its start to its arrow;
+ * - each year, once, as it comes within REVEAL of the centre (.is-seen): its picture opens from
+ *   the bottom while the image settles from a slight zoom, then the Hijri line (its Arabic a
+ *   beat later), the year rising, the stem drawn down to the line, the node, and the story;
+ * - the lit year eases in and the others back; its ring gives way to the star, turning in, a
+ *   gold ring spreads from it once, and the gold draws on along the line to it, its tip glowing;
+ * - it arrives over the Flourishing chapter, which it holds back and dims (lib/cover.js);
+ * - the Arabic year is written on from the right; the caliph's name closes up from wide spacing;
+ * - the Samarra bracket draws across as the centre passes 836 → 892 (--bracket), its count
+ *   climbing to 56; inside each fixed frame the image runs a little behind the track (--drift);
+ * - "Next" rises in near the end of the line.
+ */
+.court-timeline {
+  /* Its own ground, warmer and a little lighter than the story's; used wherever it shows through. */
+  --ground: #1c170c;
+  --travel: 2880px;
+  --rise: cubic-bezier(.16, 1, .3, 1);
+  --open: cubic-bezier(.65, 0, .35, 1);
+  position: relative;
+  z-index: 3;
+  height: calc(100vh + var(--travel) * var(--stage-scale, 1));
+  background: var(--ground);
+  color: #fff;
+}
+
+.court-timeline__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.court-timeline__track {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4320px;
+  height: 1024px;
+  transform-origin: 0 0;
+  transform:
+    translate(calc(-720px * var(--stage-scale, 1)), calc(-512px * var(--stage-scale, 1)))
+    translateX(calc(var(--shift, 0) * var(--travel) * -1 * var(--stage-scale, 1)))
+    scale(var(--stage-scale, 1));
+}
+
+.court-timeline__track > *,
+.court-timeline__year > * { position: absolute; margin: 0; }
+
+/* Header, at the start of the track. */
+.court-timeline__head { top: 370px; left: 80px; width: 560px; }
+
+.court-timeline__kicker {
+  margin: 0;
+  color: #c8a15a;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+}
+
+.court-timeline__heading {
+  margin: 20px 0 0 -4px;
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 400;
+  line-height: .96;
+  letter-spacing: -1.68px;
+  /* Svetze runs wider than the Figma stand-in: each line stays whole, clear of the line's start. */
+  white-space: nowrap;
+}
+
+.court-timeline__heading > span { display: block; }
+
+.court-timeline__intro {
+  width: 470px;
+  margin: 26px 0 0;
+  color: rgb(240 223 211 / .85);
+  font-family: var(--font-ruqaa);
+  font-size: 19px;
+  line-height: 1.5;
+  letter-spacing: .01em;
+}
+
+/* The line: the city's learning, unbroken; gold up to the year in view (--progress). */
+/* Starts 60px right of the screen's centre, clear of the heading's longest line. */
+.court-timeline__line {
+  top: 630px;
+  left: 780px;
+  width: 3450px;
+  height: 1px;
+  background: rgb(240 223 211 / .22);
+}
+
+.court-timeline__line::before,
+.court-timeline__line::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+}
+
+.court-timeline__line::before {
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: rgb(240 223 211 / .6);
+}
+
+.court-timeline__line::after {
+  right: 2px;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-top: 1.4px solid rgb(240 223 211 / .5);
+  border-right: 1.4px solid rgb(240 223 211 / .5);
+  rotate: 45deg;
+}
+
+.court-timeline__progress {
+  position: absolute;
+  top: -.25px;
+  left: 0;
+  width: var(--progress, 266px);
+  height: 1.5px;
+  background: #c8a15a;
+  transition: width 1.1s var(--open);
+}
+
+/* The gold's tip glows while it draws on to the newly lit year (.is-drawing). */
+.court-timeline__progress::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: #f3d9a4;
+  box-shadow: 0 0 10px 3px rgb(200 161 90 / .7), 0 0 26px 8px rgb(200 161 90 / .25);
+  opacity: 0;
+  scale: .4;
+  transition: opacity .5s var(--ease-out), scale .5s var(--ease-out);
+}
+
+.court-timeline__track.is-drawing .court-timeline__progress::after {
+  opacity: 1;
+  scale: 1;
+  transition-duration: .2s;
+}
+
+/* The court in Samarra, 836–892: a bracket across the top, between the two years. */
+.court-timeline__bracket {
+  top: 112px;
+  left: 1760px;
+  width: 1400px;
+  height: 13px;
+  text-align: center;
+}
+
+/* The bracket's rule and ends, drawn as the centre passes 836 → 892 (--bracket 0 → 1). */
+.court-timeline__bracket::before,
+.court-timeline__bracket::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 13px;
+}
+
+.court-timeline__bracket::before {
+  left: 0;
+  width: calc(var(--bracket, 1) * 100%);
+  opacity: var(--bracket-label, 1);
+  border-top: 1px solid rgb(200 161 90 / .6);
+  border-left: 1px solid rgb(200 161 90 / .6);
+}
+
+.court-timeline__bracket::after {
+  right: 0;
+  border-right: 1px solid rgb(200 161 90 / .6);
+  opacity: var(--bracket-end, 1);
+}
+
+/* The label rides at the middle of the drawn part, so it ends centred on the whole bracket. */
+.court-timeline__bracket > span {
+  position: absolute;
+  z-index: 1;
+  top: -8px;
+  left: max(150px, calc(var(--bracket, 1) * 50%));
+  translate: -50% 0;
+  padding: 0 16px;
+  white-space: nowrap;
+  background: var(--ground);
+  color: rgb(200 161 90 / .9);
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  opacity: var(--bracket-label, 1);
+}
+
+.court-timeline__count {
+  display: inline-block;
+  min-width: 1.6em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Each year: a 360px column centred on its place on the line (--x). */
+.court-timeline__years { margin: 0; padding: 0; list-style: none; }
+
+.court-timeline__year {
+  position: absolute;
+  top: 0;
+  left: calc(var(--x) - 180px);
+  width: 360px;
+  height: 1024px;
+  text-align: center;
+}
+
+/* Clicking another year brings it to the centre (lib/court-timeline.js). */
+.court-timeline__year:not(.is-active) { cursor: pointer; }
+
+/* The frame stays put; the image inside it (a placeholder for now) runs a little behind the
+   track (--drift), with room either side to do so. */
+.court-timeline__picture {
+  top: 159.5px;
+  left: 10px;
+  width: 340px;
+  height: 252.5px;
+  overflow: hidden;
+  border: 1px solid rgb(200 161 90 / .35);
+  opacity: .55;
+  transition: opacity .6s var(--ease-out);
+}
+
+.court-timeline__image {
+  position: absolute;
+  inset: 0 -56px;
+  background: #2a2213;
+  translate: var(--drift, 0) 0;
+}
+
+.court-timeline__placeholder {
+  position: absolute;
+  top: 102px;
+  left: 50%;
+  width: 260px;
+  margin: 0;
+  padding-top: 40px;
+  translate: -50% 0;
+  color: rgb(240 223 211 / .6);
+  font-family: var(--font-label);
+  font-size: 13px;
+  line-height: 1.4;
+  /* A picture icon above the caption, while the image is to come. */
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 28 28' fill='none'><rect x='3' y='5' width='22' height='18' rx='1.5' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4'/><path d='M3 19l6-6 5 5 4-3 7 6' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4' stroke-linejoin='round'/><circle cx='19' cy='10' r='2' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4'/></svg>") 50% 0 / 26px 26px no-repeat;
+}
+
+/* 32px below the picture (Figma has 25). */
+.court-timeline__ah {
+  top: 444px;
+  left: 0;
+  width: 100%;
+  color: rgb(240 223 211 / .45);
+  font-family: var(--font-label);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 34px;
+  letter-spacing: .3em;
+  transition: color .6s var(--ease-out);
+}
+
+.court-timeline__ah span {
+  display: inline-block;
+  margin-left: 14px;
+  color: rgb(200 161 90 / .5);
+  font-family: var(--font-ruqaa);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0;
+  transition: color .6s var(--ease-out);
+}
+
+.court-timeline__date {
+  top: 497px;
+  left: 0;
+  width: 100%;
+  color: rgb(240 223 211 / .45);
+  font-family: var(--font-display);
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: -.8px;
+  transition: color .6s var(--ease-out);
+}
+
+.court-timeline__stem {
+  top: 576px;
+  left: 179.5px;
+  width: 1px;
+  height: 46px;
+  background: rgb(240 223 211 / .35);
+  transform-origin: 50% 0;
+  transition: background-color .6s var(--ease-out);
+}
+
+/* A ring on the line; the year in view gets the site's eight-pointed star instead, on a glow. */
+.court-timeline__node {
+  top: 615px;
+  left: 165px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgb(200 161 90 / 0);
+  transition: background-color .6s var(--ease-out);
+}
+
+.court-timeline__ring {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  border: 1.2px solid rgb(240 223 211 / .5);
+  border-radius: 50%;
+  background: var(--ground);
+  transition: opacity .3s var(--ease-out), scale .4s var(--ease-out);
+}
+
+/* One gold ring spreads from the node as its year is lit. */
+.court-timeline__node::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(200 161 90 / .8);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.court-timeline.is-armed .court-timeline__year.is-seen.is-active .court-timeline__node::after {
+  animation: court-ripple 1.4s cubic-bezier(.2, .7, .2, 1) .15s;
+}
+
+@keyframes court-ripple {
+  from { opacity: .9; scale: .6; }
+  to { opacity: 0; scale: 3.2; }
+}
+
+.court-timeline__node svg {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 20px;
+  height: 20px;
+  fill: #c8a15a;
+  opacity: 0;
+  scale: .3;
+  rotate: -90deg;
+  transition: opacity .35s var(--ease-out), scale .7s var(--rise), rotate .9s var(--rise);
+}
+
+.court-timeline__story {
+  top: 680px;
+  left: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 330px;
+}
+
+.court-timeline__story > * { transition: color .6s var(--ease-out); }
+
+.court-timeline__title {
+  margin: 0;
+  color: rgb(240 223 211 / .5);
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.court-timeline__text {
+  width: 330px;
+  margin: 0;
+  color: rgb(240 223 211 / .42);
+  font-family: var(--font-label);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.court-timeline__caliph {
+  margin: 0;
+  color: rgb(200 161 90 / .45);
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.court-timeline__trades {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  width: 330px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.court-timeline__trades li {
+  padding: 4px 10px;
+  border: 1px solid rgb(200 161 90 / .35);
+  border-radius: 20px;
+  color: rgb(240 223 211 / .5);
+  font-family: var(--font-label);
+  font-size: 11px;
+  line-height: 1.4;
+  transition: border-color .6s var(--ease-out), color .6s var(--ease-out);
+}
+
+/* The year in view. */
+.court-timeline__year.is-active .court-timeline__picture { opacity: 1; }
+.court-timeline__year.is-active .court-timeline__ah { color: rgb(240 223 211 / .75); }
+.court-timeline__year.is-active .court-timeline__ah span { color: rgb(200 161 90 / .9); }
+.court-timeline__year.is-active .court-timeline__date,
+.court-timeline__year.is-active .court-timeline__title { color: #fff; }
+.court-timeline__year.is-active .court-timeline__text { color: rgb(240 223 211 / .85); }
+.court-timeline__year.is-active .court-timeline__caliph { color: rgb(200 161 90 / .85); }
+.court-timeline__year.is-active .court-timeline__trades li { border-color: rgb(200 161 90 / .6); color: rgb(240 223 211 / .8); }
+.court-timeline__year.is-active .court-timeline__stem { background-color: rgb(200 161 90 / .9); }
+.court-timeline__year.is-active .court-timeline__node { background-color: rgb(200 161 90 / .15); }
+.court-timeline__year.is-active .court-timeline__ring { opacity: 0; scale: .4; }
+.court-timeline__year.is-active .court-timeline__node svg { opacity: 1; scale: 1; rotate: 0deg; }
+
+/* What comes next, at the end of the line. */
+.court-timeline__next { top: 500px; left: 4060px; }
+
+.court-timeline__next-kicker {
+  display: block;
+  color: #c8a15a;
+  font-family: var(--font-label);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+.court-timeline__next-title {
+  display: block;
+  margin-top: 8px;
+  color: rgb(255 255 255 / .85);
+  font-family: var(--font-display);
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+/* --- Entrances. Armed by lib/court-timeline.js only with motion allowed. --- */
+
+/* The header: kicker, each heading line, then the intro. */
+.court-timeline.is-armed :is(.court-timeline__kicker, .court-timeline__heading > span, .court-timeline__intro) {
+  opacity: 0;
+  translate: 0 44px;
+}
+
+.court-timeline.is-entered :is(.court-timeline__kicker, .court-timeline__heading > span, .court-timeline__intro) {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .9s var(--ease-out) var(--d, 0s), translate 1.2s var(--rise) var(--d, 0s);
+}
+
+.court-timeline__heading > span:first-child { --d: .12s; }
+.court-timeline__heading > span:last-child { --d: .24s; }
+.court-timeline__intro { --d: .42s; }
+
+/* The line draws from its start to its arrow (the start dot and the arrow kept clear of the clip). */
+.court-timeline.is-armed .court-timeline__line { clip-path: inset(-10px 100% -10px -10px); }
+
+.court-timeline.is-entered .court-timeline__line {
+  clip-path: inset(-10px -10px -10px -10px);
+  transition: clip-path 2.4s var(--open) .3s;
+}
+
+/* Each year, once: the arch opens, then the Hijri line, the year, the stem, the node, the story. */
+.court-timeline.is-armed .court-timeline__picture { clip-path: inset(100% 0 0 0); }
+.court-timeline.is-armed .court-timeline__image { scale: 1.08; transform-origin: 50% 100%; }
+
+.court-timeline.is-armed .court-timeline__ah { opacity: 0; translate: 0 12px; }
+.court-timeline.is-armed .court-timeline__ah span { opacity: 0; clip-path: inset(-6px 0 -6px 100%); }
+.court-timeline.is-armed .court-timeline__date { opacity: 0; translate: 0 34px; }
+.court-timeline.is-armed .court-timeline__stem { scale: 1 0; }
+.court-timeline.is-armed .court-timeline__node { scale: 0; }
+.court-timeline.is-armed .court-timeline__story > * { opacity: 0; translate: 0 20px; }
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__picture {
+  clip-path: inset(-2px);
+  transition: clip-path 1.2s var(--open), opacity .6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__image {
+  scale: 1;
+  transition: scale 1.6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__ah {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .7s var(--ease-out) .35s, translate .9s var(--rise) .35s, color .6s var(--ease-out);
+}
+
+/* The Arabic follows the Latin a beat later, written on from the right, as Arabic is. */
+.court-timeline .court-timeline__year.is-seen .court-timeline__ah span {
+  opacity: 1;
+  clip-path: inset(-6px -6px -6px -6px);
+  transition: opacity .3s var(--ease-out) .7s, clip-path 1.1s var(--open) .7s, color .6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__date {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .8s var(--ease-out) .45s, translate 1.2s var(--rise) .45s, color .6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__stem {
+  scale: 1 1;
+  transition: scale .5s var(--open) .75s, background-color .6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__node {
+  scale: 1;
+  transition: scale .6s cubic-bezier(.34, 1.56, .64, 1) 1.05s, background-color .6s var(--ease-out);
+}
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__story > * {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .8s var(--ease-out) var(--d), translate 1s var(--rise) var(--d), color .6s var(--ease-out);
+}
+
+/* The caliph's name closes up from wide spacing as it comes in. */
+.court-timeline.is-armed .court-timeline__caliph { letter-spacing: .7em; }
+
+.court-timeline .court-timeline__year.is-seen .court-timeline__caliph {
+  letter-spacing: .3em;
+  transition: opacity .8s var(--ease-out) var(--d), translate 1s var(--rise) var(--d), letter-spacing 1.6s var(--rise) var(--d), color .6s var(--ease-out);
+}
+
+.court-timeline__story > :nth-child(1) { --d: .95s; }
+.court-timeline__story > :nth-child(2) { --d: 1.08s; }
+.court-timeline__story > :nth-child(3) { --d: 1.2s; }
+
+/* Next: rises in as the end of the line comes near. */
+.court-timeline.is-armed .court-timeline__next { opacity: 0; translate: 24px 0; }
+
+.court-timeline.is-armed .court-timeline__next.is-seen {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .9s var(--ease-out) .2s, translate 1.2s var(--rise) .2s;
+}
+
+/*
+ * Period II, part II — Figma 265:166: the people behind it. A 1440 × 1009 artboard on #2b2110,
+ * at the page's shared scale and set on the bottom of the view, so the arch's feet and the hand
+ * always reach it. The section is TRAVEL (lib/people.js) tall plus a view, and pinned; the scroll
+ * turns the astrolabe disc (--turn, about its centre at 720, 1121.5), bringing the five scholars
+ * one after another up under the card in the hand, which shows the one at the top (.is-active).
+ * The rim is drawn whole (assets/people/rim.svg) so it can turn; Figma's is cut at the frame.
+ * Portraits are placeholders.
+ *
+ * Motion (not in Figma; lib/people.js sets the classes, .is-armed only with motion allowed):
+ * - entrance (.is-entered): the arch rises from its feet to the apex and the finial drops on to
+ *   it, the kicker, the title's lines and the body rise in, the disc comes up turning into place,
+ *   the stations follow one by one, and the hand brings the card up from below;
+ * - each station grows and brightens as it nears the top (--near, --size), and passes under the
+ *   card there;
+ * - a new name on the card closes up from wide spacing, its line and fields rising after it;
+ * - it is uncovered by part I: part I goes on up over it at the scroll's speed while this comes
+ *   up from behind at UNDER of it (lib/people.js, translate on the pin), in part I's shade
+ *   (--shown, 0 → 1) until it is all there.
+ */
+.people {
+  --ground: #2b2110;
+  --rise: cubic-bezier(.16, 1, .3, 1);
+  --open: cubic-bezier(.65, 0, .35, 1);
+  position: relative;
+  /* Beneath part I, which lifts off it. */
+  z-index: 2;
+  height: calc(100vh + var(--travel, 3200px) * var(--stage-scale, 1));
+  background: var(--ground);
+  color: #fff;
+}
+
+.people__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--ground);
+}
+
+/* Part I's shade on it while it is uncovered, deepest at part I's edge. */
+.people::before,
+.people__pin::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.people::before {
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(48px * var(--stage-scale, 1));
+  background: linear-gradient(rgb(4 2 0 / .45), rgb(4 2 0 / 0));
+  opacity: calc(1 - var(--shown, 1));
+}
+
+.people__pin::after {
+  z-index: 1;
+  inset: 0;
+  background: #000;
+  opacity: calc((1 - var(--shown, 1)) * .35);
+}
+
+.people__ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .9;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.people__stage {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1440px;
+  height: 1009px;
+  transform-origin: 0 0;
+  transform:
+    translate(calc(-720px * var(--stage-scale, 1)), calc(-1009px * var(--stage-scale, 1)))
+    scale(var(--stage-scale, 1));
+}
+
+.people__stage > * { position: absolute; margin: 0; }
+
+/* Star-and-cross tiles inside the arch, fading in row by row towards the floor. */
+.people__pattern {
+  top: 480px;
+  left: 0;
+  width: 1440px;
+  height: 480px;
+  opacity: .09;
+  pointer-events: none;
+}
+
+.people__pattern::before,
+.people__pattern::after {
+  content: "";
+  position: absolute;
+  height: 240px;
+  background: url("assets/people/pattern.svg") 0 0 / 120px 120px;
+}
+
+.people__pattern::before {
+  top: 0;
+  left: 240px;
+  width: 960px;
+  mask-image: linear-gradient(rgb(0 0 0 / .06) 50%, rgb(0 0 0 / .44) 50%);
+}
+
+.people__pattern::after {
+  top: 240px;
+  left: 120px;
+  width: 1200px;
+  mask-image: linear-gradient(rgb(0 0 0 / .81) 50%, #000 50%);
+}
+
+/* The rim, its ticks and the rete's stars, centred on (720, 1121.5). --settle is the entrance's
+   extra turn, back to 0. */
+@property --settle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+
+.people__disc {
+  top: 1121.5px;
+  left: 720px;
+  width: 0;
+  height: 0;
+  rotate: calc(var(--turn, 0deg) + var(--settle));
+}
+
+.people__rim {
+  position: absolute;
+  top: -520px;
+  left: -520px;
+  max-width: none;
+}
+
+.people__star {
+  position: absolute;
+  top: -457.5px;
+  left: -6px;
+  transform-origin: 6px 457.5px;
+  rotate: var(--a);
+}
+
+.people__arch { top: 0; left: 0; }
+.people__finial { top: 5px; left: 704px; }
+
+.people__head {
+  top: 148px;
+  left: 405px;
+  width: 630px;
+  text-align: center;
+}
+
+/* DM Sans Medium 14, 40% tracking, with a star 14px either side. */
+.people__kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 0;
+  color: #c8a15a;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+}
+
+/* The tracking trails the last letter; pulled back so the stars sit evenly. */
+.people__kicker span { margin-right: -.4em; white-space: pre; }
+
+/* Svetze 90 / 1.2, −2% tracking, at y 182. */
+.people__title {
+  margin: 16px 0 0;
+  font-family: var(--font-display);
+  font-size: 90px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+}
+
+.people__title > span { display: block; }
+
+/* DM Sans 18 / 1.65, 581 wide, at y 418. */
+.people__body {
+  width: 581px;
+  margin: 20px auto 0;
+  color: #675f56;
+  font-family: var(--font-label);
+  font-size: 18px;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.65;
+}
+
+/*
+ * A station sits on the disc 491.5 from its centre, at its own angle (--a) plus the disc's turn;
+ * the seat itself stays upright. Figma's at 30° is 134 across with its portrait at 80%, at 60°
+ * 114 and 55%: lib/people.js sets --near (1 at 30° or closer, 0 at 60°, −1 at 90°) and --size.
+ */
+.people__stations { margin: 0; padding: 0; list-style: none; }
+
+.people__station {
+  position: absolute;
+  top: 1121.5px;
+  left: 720px;
+  width: 0;
+  height: 0;
+  rotate: calc(var(--a) + var(--turn, 0deg) + var(--settle));
+}
+
+.people__seat {
+  position: absolute;
+  top: -558.5px;
+  left: -67px;
+  width: 134px;
+  height: 134px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  rotate: calc((var(--a) + var(--turn, 0deg) + var(--settle)) * -1);
+  scale: var(--size, 1);
+}
+
+.people__seat > img { position: absolute; }
+.people__seat-dots { inset: 0; }
+.people__seat-ring { top: 7px; left: 7px; }
+
+.people__seat-portrait {
+  top: 15px;
+  left: 15px;
+  opacity: calc(.69 + .31 * var(--near, 1));
+  transition: filter .4s var(--ease-out);
+}
+
+.people__seat:hover .people__seat-portrait,
+.people__seat:focus-visible .people__seat-portrait { filter: brightness(1.6); }
+
+.people__seat:focus-visible { outline: 1px solid #c8a15a; outline-offset: 6px; }
+
+/* Its number, 19px out from the station's edge along the disc's radius, upright. */
+.people__numeral {
+  position: absolute;
+  top: calc(-491.5px - 67px * var(--size, 1) - 19px);
+  left: 0;
+  color: rgb(200 161 90 / .85);
+  font-family: var(--font-ruqaa);
+  font-size: 22px;
+  line-height: 34px;
+  translate: -50% -50%;
+  rotate: calc((var(--a) + var(--turn, 0deg) + var(--settle)) * -1);
+  pointer-events: none;
+}
+
+/*
+ * The card in the hand, 346 × 519 at (547, 514), lightened over everything behind it (its own
+ * ground is black). A stage's transform would keep the blend from reaching the ground, so the
+ * picture is placed on the pin by the same sums, and what is on the card is in a second stage.
+ */
+.people__hand {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 346px;
+  height: 519px;
+  object-fit: cover;
+  transform-origin: 0 0;
+  transform:
+    translate(calc(-720px * var(--stage-scale, 1)), calc(-1009px * var(--stage-scale, 1)))
+    scale(var(--stage-scale, 1))
+    translate(547px, 514px);
+  mix-blend-mode: lighten;
+  pointer-events: none;
+}
+
+.people__stage--front { pointer-events: none; }
+
+.people__card {
+  top: 514px;
+  left: 547px;
+  width: 346px;
+  height: 519px;
+}
+
+.people__card > * { position: absolute; }
+.people__card-portrait { top: 68px; left: 125px; }
+.people__card-ring { top: 61px; left: 118px; }
+
+/* Each entry is a 240-wide column at (53, 186): name, line, the star rule 44 below the line, and
+   the fields 16 below the rule. */
+.people__entries { top: 186px; left: 53px; width: 240px; }
+
+.people__entry {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #000;
+  text-align: center;
+  visibility: hidden;
+}
+
+.people__entry.is-active { visibility: visible; }
+
+.people__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+
+.people__line {
+  width: 196px;
+  margin: 8px 0 0;
+  font-family: var(--font-label);
+  font-size: 14px;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.4;
+}
+
+.people__divider { display: block; margin-top: 44px; }
+
+.people__fields {
+  width: 196px;
+  margin: 16px 0 0;
+  color: rgb(0 0 0 / .6);
+  font-family: var(--font-label);
+  font-size: 10px;
+  font-weight: 500;
+  font-variation-settings: "opsz" 14;
+  line-height: 1.7;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+}
+
+/* --- Motion. Armed by lib/people.js only with motion allowed. --- */
+
+/* A new name closes up from wide spacing; its line and fields rise in after it. The one leaving
+   fades as it goes. */
+.people.is-armed .people__entry { transition: visibility 0s linear .35s; }
+.people.is-armed .people__entry.is-active { transition: none; }
+
+.people.is-armed .people__entry > * {
+  opacity: 0;
+  translate: 0 8px;
+  transition: opacity .3s var(--ease-out), translate .3s var(--ease-out);
+}
+
+.people.is-armed .people__name { letter-spacing: .2em; transition: opacity .3s var(--ease-out), letter-spacing .3s var(--ease-out); }
+
+.people.is-armed .people__entry.is-active > * {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .7s var(--ease-out) var(--d, .15s), translate 1s var(--rise) var(--d, .15s);
+}
+
+.people.is-armed .people__entry.is-active .people__name {
+  letter-spacing: -.01em;
+  transition: opacity .7s var(--ease-out) .15s, letter-spacing 1.3s var(--rise) .15s;
+}
+
+.people__entry .people__line { --d: .3s; }
+.people__entry .people__divider { --d: .38s; }
+.people__entry .people__fields { --d: .45s; }
+
+/* Entrance: the arch rises from its feet to the apex, then the finial drops on to it. */
+.people.is-armed .people__arch { clip-path: inset(100% 0 0 0); }
+.people.is-armed .people__finial { opacity: 0; translate: 0 -16px; }
+
+.people.is-entered .people__arch {
+  clip-path: inset(0);
+  transition: clip-path 2s var(--open);
+}
+
+.people.is-entered .people__finial {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .6s var(--ease-out) 1.7s, translate 1s var(--rise) 1.7s;
+}
+
+/* The kicker, each line of the title, then the body. */
+.people.is-armed :is(.people__kicker, .people__title > span, .people__body) {
+  opacity: 0;
+  translate: 0 44px;
+}
+
+.people.is-entered :is(.people__kicker, .people__title > span, .people__body) {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity .9s var(--ease-out) var(--d, .3s), translate 1.2s var(--rise) var(--d, .3s);
+}
+
+.people__title > span:first-child { --d: .42s; }
+.people__title > span:last-child { --d: .54s; }
+.people__body { --d: .72s; }
+
+/* The kicker's stars turn in. */
+.people.is-armed .people__kicker img { rotate: -90deg; scale: .3; }
+
+.people.is-entered .people__kicker img {
+  rotate: 0deg;
+  scale: 1;
+  transition: rotate 1.2s var(--rise) .5s, scale 1.2s var(--rise) .5s;
+}
+
+/* The disc comes up turning into place; the stations follow, one by one from the top. */
+.people.is-armed { --settle: 24deg; }
+
+.people.is-entered {
+  --settle: 0deg;
+  transition: --settle 2.6s var(--rise) .5s;
+}
+
+.people.is-armed :is(.people__disc, .people__stations) { opacity: 0; translate: 0 140px; }
+
+.people.is-entered :is(.people__disc, .people__stations) {
+  opacity: 1;
+  translate: 0 0;
+  transition: opacity 1.2s var(--ease-out) .5s, translate 1.8s var(--rise) .5s;
+}
+
+.people.is-armed .people__seat > img,
+.people.is-armed .people__numeral { opacity: 0; }
+
+.people.is-entered .people__seat > img,
+.people.is-entered .people__numeral {
+  opacity: 1;
+  transition: opacity .8s var(--ease-out) calc(.9s + var(--i, 0) * .12s);
+}
+
+.people.is-entered .people__seat-portrait {
+  opacity: calc(.69 + .31 * var(--near, 1));
+  transition: opacity .8s var(--ease-out) calc(.9s + var(--i, 0) * .12s), filter .4s var(--ease-out);
+}
+
+/* The hand brings the card up from below. */
+.people.is-armed .people__card { translate: 0 360px; }
+.people.is-armed .people__hand { translate: 0 calc(360px * var(--stage-scale, 1)); }
+
+.people.is-entered :is(.people__card, .people__hand) {
+  translate: 0 0;
+  transition: translate 1.6s var(--rise) .8s;
+}
 
 /*
  * Small screens (not in Figma). Until the responsive version exists, below 1024px the page is

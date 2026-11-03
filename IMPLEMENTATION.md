@@ -203,9 +203,94 @@ Kembali ke tiga kartu (tidak dari Figma, `lib/period-map.js`): penyelaman ke Per
 3. Kartu dibalik sambil turun, seperti kartu yang dilempar ke meja: mulai di 45% zoom (sekitar 2.6× lebar kartu), penutup berputar 0 → 90° di sekitar pusat crop-nya yang sedang bergerak, lalu lukisan Round City (`.period-map__turn`, pengganti kartu I yang mengikuti jalur dan ukuran yang sama) berputar −90 → 0° dari baliknya dan mendarat tepat di kartu I bersamaan dengan selesainya penyusutan (perspektif 800px, terangkat 8% di tengah putaran). Putaran mengikuti zoom, bukan scroll, jadi tidak tersisa putaran di ukuran akhir. Kartu I dan badge-nya baru tampil setelah mendarat. Membalik lembar utuh (potret, dengan tangan) sempat dipertimbangkan, tetapi bentuknya tidak cocok dengan kartu persegi.
 4. Kartu I ditandai selesai di 84%: badge emas dengan centang dan garis emas. Di 90% kartu II maju dengan detailnya terbuka ("The Flourishing"), dan hint berbunyi "Period II · coming next".
 
-Scroll balik memutar semuanya mundur. Dengan reduced motion penutup hanya crossfade ke peta. `lib/cover.js` kini menerima `from`: penutup diukur dari pembungkusnya, karena section-nya sendiri di-scale saat mengecil; `lib/closing.js` juga mengukur dari pin. Belum: menyelam ke kartu II, karena bab Periode II belum dibangun.
+Scroll balik memutar semuanya mundur. Dengan reduced motion penutup hanya crossfade ke peta. `lib/cover.js` kini menerima `from`: penutup diukur dari pembungkusnya, karena section-nya sendiri di-scale saat mengecil; `lib/closing.js` juga mengukur dari pin. Setelah itu peta menyelam ke kartu II, lihat Bab Periode II di bawah.
 
 Diverifikasi pada 1440 × 900: layout sesuai frame (judul dua baris, lukisan di lengkung, "833" di atasnya, paragraf, tangan terpotong di bawah), section sebelumnya tertahan 50% selama penutup masuk, kotak daftarnya masih berjarak 106px saat penutup mulai muncul, kilau segel terpicu saat mendarat, kemiringan kursor kembali ke 0 saat keluar, tanpa error konsol. Transisi: pusat crop mendarat tepat di pusat kartu I, zoom peta 1 di akhir, kartu I `is-done` dan kartu II aktif di ujung scroll (dicek juga di 1024 × 768).
+
+## Bab Periode II — The Flourishing (226:451)
+
+Sumber: node `226:451`, diperiksa pada 3 November 2026. Frame 1440 × 1114 (clip), latar `#5e4935`. Rencana isi Periode II selanjutnya ada di wireframe `226:306`; yang dibangun baru pembukaan bab ini.
+
+| Node | Elemen | Geometri / gaya |
+| --- | --- | --- |
+| 227:466 | Tekstur | Gambar 1888 × 1259 di (−224, 0), soft light 100%. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/flourishing/texture.jpg`, JPEG q60, 393 KB) |
+| 226:455 | Grain | Noise putih 6%; di web noise SVG yang sama dengan `.journey__grain`, 6%, di bawah heading |
+| 226:458 | Baris meta | Lebar 1280 di (80, 791), dua label di ujungnya (space-between), tanpa bintang/hairline. DM Sans Medium 28px/1.4, tracking 40%, `#ffebca` (putih + krem 80%), `margin-right: −.4em` seperti Periode I |
+| 226:457 | Judul | Svetze 240px/1.1, tracking −4.8px, lebar 1134 sehingga patah setelah "The"; dipangkas ke cap height, (109, 128), tinggi 432 |
+| 226:464 | Intro | 424 lebar di (725, 227), rata kiri, 20px/1.5, tracking 0.2px; Figma Aref Ruqaa Ink, di web DM Sans, tetap 3 baris |
+| 227:469 / 227:470 | Lukisan | Frame 735 × 569 di (353, 671) yang menampilkan bagian atas lukisan persegi 735px. Frame bab memotongnya di 1114, jadi di web kotaknya 735 × 443. Lukisannya sama dengan kartu II di story (`assets/story/scholar-reading.avif`, dicek visual terhadap ekspor Figma), jadi kartu terbang, kartu peta dan bab memakai satu lukisan |
+
+Diverifikasi pada 1440 × 900: semua kotak sama dengan Figma (judul 109, 128, 1134 × 432 dua baris; intro 725, 227, 424 × 90; meta 80, 791, 1280; lukisan 353, 671, 735 × 443; label kanan berakhir di 1360), dan huruf judul ≤ 0.04px dari posisi judul utuh.
+
+Masuk (bukan dari Figma, berdasarkan arahan: sama dengan masuk ke Periode I): pembacanya sampai lewat peta tiga kartu di akhir penutup Periode I (`lib/period-map.js`), tempat kartu II sudah maju dengan detailnya terbuka. `.closing-pin` kini ditambah `--onward-length` (jeda 30vh, dive 200vh, lalu baca 90 × skala px); penutup dan `.period-map` tetap menempel sepanjang itu. Bab Periode II ada di dalam `.period-map` (layer sticky 100vh yang sama dengan salinan story), jadi strukturnya sama dengan journey: story/peta, bab, dan kartu terbang dalam satu viewport. `lib/dive.js` digeneralisasi: `createDive(root, { story, period, from, land, read })` menghitung titik hilang dari kotak kartu asal dan kotak lukisan bab, dan memasang `.is-diving` / `.is-landed` di root (journey atau peta) serta `.is-flying` di kartu asal; aturan CSS bab dan dive kini memakai kelas itu tanpa terikat ke `.journey`. Untuk Periode II: `from` adalah kartu II yang sedang maju (120px di (865, 501), naik 4px dan 1.04× di sekitar pusatnya → 124.8px di (862.6, 494.6)), `land` lukisan 735px di (353, 671), zoom 735 / 124.8 ≈ 5.9× (kamera berakhir ≈1.86×); kartu terbang 735px dengan bayangan kartu aktif (0 20 32, 55%) dikali 735 / 124.8. Semua tahap lain (clip yang memeluk kartu sampai story pudar, veil `#170601` yang terbuka dari atas lalu sisi, heading yang naik huruf demi huruf) sama dengan Periode I. Diverifikasi pada 1920 × 1080: kartu terbang mulai tepat di kartu II peta dan mendarat di lukisan bab (selisih ≤ 0.3px).
+
+- `lib/heading-reveal.js`: huruf tiap kata kini dibungkus `.chapter__letters` (`nowrap`) sehingga judul yang patah dua baris hanya patah di antara kata, dan geseran kerning dihitung per baris dari huruf pertamanya. Judul satu baris (Foundations, "A city drawn as a circle") tidak berubah: posisinya sama persis dengan algoritma lama.
+- Salinan story di peta kini juga membuang `.is-flying`: memuat ulang halaman di bawah bab Foundations sempat menyalin kartu I dalam keadaan tersembunyi.
+- Penutup yang sudah berbalik (≥ 90°) kini juga `visibility: hidden`, agar tidak menangkap pointer di atas bab Periode II.
+- Menu: "II. The Flourishing" kini tautan (`#flourishing`, `data-go="flourishing"`) yang langsung ke bab yang sudah terbuka, seperti Foundations; `#flourishing` di URL juga. Lukisan bab dimuat tanpa `loading="lazy"` agar sudah ada saat lompat lewat menu.
+- Navbar tetap tampil di atas peta dan bab Periode II (sudah begitu di atas peta sebelumnya); di Periode I navbar baru muncul setelah bab terangkat.
+- Reduced motion: penutup crossfade ke peta, lalu bab muncul dengan fade (tanpa kartu terbang), seperti Periode I.
+
+## Periode II, bagian I — The court moves, the learning stays (253:174)
+
+Artboard 4320 × 1024 (tiga layar 1440) di `#1C170C` (lebih hangat dan sedikit lebih terang dari `#170601` di Figma; teks tahun yang redup dinaikkan sedikit untuk latar ini), skala global halaman. Section setinggi satu layar ditambah jarak tempuh track (2880 artboard px × skala); `.court-timeline__pin` menempel di layar dan `lib/court-timeline.js` mengubah bagian yang sudah di-scroll menjadi `--shift` 0 → 1, yang menggeser track ke kiri sejauh 2880 artboard px. Layar pertama mulai di tengah dan layar ketiga berakhir di tengah, jadi di layar yang lebih lebar dari 1440 × skala sisanya hanya latar.
+
+| Elemen | Geometri / gaya |
+| --- | --- |
+| Header | Kicker DM Sans Medium 14, 40%, emas di (80, 370); judul Svetze 84 / .96, −2%, putih, tiap baris utuh (`nowrap`; Svetze lebih lebar dari Cormorant pengganti di Figma, jadi 92px di Figma dikecilkan ke 84 agar tetap sebelum awal garis di x 720); intro 19 / 1.5, lebar 470 |
+| Garis | 1px krem 22% dari x 780 (60px lebih jauh dari judul daripada di Figma) ke 4230 di y 630, titik awal 6px dan kepala panah; bagian emas 1.5px dari awal garis sampai 14px sebelum tahun yang menyala (`--progress`) |
+| Kurung Samarra | Dari x 1760 ke 3160 di y 112, garis emas 60% dengan ujung 13px ke bawah; label "The court in Samarra · 56 years" DM Sans Medium 11, 30%, di tengah, di celah berwarna latar |
+| Tahun | Kolom 360px berpusat di x 1060 / 1760 / 2460 / 3160 / 3860 (`--x`). Bingkai gambar biasa (tanpa lengkung) 340 × 252.5 di y 159.5, garis emas 35%, berisi gambar yang lebih lebar 56px di kedua sisi (placeholder `#2A2213` dengan ikon dan keterangan gambar yang dibutuhkan); baris Hijriah di y 444 (32px di bawah gambar; Figma 25px), DM Sans Medium 13, 30%, plus tahun Hijriah dalam angka Arab 22px; tahun Svetze 80 / 1, −1% di y 497 (sama untuk rentang 836–892); garis tegak 46px; titik lingkaran 10px; blok cerita 330px di x 15, jarak 14: judul Svetze 36 / 1.1 dengan pemenggalan baris dari Figma, cerita DM Sans 16 / 1.6, lalu nama khalifah (DM Sans Medium 11, emas) atau chip profesi untuk 836–892 |
+| Tahun yang menyala | `.is-active`: jendela 100% (lainnya 55%), tahun dan judul putih, cerita 85%, garis tegak emas, titik menjadi bintang delapan sudut 20px dengan lingkar emas 15% |
+| Berikutnya | "Next · Part II — The people behind it" di x 4060, sebelum kepala panah; teks biasa, belum tautan |
+
+Tahun yang menyala adalah yang tempatnya di garis paling dekat ke tengah layar (x artboard 720 + `--shift` × 2880). Gambar masih placeholder; keterangannya menyebut isi yang dibutuhkan. Intro dan angka Arab memakai `--font-ruqaa` (Aref Ruqaa Ink di Figma); fontnya belum ada di `assets/fonts`, jadi sementara jatuh ke Geeza Pro / Noto Naskh Arabic untuk angka Arab dan Svetze untuk intro.
+
+Gerak (tidak dari Figma, mengikuti catatan motion di bawah frame Figma; `lib/court-timeline.js` memberi kelas, transisinya di CSS). Hanya dipasang (`.is-armed`) bila gerak diizinkan; tanpa itu semua tampil diam di tempatnya.
+
+| Langkah | Pemicu | Gerak |
+| --- | --- | --- |
+| Datang | Puncak section naik dari bawah ke atas layar (`lib/cover.js`) | Section menimpa bab The Flourishing: lapisan peta tempat bab itu berada masih menempel, jadi dinaikkan (opsi `pinned`) agar tetap naik dengan 50% kecepatan scroll, dan meredup sampai 25%; tepi atas timeline berbayang samar yang memudar saat mendarat, seperti section lain yang menimpa |
+| Masuk | Puncak section naik 25% layar (`.is-entered`) | Kicker, dua baris judul dan intro naik 44px sambil muncul, berjeda 0 / .12 / .24 / .42s (opacity .9s, naik 1.2s ease-out panjang); garis tergambar dari titik awal ke panah dalam 2.4s mulai .3s (`clip-path`) |
+| Tiap tahun, sekali | Tempatnya ≤ 820 artboard px dari tengah layar, setelah section masuk (`.is-seen`) | Bingkai gambar terbuka dari bawah (1.2s, ease in-out) sambil gambarnya mengendap dari 1.08; baris Hijriah di .35s, angka Arabnya menyusul di .7s, ditulis dari kanan ke kiri seperti tulisan Arab (`clip-path`, 1.1s); tahun naik 34px di .45s; garis tegak tergambar ke bawah di .75s (.5s); titik muncul dengan sedikit pantulan di 1.05s; judul, cerita, khalifah/chip di .95 / 1.08 / 1.2s; nama khalifah merapat dari spasi huruf .7em ke .3em (1.6s) |
+| Tahun yang menyala | Tahun terdekat ke tengah | Warna berpindah dalam .6s; lingkaran mengecil dan hilang, bintang berputar masuk dari −90° (.9s) dan membesar dari .3 (.7s) di atas lingkar emas; satu lingkar emas menyebar dari titiknya (1.4s, ×3.2); garis emas memanjang ke tahun itu dalam 1.1s dengan ujung yang menyala selama memanjang (`.is-drawing`) |
+| Kurung Samarra | Tengah layar dari x 1760 ke 3160 (`--bracket` 0 → 1, mengikuti scroll) | Garis atasnya tergambar dari 836, ujung kanannya muncul saat selesai; label berada di tengah bagian yang sudah tergambar, hitungannya naik dari 0 ke 56 tahun |
+| Kedalaman | Mengikuti scroll (`--drift`) | Bingkainya diam bersama tahunnya; hanya gambar di dalamnya yang tertinggal 6% dari gerak track, paling jauh 56px (lebar lebihnya), sehingga bingkai selalu terisi |
+| Pindah tahun | Klik tahun lain, atau ← / → saat track menempel | Halaman di-scroll (Lenis, 1.4s) sampai tahun itu tepat di tengah layar |
+| Berikutnya | Ujung garis ≤ 820 px dari tengah | "Next · Part II" bergeser 24px dari kanan sambil muncul (.2s) |
+
+Diverifikasi pada 1440 × 900: urutan masuk tahun 833 diukur dari gaya terhitung pada 150 / 500 / 900 / 1400 / 2800 ms dan berjalan sesuai jadwal di atas; tanpa `.is-armed` semuanya tampil. Track menempel selama 2531px scroll (2880 × 0.879), `--shift` 0 / .25 / .5 / .75 / 1 menyalakan 833 / 836 / 836–892 / 892 / 945 dan garis emas berhenti di tahun itu, judul tidak terbungkus, kurung tidak menabrak navbar, tanpa error konsol.
+
+## Periode II, bagian II — The people behind it (265:166)
+
+Artboard 1440 × 1009 di `#2B2110` dengan tekstur tinta (overlay 90%) di seluruh layar, skala global halaman, ditambatkan ke tepi bawah layar agar kaki lengkung dan tangan selalu menyentuh bawah. Section setinggi satu layar ditambah 3200 artboard px × skala; `.people__pin` menempel dan `lib/people.js` mengubah bagian yang sudah di-scroll menjadi `--turn` (60° → −60°), yaitu putaran cakram di sekitar pusatnya (720, 1121.5).
+
+| Elemen | Geometri / gaya |
+| --- | --- |
+| Lengkung | `arch.svg` dari Figma: lengkung runcing luar (setengah lebar 700, puncak y 56), dalam, garis titik-titik dan 68 manik; finial 32 × 52 di (704, 5) |
+| Pola | Ubin bintang-dan-silang 120px (`pattern.svg`) di dalam lengkung: dua baris 8 ubin dari x 240 dan dua baris 10 ubin dari x 120, mulai y 480; tiap baris 6 / 44 / 81 / 100%, seluruhnya 9% |
+| Header | Kicker DM Sans Medium 14, 40%, emas di y 148 dengan bintang 12px 14px di kiri-kanannya; judul Svetze 90 / 1.2, −2%, putih di y 182, dua baris; teks DM Sans 18 / 1.65 `#675F56`, lebar 581 di y 418 |
+| Cakram | `rim.svg` dibuat ulang utuh dari nilai Figma (di Figma terpotong bingkai, jadi tidak bisa diputar): lingkar r 491.5 (45%), 517.5 (22%), titik-titik r 451.5 (12%), tick tiap 3° (6px, 30%) dan tiap 15° (14px, 55%); enam bintang rete di r 451.5 pada ±15 / ±45 / ±75° |
+| Stasiun | Lima, r 491.5, pada −60 / −30 / 0 / 30 / 60° + `--turn`, tetap tegak. Cincin titik 134, cincin 120 (`#0D0701`, emas 55%), potret placeholder 104. `--near` 1 sampai 30° dari puncak, 0 di 60°, −1 di 90°; ukuran 134 → 114 (seperti Figma di 30° dan 60°), potret 80% → 55%. Nomor Arab 22px emas 85%, 19px di luar tepi stasiun searah jari-jari |
+| Kartu | Gambar kartu di tangan 346 × 519 di (547, 514), `lighten` (latarnya hitam); potret 96 dengan cincin 110 berpusat di (720, 630), tepat di puncak cakram. Isi kolom 240 di y 700: nama Svetze 32 / 1 (nama panjang dua baris), kalimat DM Sans 14 / 1.4 lebar 196 (8px di bawah nama), pembatas bintang 44px di bawah kalimat, lalu bidang DM Sans Medium 10 / 1.7, 30%, hitam 60%, 16px di bawah pembatas. Jaraknya mengikuti teks, jadi pembatas ikut tiap entri; isi terpanjang berakhir di y 403 kartu, di dalam bingkai (±415) |
+
+Gambar kartu diletakkan langsung di pin dengan hitungan transform yang sama dengan panggung, dan isi kartu di panggung kedua di atasnya: transform panggung membuat blend `lighten` tidak sampai ke latar, sehingga tepi hitamnya akan tampak.
+
+Isi kartu untuk Hunayn, al-Kindi, Thabit dan al-Razi ditulis mengikuti teks pengantar (Banu Musa dari Figma) dan perlu dicek. Potret di stasiun dan di kartu masih placeholder.
+
+Gerak (tidak dari Figma; `lib/people.js` memberi kelas, transisinya di CSS). Hanya dipasang (`.is-armed`) bila gerak diizinkan.
+
+| Langkah | Pemicu | Gerak |
+| --- | --- | --- |
+| Datang | Puncak section naik dari bawah ke atas layar | Kebalikan dari menimpa: timeline bagian I (di atas, `z-index` 3) terus naik sekecepatan scroll, sementara section ini (di bawahnya, `z-index` 2) muncul dari belakangnya dan naik 50% kecepatan scroll (pin dinaikkan `translate` sampai menempel). Selama terbuka ia berada di bayangan bagian I: gelap 35% dan bayangan 48px di tepi bagian I, keduanya hilang saat puncak section sampai di atas (`--shown` 0 → 1) |
+| Masuk | Puncak section naik 25% layar (`.is-entered`) | Lengkung naik dari kaki ke puncak (2s, `clip-path`), finial turun ke atasnya di 1.7s; kicker, dua baris judul dan teks naik 44px di .3 / .42 / .54 / .72s, bintang kicker berputar masuk; cakram dan stasiun naik 140px sambil berputar 24° ke tempatnya (`--settle`, 2.6s); stasiun muncul satu per satu (+.12s); tangan mengangkat kartu 360px dari bawah (1.6s, mulai .8s) |
+| Putaran | Mengikuti scroll | Lima tokoh dalam empat putaran 30°; tiap tokoh berhenti di puncak selama 40% bagiannya, putarannya smoothstep. Stasiun membesar dan terang mendekati puncak lalu masuk ke bawah kartu |
+| Ganti tokoh | Tokoh terdekat ke puncak berganti | Isi lama memudar (.3s); nama baru merapat dari spasi .2em (1.3s), kalimat, pembatas dan bidang naik 8px di .3 / .38 / .45s; potret di kartu membesar dari .9 sambil terang |
+| Pindah tokoh | Klik stasiun, atau ← / → saat cakram menempel | Halaman di-scroll (Lenis, 1.4s) ke tengah jeda tokoh itu |
+
+Dengan reduced motion tidak ada yang dipasang: semua tampil, dan cakram melompat dari satu tokoh ke berikutnya tanpa putaran halus.
+
+Diverifikasi pada 1024 × 768: pada `--turn` 0° tampilan sama dengan frame Figma; 60° / 45° / 0° / −60° menampilkan Hunayn / al-Kindi (di tengah putaran) / Banu Musa / al-Razi; urutan masuk berjalan; tanpa error konsol.
 
 ## Performa (tanpa perubahan tampilan)
 
