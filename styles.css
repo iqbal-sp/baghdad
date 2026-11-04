@@ -652,7 +652,7 @@ img { display: block; }
     transform: translateY(-50%);
   }
 
-  /* One column under the arch: the dates and their line, then the journey, then Scroll last. */
+  /* One centred column under the arch: the meta line, the paragraph, then Scroll last. */
   /* 100vh − 100svh: the part of the pinned viewport a mobile browser's bottom bar can cover. */
   .hero__cols {
     position: absolute;
@@ -661,8 +661,10 @@ img { display: block; }
     left: 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     max-width: 520px;
+    margin-inline: auto;
+    text-align: center;
     animation: rise-in 1s var(--ease-out) 1s both;
   }
 
