@@ -31,10 +31,8 @@
 
 * { box-sizing: border-box; }
 
-/* Desktop-only for now: smaller viewports scroll horizontally instead of reflowing. */
 /* #13100e behind everything so overscroll never flashes a light edge. */
 html {
-  min-width: 1024px;
   background: var(--color-story);
   overscroll-behavior: none;
 }
@@ -401,6 +399,9 @@ img { display: block; }
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
+  /* Never smaller than 10px on screen. */
+  scale: max(1, .455 / var(--stage-scale, 1));
+  transform-origin: 50% 0;
 }
 
 .hero__title {
@@ -420,10 +421,20 @@ img { display: block; }
   white-space: nowrap;
 }
 
-/* Text columns (Figma frames 23/24): 176px wide, both ending at y 960 so re-wrapping grows upward. */
-.hero__col { bottom: 64px; width: 176px; }
-.hero__col--left { left: 56px; }
-.hero__col--right { left: 1208px; text-align: right; }
+/* Text columns (Figma frames 23/24): 176px wide, both ending at y 960 so re-wrapping grows upward.
+   On small screens (landscape phones, short laptop windows) the scaled artboard would shrink the
+   copy below 12px, so the columns grow back from their bottom corner to keep it readable. */
+.hero__cols { display: contents; }
+.hero__intro { display: none; }
+
+.hero__col {
+  position: absolute;
+  bottom: 64px;
+  width: 176px;
+  scale: max(1, .857 / var(--stage-scale, 1));
+}
+.hero__col--left { left: 56px; transform-origin: 0 100%; }
+.hero__col--right { left: 1208px; text-align: right; transform-origin: 100% 100%; }
 
 .hero__kicker {
   margin: 0 0 12px;
@@ -483,11 +494,14 @@ img { display: block; }
   transition: scale .5s var(--ease-out), background-color .5s var(--ease-out);
 }
 
-.scroll-cue:hover .scroll-cue__label,
 .scroll-cue:focus-visible .scroll-cue__label { translate: 3px 0; }
-
-.scroll-cue:hover .scroll-cue__circle,
 .scroll-cue:focus-visible .scroll-cue__circle { scale: 1.15; background-color: #ffe5bd; }
+
+/* Hover only where there is a real hover (touch screens would leave it stuck after a tap). */
+@media (hover: hover) {
+  .scroll-cue:hover .scroll-cue__label { translate: 3px 0; }
+  .scroll-cue:hover .scroll-cue__circle { scale: 1.15; background-color: #ffe5bd; }
+}
 
 /* Hero motion — entrance once, then slow ambient loops. */
 @keyframes fade-in { from { opacity: 0; } }
@@ -574,6 +588,139 @@ img { display: block; }
   background: var(--color-story);
   opacity: 0;
   pointer-events: none;
+}
+
+/*
+ * Compact hero: portrait screens (phones, upright tablets). The desktop artboard scaled to a
+ * portrait screen leaves the arch a sliver at the bottom, so here the art is scaled to the
+ * gilded frame instead and lifted off the bottom edge (lib/hero-layout.js sets --hero-scale
+ * and --hero-art-bottom); the arch fades out at its foot and the text sits under it in one
+ * column. Type is laid out in screen px, not in the artboard.
+ */
+@media (max-aspect-ratio: 4/5) {
+  .hero__stage {
+    top: calc(var(--hero-art-bottom, 64%) - 1024px);
+    bottom: auto;
+    transform: translateX(-50%) scale(var(--hero-scale, .4));
+  }
+
+  .hero__stage--type {
+    inset: 0;
+    width: auto;
+    height: auto;
+    transform: none;
+  }
+
+  /* Doves fly in the sky above the arch and over its shoulders, a little larger than on desktop. */
+  .dove--near { top: 170px; left: 262px; width: 160px; --from-x: -140px; }
+  .dove--far { top: -190px; left: 360px; width: 120px; }
+  .dove--mid { top: 60px; left: 1016px; width: 160px; --from-x: 140px; }
+
+  /* The arch's foot dissolves into the smoky sky behind it (a mask, so no edge or band shows). */
+  .hero__arch {
+    -webkit-mask: linear-gradient(#000 64%, rgb(0 0 0 / .9) 72%, rgb(0 0 0 / .62) 81%, rgb(0 0 0 / .26) 90%, rgb(0 0 0 / .06) 96%, transparent);
+    mask: linear-gradient(#000 64%, rgb(0 0 0 / .9) 72%, rgb(0 0 0 / .62) 81%, rgb(0 0 0 / .26) 90%, rgb(0 0 0 / .06) 96%, transparent);
+  }
+
+  /* A little shade under the text so the glow behind the arch never competes with it. */
+  .hero__vignette {
+    box-shadow: inset 0 0 calc(250px * var(--hero-scale, .4)) calc(20px * var(--hero-scale, .4)) rgb(10 3 0 / .88);
+    background: linear-gradient(rgb(23 6 1 / 0) calc(var(--hero-art-bottom, 64%) - 60px), rgb(23 6 1 / .4));
+  }
+
+  /* In the arch's sky, as on desktop (artboard y 164), never smaller than 10px. */
+  .hero__label {
+    top: calc(var(--hero-art-bottom, 64%) - 860px * var(--hero-scale, .4));
+    left: 50%;
+    width: auto;
+    padding-left: .2em;
+    font-size: max(10px, 22px * var(--hero-scale, .4));
+    scale: none;
+    transform: translateX(-50%);
+  }
+
+  /* Across the arch, as wide as the screen allows; centred on artboard y 523 like desktop.
+     "BAGHDAD" with its tracking is 5.216em wide; padding-left balances the trailing .1em. */
+  .hero__title {
+    top: calc(var(--hero-art-bottom, 64%) - 501px * var(--hero-scale, .4));
+    left: 0;
+    width: 100%;
+    padding-left: .1em;
+    font-size: min(180px, (100vw - 32px) / 5.216);
+    line-height: .7;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+
+  /* One column under the arch: the dates and their line, then the journey, then Scroll last. */
+  /* 100vh − 100svh: the part of the pinned viewport a mobile browser's bottom bar can cover. */
+  .hero__cols {
+    position: absolute;
+    right: 20px;
+    bottom: calc(28px + 100vh - 100svh);
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 520px;
+    animation: rise-in 1s var(--ease-out) 1s both;
+  }
+
+  /* The desktop columns give way to the intro; only their Scroll cue stays, after it. */
+  .hero__col { display: contents; }
+  .hero__col > .hero__kicker,
+  .hero__col > .hero__copy { display: none; }
+  .scroll-cue { order: 1; margin-top: 28px; }
+
+  .hero__intro { display: block; width: 100%; }
+
+  /* The Foundations meta line (label, star, hairline, star, label) at phone size. */
+  .hero__meta {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .hero__meta-label {
+    margin: 0 -.4em 0 0;
+    color: #ffebca;
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 500;
+    font-variation-settings: "opsz" 14;
+    line-height: 1.4;
+    letter-spacing: .4em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .hero__meta-star { width: 8px; height: 8px; opacity: 1; }
+
+  .hero__meta-hairline {
+    flex: 1 0 0;
+    height: .5px;
+    background: #c8a15a;
+  }
+
+  .hero__intro .hero__copy { font-size: 15px; line-height: 1.55; }
+}
+
+/* Very narrow phones (320–360px): tighter tracking so the meta line and the arch label still fit. */
+@media (max-aspect-ratio: 4/5) and (max-width: 360px) {
+  .hero__meta { gap: 9px; }
+  .hero__meta-label { margin-right: -.28em; font-size: 11px; letter-spacing: .28em; }
+  .hero__label { font-size: 9px; letter-spacing: .16em; }
+}
+
+/*
+ * Landscape phones: the artboard is scaled to the short height and centred, so the columns
+ * (kept readable by their own scale) would cover the arch. They move out to the screen's
+ * sides instead, 56 artboard px from each edge as on desktop.
+ */
+@media (orientation: landscape) and (max-height: 540px) {
+  .hero__col--left { left: calc(56px - (100vw / var(--stage-scale, 1) - 1440px) / 2); }
+  .hero__col--right { left: calc(1208px + (100vw / var(--stage-scale, 1) - 1440px) / 2); }
 }
 
 /* Story — Figma 122:14 (section 108:13541). Coordinates are artboard pixels (1440 × 1024). */

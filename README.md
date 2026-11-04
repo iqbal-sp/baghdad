@@ -50,6 +50,7 @@ baghdad/
 │   ├── heading-reveal.js      Animasi teks bab dan intro Adegan 3: meta, judul per huruf, intro per kata
 │   ├── hero-interaction.js    Parallax lukisan (scroll + kursor), lentera, kilau emas
 │   ├── hero-smoke.js          Asap hero yang mengalir (WebGL di atas foto atmosfer)
+│   ├── hero-layout.js         Skala dan posisi lengkung hero di layar portrait
 │   ├── periods.js             State hover/fokus periode
 │   ├── scenes.js              Animasi masuk dan parallax adegan Periode I
 │   ├── navbar.js              Navbar yang muncul mulai adegan 1
@@ -64,7 +65,10 @@ baghdad/
 
 ## Perilaku
 
-- **Desktop saja untuk saat ini.** Layout responsif dinonaktifkan; `html` memiliki lebar minimum 1024px. Hero dan story adalah artboard 1440 × 1024 yang diskalakan agar muat di viewport; artboard hero ditambatkan ke tepi bawah sehingga lengkung selalu menyentuh bawah layar.
+- **Responsif, dibangun per section.** Lebar minimum 1024px pada `html` sudah dihapus. Hero dan story adalah artboard 1440 × 1024 yang diskalakan agar muat di viewport; artboard hero ditambatkan ke tepi bawah sehingga lengkung selalu menyentuh bawah layar. Section yang belum dikerjakan versi mobile-nya (story ke bawah) untuk sementara tampil sebagai artboard yang diperkecil.
+- **Hero di layar portrait** (ponsel dan tablet tegak, `max-aspect-ratio: 4/5`; `lib/hero-layout.js`): artboard diskalakan ke lebar bingkai emas (894px artboard + 10px tiap sisi), lengkung diangkat dari tepi bawah dan kakinya memudar (mask) ke latar asap. "BAGHDAD" selebar layar (maks. 180px) menimpa lengkung di ketinggian yang sama dengan desktop, label tetap di langit lengkung (min. 10px). Di bawahnya satu kolom: baris meta bergaya sub-heading Foundations ("The journey ★ —— ★ 762 — 1258"), satu paragraf gabungan, lalu tombol Scroll. Sisa tinggi layar dibagi 70% untuk langit (merpati dipindah ke atas lengkung) dan 30% untuk jarak di bawah lengkung. Jarak bawah ditambah `100vh − 100svh` agar Scroll tidak tertutup toolbar browser ponsel.
+- **Hero di ponsel landscape / layar pendek:** kolom teks tidak pernah lebih kecil dari 12px (label 10px) karena diperbesar dari sudut bawahnya; pada landscape dengan tinggi ≤ 540px kedua kolom pindah ke tepi layar agar tidak menimpa lengkung.
+- **Hover hanya di perangkat ber-hover.** Efek hover tombol Scroll dibungkus `@media (hover: hover)` sehingga tidak "tersangkut" setelah tap; interaksi kursor hero (lentera, kilau, parallax kursor) memang hanya aktif untuk pointer halus.
 - **Scroll ke samping.** Scroll vertikal menggeser track dari hero ke story. Klik indikator Scroll pada hero, atau buka `#story`, untuk langsung ke story.
 - **Smooth scroll** memakai Lenis yang disertakan lokal (tanpa CDN). Lenis otomatis kembali ke scroll native bila `prefers-reduced-motion` aktif.
 - **Asap di sambungan.** Saat bergeser, asap hangat (shader WebGL, fBm dengan domain warping) bergulung mengikuti tepi antara hero dan story; kekuatannya puncak di tengah transisi dan nol saat diam, sehingga kedua section tetap sama dengan Figma. Grain story (6%) menjadi satu lapisan untuk kedua panel dan muncul bertahap. Tanpa WebGL atau dengan `prefers-reduced-motion`, transisi kembali ke fade biasa.
@@ -90,7 +94,7 @@ Konten periode ada di `index.html` (`.period`). Copy ketiga periode mengikuti Fi
 
 ## Verifikasi
 
-Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Ukuran mobile/tablet, Safari, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Situs hanya memakai dua font: Svetze untuk judul (hero, story, nama periode) dan DM Sans untuk semua teks lain. Svetze disalin dari font terinstal; lisensi webnya belum diverifikasi. DM Sans berlisensi OFL (lihat `assets/fonts/DMSans-OFL.txt`).
+Diuji di Chrome pada 1440 × 1024, 1440 × 900, 1280 × 1024, dan 1920 × 1080: posisi hero dan story cocok dengan geometri Figma, keadaan hover "Foundations" cocok dengan node 37:6780, dan tidak ada error konsol. Hero juga diuji di emulasi iPhone SE (320 × 568), iPhone 13 (390 × 664), Pixel 7, 375 × 667, tablet tegak 820 × 1180, ponsel landscape 844 × 390, dan laptop 1280 × 720 (tanpa scroll horizontal, tanpa error konsol). Section setelah hero di mobile, Safari asli, dan Firefox belum diverifikasi. Lapisan "Grain" di Figma kosong saat diekspor sehingga tidak diimplementasikan. Situs hanya memakai dua font: Svetze untuk judul (hero, story, nama periode) dan DM Sans untuk semua teks lain. Svetze disalin dari font terinstal; lisensi webnya belum diverifikasi. DM Sans berlisensi OFL (lihat `assets/fonts/DMSans-OFL.txt`).
 
 ## Ukuran aset
 
