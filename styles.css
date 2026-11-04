@@ -708,6 +708,17 @@ img { display: block; }
   .hero__intro .hero__copy { font-size: 15px; line-height: 1.55; }
 }
 
+/* Upright tablets: larger body text (+3px) and meta line, in a slightly wider column. */
+@media (max-aspect-ratio: 4/5) and (min-width: 600px) {
+  .hero__cols { max-width: 600px; }
+  .hero__intro .hero__copy { font-size: 18px; line-height: 1.55; }
+  .hero__meta { gap: 18px; margin-bottom: 20px; }
+  .hero__meta-label { font-size: 14px; }
+  .hero__meta-star { width: 10px; height: 10px; }
+  .scroll-cue { margin-top: 32px; }
+  .scroll-cue__label { font-size: 14px; }
+}
+
 /* Very narrow phones (320–360px): tighter tracking so the meta line and the arch label still fit. */
 @media (max-aspect-ratio: 4/5) and (max-width: 360px) {
   .hero__meta { gap: 9px; }
