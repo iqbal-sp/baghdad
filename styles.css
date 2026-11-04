@@ -3250,9 +3250,12 @@ a.menu__link:focus-visible {
   left: var(--iris-x, 50%);
   width: calc(var(--iris-r, 0px) * 2);
   height: calc(var(--iris-r, 0px) * 2);
-  border: 1.5px solid #c8a15a;
+  border: 1px solid rgb(200 161 90 / .75);
   border-radius: 50%;
-  box-shadow: 0 0 calc(28px * var(--stage-scale, 1)) rgb(200 161 90 / .45);
+  /* Glows both ways: inwards it shows through part II's fading edge, so the two meet softly. */
+  box-shadow:
+    0 0 calc(32px * var(--stage-scale, 1)) rgb(200 161 90 / .4),
+    inset 0 0 calc(24px * var(--stage-scale, 1)) rgb(200 161 90 / .3);
   opacity: var(--iris-edge, 0);
   translate: -50% -50%;
   pointer-events: none;
@@ -3829,9 +3832,9 @@ a.menu__link:focus-visible {
  * - the card changes with the turn itself, not on a timer: its portrait wheel turns the next face
  *   in, and the last entry fades and slides out to the left as the next comes in from the right;
  * - it is opened from part I by an iris (lib/iris.js): the section starts a view and the iris's
- *   length higher, over part I's end, and is pinned through it, clipped to a circle that grows
+ *   length higher, over part I's end, and is pinned through it, masked to a soft-edged circle that grows
  *   from the arrow at the end of part I's line (--iris-x, --iris-y, --iris-r) while what it
- *   shows settles from a slight zoom (--iris-zoom). Once the circle covers the view the clip is
+ *   shows settles from a slight zoom (--iris-zoom). Once the circle covers the view the mask is
  *   dropped (.is-open). The entrance plays as it opens.
  */
 .people {
@@ -3854,11 +3857,20 @@ a.menu__link:focus-visible {
   height: 100vh;
   overflow: hidden;
   isolation: isolate;
-  clip-path: circle(var(--iris-r, 0px) at var(--iris-x, 50%) var(--iris-y, 50%));
-  pointer-events: auto;
+  /* The iris: a circle whose edge fades over --feather (a mask rather than a clip-path, which
+     cuts a hard, stepped edge), widening as the circle grows. A mask does not stop clicks, so the
+     pin only takes them once open; until then they go to part I beneath. */
+  --feather: clamp(2px, calc(var(--iris-r, 0px) * .06), calc(48px * var(--stage-scale, 1)));
+  -webkit-mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 50%), #000 calc(var(--iris-r, 0px) - var(--feather)), transparent var(--iris-r, 0px));
+  mask-image: radial-gradient(circle at var(--iris-x, 50%) var(--iris-y, 50%), #000 calc(var(--iris-r, 0px) - var(--feather)), transparent var(--iris-r, 0px));
+  pointer-events: none;
 }
 
-.people.is-open .people__pin { clip-path: none; }
+.people.is-open .people__pin {
+  -webkit-mask-image: none;
+  mask-image: none;
+  pointer-events: auto;
+}
 
 /* The ground is on the view, not the pin, so the ink and the hand blend with it inside the view's
    own group. */
