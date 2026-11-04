@@ -204,7 +204,7 @@
                   <li class="period period--2" data-parallax style="--x: 865px; --y: 501px; --depth: .6" data-node-id="122:19">
                     <span class="period__badge" aria-hidden="true" data-node-id="124:19">II</span>
                     <div class="period__thumb" tabindex="0" aria-describedby="period-2">
-                      <img src="assets/story/scholar-reading-thumb.avif" width="384" height="384" alt="A scholar reading at a desk" decoding="async" data-node-id="122:20">
+                      <img src="assets/story/scholar-reading-thumb.avif" width="384" height="384" alt="A scholar comparing two manuscripts at a desk" decoding="async" data-node-id="122:20">
                     </div>
                     <div class="period__detail" id="period-2" data-node-id="37:8021">
                       <span class="period__rule" aria-hidden="true">
@@ -569,7 +569,7 @@
                     <p class="chapter__intro" data-node-id="226:464">For more than a century, Baghdad’s scholars translated, tested, and invented even as the court moved away and power shifted.</p>
                   </div>
                   <div class="chapter__image" data-node-id="227:469">
-                    <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="A scholar in a white turban reads a manuscript at a low desk, beside an astrolabe, a stack of books and an arched window onto palms" decoding="async" data-node-id="227:470">
+                    <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="A seated scholar compares two manuscripts on a low wooden desk, their pages turned toward him, beside an astrolabe, an ink pot and an oil lamp" decoding="async" data-node-id="227:470">
                   </div>
                 </div>
               </div>
@@ -733,10 +733,25 @@
            hand, which then shows who they were (lib/people.js). -->
       <section class="people" id="people" aria-labelledby="people-title" data-node-id="265:166">
         <div class="people__pin">
+          <!-- Period II's end: the three ages, which the night sky of part III closes into as card
+               II, before card III steps forward (lib/sky.js). Built from the story's own markup. -->
+          <div class="period-map period-map--end" aria-hidden="true">
+            <div class="period-map__camera"></div>
+          </div>
           <!-- Everything part II shows, opened by the iris from part I (lib/iris.js) and settling
                from a slight zoom as it opens. -->
           <div class="people__view">
             <img class="people__ink" src="assets/people/ink-paint.avif" width="2048" height="1520" alt="" aria-hidden="true" decoding="async" loading="lazy">
+            <!-- Period II, part III (Figma 290:1975): Baghdad at night in 945, fading in behind part
+                 II as the scholars rise from the disc into its sky (lib/sky.js). -->
+            <div class="sky-night" aria-hidden="true">
+              <div class="sky-night__stage">
+                <img class="sky-night__painting" src="assets/sky/baghdad-night-945.avif" width="1920" height="1080" alt="" decoding="async" loading="lazy">
+                <span class="sky-night__deep"></span>
+                <img class="sky-night__stars" src="assets/sky/stars.svg" width="1440" height="1024" alt="" decoding="async" loading="lazy">
+                <p class="sky-night__about">About 100</p>
+              </div>
+            </div>
             <div class="people__stage">
               <div class="people__pattern" aria-hidden="true"></div>
 
@@ -849,6 +864,61 @@
                     <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
                     <p class="people__fields">Medicine · Alchemy · Philosophy</p>
                   </div>
+                </div>
+              </div>
+            </div>
+            <!-- Part III's sky: the five, risen from the disc, as a constellation drawn as a pointed
+                 arch standing on the city, and the closing words inside it (lib/sky.js). -->
+            <div class="sky">
+              <div class="sky__stage">
+                <svg class="sky__figure" width="1440" height="1024" viewBox="0 0 1440 1024" fill="none" aria-hidden="true">
+                  <defs>
+                    <linearGradient id="sky-foot-left" x1="420" y1="584" x2="420" y2="596" gradientUnits="userSpaceOnUse"><stop stop-color="#C8A15A" stop-opacity=".55"/><stop offset="1" stop-color="#C8A15A" stop-opacity="0"/></linearGradient>
+                    <linearGradient id="sky-foot-right" x1="1019.9" y1="584" x2="1019.9" y2="596" gradientUnits="userSpaceOnUse"><stop stop-color="#C8A15A" stop-opacity=".55"/><stop offset="1" stop-color="#C8A15A" stop-opacity="0"/></linearGradient>
+                  </defs>
+                  <path pathLength="1" d="M420 584V588L420.1 592V596" stroke="url(#sky-foot-left)"/>
+                  <path pathLength="1" d="M429.6 496L430.4 492L432 484L433.8 476L435.8 468L437.8 460L440 452L442.4 444L444.8 436L447.5 428L450.2 420L453.1 412L456.2 404L459.4 396L462.7 388L466.2 380L469.9 372" stroke="#C8A15A" stroke-opacity=".5"/>
+                  <path pathLength="1" d="M505 292L510.7 284L516.7 276L522.9 268L529.4 260L536.2 252L543.2 244L550.5 236L558.1 228L566.1 220L574.4 212L583.1 204L592.1 196L601.7 188L611.7 180L622.2 172L633.3 164L645 156L657.5 148L664 144" stroke="#C8A15A" stroke-opacity=".5"/>
+                  <path pathLength="1" d="M764.6 144L771.1 148L783.6 156L795.3 164L806.4 172L816.9 180L826.9 188L836.5 196L845.5 204L854.2 212L862.5 220L870.5 228L878.1 236L885.4 244L892.4 252L899.2 260L905.7 268L911.9 276L917.9 284L923.6 292" stroke="#C8A15A" stroke-opacity=".5"/>
+                  <path pathLength="1" d="M970.1 372L973.8 380L977.3 388L980.6 396L983.8 404L986.9 412L989.8 420L992.5 428L995.2 436L997.6 444L1000 452L1002.2 460L1004.2 468L1006.2 476L1008 484L1009.6 492L1010.4 496" stroke="#C8A15A" stroke-opacity=".5"/>
+                  <path pathLength="1" d="M1019.9 584V588L1020 592V596" stroke="url(#sky-foot-right)"/>
+                </svg>
+                <span class="sky__thread"></span>
+                <span class="sky__thread"></span>
+                <span class="sky__thread"></span>
+                <span class="sky__thread"></span>
+                <span class="sky__thread"></span>
+                <ol class="sky__stars" role="list" aria-hidden="true">
+                  <li class="sky__star">
+                    <span class="sky__crown"><img class="sky__rays" src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span class="sky__ring"></span></span>
+                    <img class="sky__portrait" src="assets/people/portraits/01-hunayn-ibn-ishaq.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                    <span class="sky__numeral" lang="ar">١</span>
+                  </li>
+                  <li class="sky__star">
+                    <span class="sky__crown"><img class="sky__rays" src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span class="sky__ring"></span></span>
+                    <img class="sky__portrait" src="assets/people/portraits/02-al-kindi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                    <span class="sky__numeral" lang="ar">٢</span>
+                  </li>
+                  <li class="sky__star">
+                    <span class="sky__crown"><img class="sky__rays" src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span class="sky__ring"></span></span>
+                    <img class="sky__portrait" src="assets/people/portraits/03-banu-musa.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                    <span class="sky__numeral" lang="ar">٣</span>
+                  </li>
+                  <li class="sky__star">
+                    <span class="sky__crown"><img class="sky__rays" src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span class="sky__ring"></span></span>
+                    <img class="sky__portrait" src="assets/people/portraits/04-thabit-ibn-qurra.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                    <span class="sky__numeral" lang="ar">٤</span>
+                  </li>
+                  <li class="sky__star">
+                    <span class="sky__crown"><img class="sky__rays" src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span class="sky__ring"></span></span>
+                    <img class="sky__portrait" src="assets/people/portraits/05-al-razi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                    <span class="sky__numeral" lang="ar">٥</span>
+                  </li>
+                </ol>
+                <div class="sky__head">
+                  <p class="sky__kicker">Part III · 833–945</p>
+                  <h3 class="sky__title" id="sky-title"><span>A century</span> <span>of brilliance</span></h3>
+                  <p class="sky__body">By the middle of the tenth century, Baghdad was home to translators, mathematicians, engineers, and physicians whose works would be read for generations.</p>
                 </div>
               </div>
             </div>

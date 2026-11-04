@@ -16,6 +16,7 @@ import { startPeriodMap } from './lib/period-map.js';
 import { startCourtTimeline } from './lib/court-timeline.js';
 import { startPeople } from './lib/people.js';
 import { startIris } from './lib/iris.js';
+import { startSky } from './lib/sky.js';
 
 const heroElement = document.querySelector('.hero');
 const hero = startHeroInteraction(heroElement);
@@ -51,6 +52,7 @@ const periodMap = startPeriodMap(document.querySelector('.closing-pin'), { lenis
 startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
 const people = startPeople(document.querySelector('.people'), { lenis });
 startIris(document.querySelector('.court-timeline'), document.querySelector('.people'), { lenis, onOpen: people?.enter });
+startSky(document.querySelector('.people'), { lenis });
 decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),

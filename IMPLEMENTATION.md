@@ -315,6 +315,29 @@ Pusat lingkaran diukur dari panah sendiri setelah transform track frame itu dipa
 
 Diverifikasi pada 1440 × 900: bagian II mulai tepat di akhir track (24294 px); panah sampai di tengah (720, 554) di 30% iris; jari-jari 5 / 43 / 100 / 202 / 414 / 907 px di 30 / 42 / 50 / 60 / 75 / 100%; scroll balik menutup iris lagi; stasiun bisa diklik setelah terbuka dan selama iris klik masuk ke bagian I; reduced motion: tertutup lalu terbuka penuh di separuh iris; tanpa error konsol.
 
+## Periode II, bagian III — A century of brilliance (290:1975)
+
+Bukan section sendiri: TAIL (3940 artboard px) terakhir dari pin bagian II (`lib/sky.js`; `lib/people.js` mengambil putaran cakram sebelum itu dan menambah `--travel`), supaya para tokoh bisa naik dari cakram itu sendiri. Langitnya artboard 1440 × 1024 yang ditambatkan ke bawah layar seperti bagian II, dalam dua lapis: `.sky-night` di belakang panggung bagian II (lukisan, langit yang lebih gelap, bintang latar, "About 100") dan `.sky` paling depan (garis lengkung, benang cahaya, bintang tokoh, teks).
+
+| Elemen | Geometri / gaya |
+| --- | --- |
+| Lukisan | `assets/sky/baghdad-night-945.avif` (dari PNG 1920 × 1080, 79 KB), mengisi artboard seperti FILL di Figma: 1820 lebar di x −190 |
+| About 100 | Grafis diam, tanpa animasi: "ABOUT 100" Svetze 300 / 1.05, −2%, huruf besar, putih 34% dengan blend `overlay` di atas lukisan, di tengah pada y 771 (terpotong layar di bawah) |
+| Langit | Gradasi `#05060C` 75% → 20% di 70% → 0 setinggi 640; bintang latar `assets/sky/stars.svg`, titik yang sama dengan Figma |
+| Bintang tokoh | Di (423, 540), (492, 330), (720, 120), (948, 330), (1017, 540): sinar bintang delapan sudut 108 (28%), cincin bertitik 74 (emas 50%, garis 1/3), potret 56 bertepi emas 90%, angka Aref Ruqaa Ink 18 emas 85% 71.5 di atas pusat |
+| Garis | Lengkung runcing dari Figma (`.sky__figure`, emas 50%, kaki memudar ke kota), dipotong di sekitar tiap bintang |
+| Teks | Kicker DM Sans Medium 13, 40%, di (470, 288); judul Svetze 56 / 1.05, −2%, 14 di bawahnya; teks DM Sans 15 / 1.65, `#D9C9B0` 85%, lebar 390, 18 di bawahnya |
+
+Gerak, semuanya mengikuti scroll (tidak dari Figma):
+
+| Langkah | Panjang (artboard px) | Gerak |
+| --- | --- | --- |
+| Naik | 1100 | Cakram tenggelam 220 di tempatnya berhenti (`--sink`; tidak diputar balik, jadi al-Razi tetap di bawah kartu), kartu turun 420 (`--drop`); orbit, tick dan lingkaran stasiun memudar pelan sejak awal (`--orbit`, 0–24%), lalu sisa bagian II (`--part2`, 10–45%); malam turun (`--night`), bintang latar muncul (`--starlight`), lukisan dari 35% ke 100% (`--painting`). Begitu ekor dimulai, tiap tokoh menjadi bintang tepat di atas potretnya, dengan ukuran dan terang yang sama (stasiun: 104 × `--size`, terang .55 + .45 × `--near`; al-Razi: potret kartu 96), dan stasiun serta kartu melepas potretnya (`--held`, `--face`), jadi tidak ada yang melompat (selisih 0 px, diukur). Lalu mereka lepas satu per satu dari puncak cakram ke bawah (al-Razi, Thabit, Banu Musa, al-Kindi, Hunayn; mulai .04, jeda .085, terbang .45, smoothstep), di kurva kuadrat yang naik dulu lalu berbelok ke tempatnya, mengecil ke 56 dan makin terang sambil sinar dan cincinnya muncul; ekor cahaya mengikuti dari 18% di belakangnya, paling terang di tengah perjalanan |
+| Kata | 520, lalu 360 untuk membaca | Lengkung tergambar dari ١ ke ٥ (`--drawn`), angka menyala, lalu kicker, dua baris judul dan teks naik 32px sambil muncul |
+| Tutup | 1700, lalu 260 diam | Seperti penutup Periode I ke kartu I: seluruh `.people__view` dipotong persegi 760 di sekitar (720, 380) dan mengecil ke kartu II (865, 501, 120) di salinan peta (`.period-map--end`, dari `copyStory` di `lib/period-map.js` dengan kartu I dan II sudah terbaca dan petunjuk "Period III · coming next"); kamera peta mundur di sekitar kartu II, dan mural story tumbuh di pojok-pojoknya (`.has-arrived` setelah 10% penyusutan, seperti peta Periode I); dari 45% kecilnya ia berbalik ke lukisan kartu II; kartu II ditandai selesai di 84% dan kartu III maju di 90%. Halaman berakhir di sini |
+
+Dengan reduced motion tiap tahap langsung tampil dan penutupnya crossfade ke peta.
+
 ## Performa (tanpa perubahan tampilan)
 
 Hasil review menyebut web terasa berat dan lag. Semua perbaikan di bawah ini tidak mengubah desain maupun animasi.
