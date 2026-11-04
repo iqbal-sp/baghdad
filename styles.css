@@ -2751,8 +2751,12 @@ a.menu__link:focus-visible {
  * The lit lines and the glow share one reach (--lantern-reach) and one falloff: a bell curve in
  * 12 steps, so the light thins out smoothly instead of in rings. Smaller and softer than the
  * exported glow (206:157, linear 16% over 231px), which read as a hard disc on the dark ground.
+ * 120px since the smoke came in (was 170). Where WebGL runs, the glow itself is drawn with the
+ * smoke (lib/knowledge-smoke.js: a dithered Gaussian that also lights the smoke), and this one
+ * is hidden; it stays as the fallback.
  */
-.knowledge__stage { --lantern-reach: 170px; }
+.knowledge__stage { --lantern-reach: 120px; }
+.scene--knowledge.has-smoke-light .knowledge__lantern { display: none; }
 
 .knowledge__lit-orbits {
   opacity: var(--lantern-opacity, 0);
