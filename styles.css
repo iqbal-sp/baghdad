@@ -3187,12 +3187,10 @@ a.menu__link:focus-visible {
  * - the Arabic year is written on from the right; the caliph's name closes up from wide spacing;
  * - the Samarra bracket draws across as the centre passes 836 → 892 (--bracket), its count
  *   climbing to 56; inside each fixed frame the image runs a little behind the track (--drift);
- * - "Next" rises in near the end of the line;
  * - then, past the travel (--iris more of the section, lib/iris.js), the track runs on to bring
  *   the arrow at the end of the line to the centre while the gold runs on past 945 to it and it
  *   lights up (--focus, --charge), and an iris opens from the arrow on to part II: its gold edge
- *   is drawn here, outside the circle, while part I dims and steps back and "Next" gives way
- *   (--recede).
+ *   is drawn here, outside the circle, while part I dims and steps back (--recede).
  */
 .court-timeline {
   /* Its own ground, warmer and a little lighter than the story's; used wherever it shows through. */
@@ -3467,6 +3465,11 @@ a.menu__link:focus-visible {
 /* Each year: a 360px column centred on its place on the line (--x). */
 .court-timeline__years { margin: 0; padding: 0; list-style: none; }
 
+/* As the iris opens, the years and the bracket go well before the circle reaches the corners, so
+   nothing of them is left cut by its edge; the line, its gold and the arrow stay (lib/iris.js). */
+.court-timeline__years,
+.court-timeline__bracket { opacity: clamp(0, calc(1 - var(--recede, 0) * 2.5), 1); }
+
 .court-timeline__year {
   position: absolute;
   top: 0;
@@ -3685,28 +3688,6 @@ a.menu__link:focus-visible {
 .court-timeline__year.is-active .court-timeline__ring { opacity: 0; scale: .4; }
 .court-timeline__year.is-active .court-timeline__node svg { opacity: 1; scale: 1; rotate: 0deg; }
 
-/* What comes next, at the end of the line. */
-.court-timeline__next { top: 500px; left: 4060px; }
-
-.court-timeline__next-kicker {
-  display: block;
-  color: #c8a15a;
-  font-family: var(--font-label);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: .3em;
-  text-transform: uppercase;
-}
-
-.court-timeline__next-title {
-  display: block;
-  margin-top: 8px;
-  color: rgb(255 255 255 / .85);
-  font-family: var(--font-display);
-  font-size: 28px;
-  line-height: 1.05;
-}
-
 /* --- Entrances. Armed by lib/court-timeline.js only with motion allowed. --- */
 
 /* The header: kicker, each heading line, then the intro. */
@@ -3802,18 +3783,6 @@ a.menu__link:focus-visible {
 .court-timeline__story > :nth-child(2) { --d: 1.08s; }
 .court-timeline__story > :nth-child(3) { --d: 1.2s; }
 
-/* Next: rises in as the end of the line comes near, and gives way as the iris opens beneath it
-   (--recede, lib/iris.js). */
-.court-timeline__next > span { opacity: calc(1 - min(1, var(--recede, 0) * 3)); }
-
-.court-timeline.is-armed .court-timeline__next { opacity: 0; translate: 24px 0; }
-
-.court-timeline.is-armed .court-timeline__next.is-seen {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity .9s var(--ease-out) .2s, translate 1.2s var(--rise) .2s;
-}
-
 /*
  * Period II, part II — Figma 265:166: the people behind it. A 1440 × 1009 artboard on #2b2110,
  * at the page's shared scale and set on the bottom of the view, so the arch's feet and the hand
@@ -3824,9 +3793,10 @@ a.menu__link:focus-visible {
  * Portraits: assets/people/portraits, whole, as in Figma.
  *
  * Motion (not in Figma; lib/people.js sets the classes, .is-armed only with motion allowed):
- * - entrance (.is-entered): the arch rises from its feet to the apex and the finial drops on to
- *   it, the kicker, the title's lines and the body rise in, the disc comes up turning into place,
- *   the stations follow one by one, and the hand brings the card up from below;
+ * - entrance, driven by the iris opening over it (--in-*): the hand lifts the card the last
+ *   little way, then the body, the title's lines and the kicker rise in, the disc comes up turning into
+ *   place with the stations one by one; then, the circle open, the arch is drawn up from its feet
+ *   to the apex and the finial drops on to it;
  * - each station grows and brightens as it nears the top (--near, --size), and passes under the
  *   card there;
  * - the card changes with the turn itself, not on a timer: its portrait wheel turns the next face
@@ -4220,84 +4190,51 @@ a.menu__link:focus-visible {
 
 /* --- Motion. Armed by lib/people.js only with motion allowed. --- */
 
-/* Entrance: the arch rises from its feet to the apex, then the finial drops on to it. */
-.people.is-armed .people__arch { clip-path: inset(100% 0 0 0); }
-.people.is-armed .people__finial { opacity: 0; translate: 0 -16px; }
+/*
+ * Entrance, as the iris opens over part II (lib/people.js, enter): each piece by how far the
+ * circle has grown (--in-*, 0 → 1), so it comes together as it is uncovered and follows the
+ * scroll both ways: the card first, nearly in place, its portrait just below the circle's centre
+ * (the arrow), then the body, the title's lines, the kicker and the disc. Once the circle is open, the arch is drawn up from its feet to the apex and the
+ * finial drops on to it (--in-arch, --in-finial), before the disc turns. Unset (no script, or
+ * reduced motion) everything is simply there.
+ */
+.people__arch { clip-path: inset(calc((1 - var(--in-arch, 1)) * 100%) 0 0 0); }
 
-.people.is-entered .people__arch {
-  clip-path: inset(0);
-  transition: clip-path 2s var(--open);
+.people__finial {
+  opacity: var(--in-finial, 1);
+  translate: 0 calc((1 - var(--in-finial, 1)) * -16px);
 }
 
-.people.is-entered .people__finial {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity .6s var(--ease-out) 1.7s, translate 1s var(--rise) 1.7s;
+.people__kicker { --in: var(--in-kicker, 1); }
+.people__title > span:first-child { --in: var(--in-t1, 1); }
+.people__title > span:last-child { --in: var(--in-t2, 1); }
+.people__body { --in: var(--in-body, 1); }
+
+:is(.people__kicker, .people__title > span, .people__body) {
+  opacity: var(--in);
+  translate: 0 calc((1 - var(--in)) * 44px);
 }
 
-/* The kicker, each line of the title, then the body. */
-.people.is-armed :is(.people__kicker, .people__title > span, .people__body) {
-  opacity: 0;
-  translate: 0 44px;
+/* The kicker's stars turn in with it. */
+.people__kicker img {
+  rotate: calc((1 - var(--in)) * -90deg);
+  scale: calc(.3 + .7 * var(--in));
 }
 
-.people.is-entered :is(.people__kicker, .people__title > span, .people__body) {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity .9s var(--ease-out) var(--d, .3s), translate 1.2s var(--rise) var(--d, .3s);
+/* The disc comes up, turning into place (--settle, set with it); the stations follow one by one. */
+:is(.people__disc, .people__stations) {
+  opacity: var(--in-disc, 1);
+  translate: 0 calc((1 - var(--in-disc, 1)) * 140px);
 }
 
-.people__title > span:first-child { --d: .42s; }
-.people__title > span:last-child { --d: .54s; }
-.people__body { --d: .72s; }
+.people__seat > img,
+.people__numeral { opacity: var(--in-seat, 1); }
 
-/* The kicker's stars turn in. */
-.people.is-armed .people__kicker img { rotate: -90deg; scale: .3; }
-
-.people.is-entered .people__kicker img {
-  rotate: 0deg;
-  scale: 1;
-  transition: rotate 1.2s var(--rise) .5s, scale 1.2s var(--rise) .5s;
-}
-
-/* The disc comes up turning into place; the stations follow, one by one from the top. */
-.people.is-armed { --settle: 24deg; }
-
-.people.is-entered {
-  --settle: 0deg;
-  transition: --settle 2.6s var(--rise) .5s;
-}
-
-.people.is-armed :is(.people__disc, .people__stations) { opacity: 0; translate: 0 140px; }
-
-.people.is-entered :is(.people__disc, .people__stations) {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity 1.2s var(--ease-out) .5s, translate 1.8s var(--rise) .5s;
-}
-
-.people.is-armed .people__seat > img,
-.people.is-armed .people__numeral { opacity: 0; }
-
-.people.is-entered .people__seat > img,
-.people.is-entered .people__numeral {
-  opacity: 1;
-  transition: opacity .8s var(--ease-out) calc(.9s + var(--i, 0) * .12s);
-}
-
-.people.is-entered .people__seat-portrait {
-  opacity: calc(.55 + .45 * var(--near, 1));
-  transition: opacity .8s var(--ease-out) calc(.9s + var(--i, 0) * .12s), filter .4s var(--ease-out);
-}
+.people__seat > .people__seat-portrait { opacity: calc((.55 + .45 * var(--near, 1)) * var(--in-seat, 1)); }
 
 /* The hand brings the card up from below. */
-.people.is-armed .people__card { translate: 0 360px; }
-.people.is-armed .people__hand { translate: 0 calc(360px * var(--stage-scale, 1)); }
-
-.people.is-entered :is(.people__card, .people__hand) {
-  translate: 0 0;
-  transition: translate 1.6s var(--rise) .8s;
-}
+.people__card { translate: 0 calc((1 - var(--in-card, 1)) * 60px); }
+.people__hand { translate: 0 calc((1 - var(--in-card, 1)) * 60px * var(--stage-scale, 1)); }
 
 /*
  * Small screens (not in Figma). Until the responsive version exists, below 1024px the page is

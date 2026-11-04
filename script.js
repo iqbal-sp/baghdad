@@ -47,8 +47,8 @@ startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
 startClosing(document.querySelector('.scene--closing'), { lenis });
 const periodMap = startPeriodMap(document.querySelector('.closing-pin'), { lenis });
 startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
-startPeople(document.querySelector('.people'), { lenis });
-startIris(document.querySelector('.court-timeline'), document.querySelector('.people'), { lenis });
+const people = startPeople(document.querySelector('.people'), { lenis });
+startIris(document.querySelector('.court-timeline'), document.querySelector('.people'), { lenis, onOpen: people?.enter });
 decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),
