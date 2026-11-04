@@ -282,7 +282,7 @@ Gerak (tidak dari Figma; `lib/people.js` memberi kelas, transisinya di CSS). Han
 
 | Langkah | Pemicu | Gerak |
 | --- | --- | --- |
-| Datang | Iris dari bagian I (lihat di bawah) | Lingkaran yang membuka dari titik 945 |
+| Datang | Iris dari bagian I (lihat di bawah) | Lingkaran yang membuka dari panah di ujung garis bagian I |
 | Masuk | Iris mulai terbuka (4% bukaan, `lib/iris.js` memberi `.is-entered`) | Lengkung naik dari kaki ke puncak (2s, `clip-path`), finial turun ke atasnya di 1.7s; kicker, dua baris judul dan teks naik 44px di .3 / .42 / .54 / .72s, bintang kicker berputar masuk; cakram dan stasiun naik 140px sambil berputar 24° ke tempatnya (`--settle`, 2.6s); stasiun muncul satu per satu (+.12s); tangan mengangkat kartu 360px dari bawah (1.6s, mulai .8s) |
 | Putaran | Mengikuti scroll | Lima tokoh dalam empat putaran 30°; tiap tokoh berhenti di puncak selama 30% bagiannya, putarannya smoothstep. Stasiun membesar dan terang mendekati puncak lalu masuk ke bawah kartu |
 | Ganti tokoh | Mengikuti putaran, bukan waktu | Kartu bergerak bersama scroll. Potretnya, masing-masing bulat, berada di roda kecil (jari-jari 214, jarak antarpotret 112, jadi ada celah di antara keduanya) yang berputar bersama cakram: wajah berikutnya masuk dari kanan mengikuti busur, yang lama keluar ke kiri. Tiap isi kartu tampak menurut jarak stasiunnya dari puncak (`--o`, hilang di setengah stasiun, smoothstep) dan bergeser 16px per setengah stasiun (`--x`); kalimat, pembatas dan bidang bergeser 1.2 / 1.4 / 1.6 kali nama, jadi mengikuti di belakangnya. Hanya `translate` dan `opacity` |
@@ -292,19 +292,19 @@ Dengan reduced motion tidak ada yang dipasang: semua tampil, dan cakram melompat
 
 Diverifikasi pada 1024 × 768: pada `--turn` 0° tampilan sama dengan frame Figma; 60° / 45° / 0° / −60° menampilkan Hunayn / al-Kindi (di tengah putaran) / Banu Musa / al-Razi; urutan masuk berjalan; tanpa error konsol.
 
-## Transisi bagian I → II: iris dari 945 (tidak dari Figma)
+## Transisi bagian I → II: iris dari panah di ujung garis (tidak dari Figma)
 
 `lib/iris.js`. Timeline bagian I dibuat 1200 artboard px × skala lebih tinggi dari jarak tempuh track-nya (`--iris`), dan section bagian II dimulai satu layar ditambah jarak itu lebih tinggi (`margin-top` negatif), di bawahnya dalam alur tapi di atasnya dalam tumpukan (`z-index` 4). Selama 1200px itu keduanya menempel: bagian I masih menampilkan layar terakhirnya, dan pin bagian II di-`clip-path` menjadi lingkaran. Section bagian II sendiri `pointer-events: none` (hanya pin-nya yang menerima klik), jadi area di luar lingkaran tetap milik bagian I.
 
 | Fase | Bagian iris | Gerak |
 | --- | --- | --- |
-| Berkumpul | 0 → 22% | Track bergeser 260 artboard px lagi (`--focus`) sehingga 945 (x 3860) tepat di tengah layar; titiknya membesar 1.5× dengan cahaya emas (`--charge`); "Next · Part II" pudar sambil bergeser 32px ke kanan |
-| Membuka | 22 → 100% | Lingkaran tumbuh dari jari-jari titik ke sudut terjauh layar dengan kurva t^1.8, jadi lama sebagai jendela bulat (wajah Hunayn di kartu) lalu makin cepat. Tepi emasnya (`.court-timeline__iris`, 1.5px dengan cahaya 28px) berada tepat di luar lingkaran, di bagian I, dan pudar di paruh akhir. Bagian I meredup sampai 60% hitam dan mengecil 5% di sekitar tengah layar (`--recede`); isi bagian II mengendap dari 1.12 ke 1 di sekitar titik itu (`--iris-zoom`, pada `.people__view`); bintang 945 berlanjut di dalam lingkaran (`.people__iris-star`), membesar sampai 6× sambil berputar dan pudar di 45% pertama bukaan |
+| Berkumpul | 0 → 30% | Track bergeser 624 artboard px lagi (`--focus`), menyusuri garis sampai panahnya (x 4224, `.court-timeline__end`) tepat di tengah layar. Bersamaan, garis emas mengalir dari 945 ke panah (`.court-timeline__tail`, 350px, ujungnya menyala seperti saat garis memanjang ke tahun) dan panahnya berubah emas dengan cahaya 5px (`--charge`) |
+| Membuka | 30 → 100% | Lingkaran tumbuh dari 6px di panah ke sudut terjauh layar dengan kurva t^1.8, jadi lama sebagai jendela bulat (wajah Hunayn di kartu) lalu makin cepat. Tepi emasnya (`.court-timeline__iris`, 1.5px dengan cahaya 28px) berada tepat di luar lingkaran, di bagian I, dan pudar di paruh akhir. Bagian I meredup sampai 60% hitam dan mengecil 5% di sekitar tengah layar (`--recede`); "Next · Part II" pudar di sepertiga pertama bukaan; isi bagian II mengendap dari 1.12 ke 1 di sekitar panah (`--iris-zoom`, pada `.people__view`) |
 | Terbuka | 100% | `clip-path` dilepas (`.is-open`); cakram mulai berputar setelah iris |
 
-Pusat lingkaran diukur dari titik 945 sendiri setelah transform track frame itu dipasang, jadi tetap di titiknya pada skala berapa pun. Latar bagian II dipindah dari pin ke `.people__view`, agar tinta (`overlay`) dan tangan (`lighten`) tetap berbaur dengan latar di dalam grup yang dibuat oleh `scale`. Dengan reduced motion tidak ada fase berkumpul maupun pertumbuhan: bagian II langsung tampil dari separuh iris.
+Pusat lingkaran diukur dari panah sendiri setelah transform track frame itu dipasang, jadi tetap di panahnya pada skala berapa pun. Clip garis dilonggarkan dari ±10 ke ±40px agar cahaya ujung emas tidak terpotong. Latar bagian II dipindah dari pin ke `.people__view`, agar tinta (`overlay`) dan tangan (`lighten`) tetap berbaur dengan latar di dalam grup yang dibuat oleh `scale`. Dengan reduced motion tidak ada fase berkumpul maupun pertumbuhan: bagian II langsung tampil dari separuh iris.
 
-Diverifikasi pada 1440 × 900: bagian II mulai tepat di akhir track (24294 px); jari-jari 0 / 13 / 77 / 155 / 460 / 907 px di 10 / 22 / 40 / 50 / 75 / 100% iris, pusat di (720, 554 → 548); scroll balik menutup iris lagi; stasiun bisa diklik setelah terbuka dan bagian I tetap bisa diklik di luar lingkaran; reduced motion: tertutup lalu terbuka penuh di separuh iris; tanpa error konsol.
+Diverifikasi pada 1440 × 900: bagian II mulai tepat di akhir track (24294 px); panah sampai di tengah (720, 554) di 30% iris; jari-jari 5 / 43 / 100 / 202 / 414 / 907 px di 30 / 42 / 50 / 60 / 75 / 100%; scroll balik menutup iris lagi; stasiun bisa diklik setelah terbuka dan bagian I tetap bisa diklik di luar lingkaran; reduced motion: tertutup lalu terbuka penuh di separuh iris; tanpa error konsol.
 
 ## Performa (tanpa perubahan tampilan)
 

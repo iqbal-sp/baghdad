@@ -3188,10 +3188,11 @@ a.menu__link:focus-visible {
  * - the Samarra bracket draws across as the centre passes 836 → 892 (--bracket), its count
  *   climbing to 56; inside each fixed frame the image runs a little behind the track (--drift);
  * - "Next" rises in near the end of the line;
- * - then, past the travel (--iris more of the section, lib/iris.js), the track runs on so 945
- *   comes to the centre and its node gathers (--focus, --charge), "Next" gives way, and an iris
- *   opens from the node on to part II: its gold edge is drawn here, outside the circle, while part
- *   I dims and steps back (--recede).
+ * - then, past the travel (--iris more of the section, lib/iris.js), the track runs on to bring
+ *   the arrow at the end of the line to the centre while the gold runs on past 945 to it and it
+ *   lights up (--focus, --charge), and an iris opens from the arrow on to part II: its gold edge
+ *   is drawn here, outside the circle, while part I dims and steps back and "Next" gives way
+ *   (--recede).
  */
 .court-timeline {
   /* Its own ground, warmer and a little lighter than the story's; used wherever it shows through. */
@@ -3330,6 +3331,44 @@ a.menu__link:focus-visible {
   border-top: 1.4px solid rgb(240 223 211 / .5);
   border-right: 1.4px solid rgb(240 223 211 / .5);
   rotate: 45deg;
+  /* Turns gold and glows as the gold reaches it, before the iris opens from it (lib/iris.js). */
+  border-color: color-mix(in srgb, #c8a15a calc(var(--charge, 0) * 100%), rgb(240 223 211 / .5));
+  filter: drop-shadow(0 0 calc(var(--charge, 0) * 5px) rgb(200 161 90 / .9));
+}
+
+/* Past 945 the gold runs on to the arrow as 945 gathers (--charge, lib/iris.js): from just past
+   945's node (3874) to the arrow (line end − 6). */
+.court-timeline__tail {
+  position: absolute;
+  top: -.25px;
+  left: 3094px;
+  width: calc(350px * var(--charge, 0));
+  height: 1.5px;
+  background: #c8a15a;
+}
+
+/* Its tip glows as it runs, and stays lit on the arrow until the iris takes over. */
+.court-timeline__tail::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -3px;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: #f3d9a4;
+  box-shadow: 0 0 10px 3px rgb(200 161 90 / .7), 0 0 26px 8px rgb(200 161 90 / .25);
+  opacity: clamp(0, calc(var(--charge, 0) * 4 - var(--recede, 0) * 6), 1);
+}
+
+/* Where the iris opens: the middle of the arrow. Measured by lib/iris.js. */
+.court-timeline__end {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  width: 0;
+  height: 0;
 }
 
 .court-timeline__progress {
@@ -3554,12 +3593,6 @@ a.menu__link:focus-visible {
   to { opacity: 0; scale: 3.2; }
 }
 
-/* 945's node gathers before the iris opens from it (--charge, lib/iris.js). */
-.court-timeline__year:last-child .court-timeline__node {
-  scale: calc(1 + var(--charge, 0) * .5);
-  box-shadow: 0 0 calc(var(--charge, 0) * 22px) rgb(200 161 90 / calc(var(--charge, 0) * .55));
-}
-
 .court-timeline__node svg {
   position: absolute;
   top: 5px;
@@ -3690,10 +3723,11 @@ a.menu__link:focus-visible {
 .court-timeline__intro { --d: .42s; }
 
 /* The line draws from its start to its arrow (the start dot and the arrow kept clear of the clip). */
-.court-timeline.is-armed .court-timeline__line { clip-path: inset(-10px 100% -10px -10px); }
+/* Room above and below for the gold tips' glow. */
+.court-timeline.is-armed .court-timeline__line { clip-path: inset(-40px 100% -40px -40px); }
 
 .court-timeline.is-entered .court-timeline__line {
-  clip-path: inset(-10px -10px -10px -10px);
+  clip-path: inset(-40px);
   transition: clip-path 2.4s var(--open) .3s;
 }
 
@@ -3765,11 +3799,9 @@ a.menu__link:focus-visible {
 .court-timeline__story > :nth-child(2) { --d: 1.08s; }
 .court-timeline__story > :nth-child(3) { --d: 1.2s; }
 
-/* Next: rises in as the end of the line comes near, and gives way as 945 gathers (lib/iris.js). */
-.court-timeline__next > span {
-  opacity: calc(1 - var(--charge, 0));
-  translate: calc(var(--charge, 0) * 32px) 0;
-}
+/* Next: rises in as the end of the line comes near, and gives way as the iris opens beneath it
+   (--recede, lib/iris.js). */
+.court-timeline__next > span { opacity: calc(1 - min(1, var(--recede, 0) * 3)); }
 
 .court-timeline.is-armed .court-timeline__next { opacity: 0; translate: 24px 0; }
 
@@ -3798,9 +3830,9 @@ a.menu__link:focus-visible {
  *   in, and the last entry fades and slides out to the left as the next comes in from the right;
  * - it is opened from part I by an iris (lib/iris.js): the section starts a view and the iris's
  *   length higher, over part I's end, and is pinned through it, clipped to a circle that grows
- *   from 945's node (--iris-x, --iris-y, --iris-r) while what it shows settles from a slight zoom
- *   (--iris-zoom) and 945's star, carried inside, swells and fades (--iris-star). Once the circle
- *   covers the view the clip is dropped (.is-open). The entrance plays as it opens.
+ *   from the arrow at the end of part I's line (--iris-x, --iris-y, --iris-r) while what it
+ *   shows settles from a slight zoom (--iris-zoom). Once the circle covers the view the clip is
+ *   dropped (.is-open). The entrance plays as it opens.
  */
 .people {
   --ground: #2b2110;
@@ -3836,28 +3868,6 @@ a.menu__link:focus-visible {
   background: var(--ground);
   transform-origin: var(--iris-x, 50%) var(--iris-y, 50%);
   scale: var(--iris-zoom, 1);
-}
-
-/* 945's star, carried inside the iris from part I's node and spent as it opens. */
-.people__iris-star {
-  position: absolute;
-  z-index: 2;
-  top: var(--iris-y, 50%);
-  left: var(--iris-x, 50%);
-  width: calc(30px * var(--stage-scale, 1));
-  height: calc(30px * var(--stage-scale, 1));
-  opacity: var(--iris-star, 0);
-  translate: -50% -50%;
-  scale: var(--iris-star-scale, 1);
-  rotate: calc((var(--iris-star-scale, 1) - 1) * 18deg);
-  pointer-events: none;
-}
-
-.people__iris-star svg {
-  position: absolute;
-  inset: 16.667%;
-  fill: #c8a15a;
-  filter: drop-shadow(0 0 6px rgb(200 161 90 / .6));
 }
 
 .people__ink {
