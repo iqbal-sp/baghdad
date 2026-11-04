@@ -11,21 +11,10 @@
     <link rel="preload" href="assets/fonts/DMSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/illustration.avif" as="image" type="image/avif" fetchpriority="high">
     <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="styles.css?v=20261104-lighter-load">
-    <script type="module" src="script.js?v=20261104-lighter-load"></script>
+    <link rel="stylesheet" href="styles.css?v=20261104-responsive">
+    <script type="module" src="script.js?v=20261104-responsive"></script>
   </head>
   <body>
-    <!-- Shown instead of the page below 1024px wide, until the responsive version exists. -->
-    <aside class="small-screen" aria-labelledby="small-screen-title">
-      <div class="small-screen__inner">
-        <p class="small-screen__kicker">Baghdad</p>
-        <h2 class="small-screen__heading" id="small-screen-title">Made for a larger screen</h2>
-        <span class="small-screen__rule" aria-hidden="true"></span>
-        <p class="small-screen__body">This story is built for desktop for now. The version for phones and tablets is still being made.</p>
-        <p class="small-screen__body">Open it on a screen at least 1024 pixels wide, or widen this window, to begin.</p>
-      </div>
-    </aside>
-
     <!-- Appears once the Foundations chapter has lifted off scene 1, and stays for the rest of the
          page (lib/navbar.js). Inverts against what is beneath it, light scenes and dark alike. -->
     <header class="navbar" aria-label="Site">
@@ -138,6 +127,20 @@
                 <p class="hero__label" data-node-id="108:13495">Heart of<br>the Golden Age</p>
                 <h1 class="hero__title" id="baghdad-title" data-node-id="108:13494">Baghdad</h1>
 
+                <!-- Side by side on desktop (the wrapper has no box there). Portrait screens show the
+                     intro below instead (one meta line styled like the Foundations one, one paragraph)
+                     followed by Scroll; each version is display: none where the other one shows. -->
+                <div class="hero__cols">
+                <div class="hero__intro">
+                  <div class="hero__meta">
+                    <p class="hero__meta-label">The journey</p>
+                    <span class="story__star hero__meta-star" aria-hidden="true"></span>
+                    <span class="hero__meta-hairline" aria-hidden="true"></span>
+                    <span class="story__star hero__meta-star" aria-hidden="true"></span>
+                    <p class="hero__meta-label">762 — 1258</p>
+                  </div>
+                  <p class="hero__copy">For five centuries, Baghdad stood at the centre of a Golden Age of learning. Follow the city from its founding on the Tigris to the hospitals, libraries, and scholars that made it one of the great centres of knowledge in history.</p>
+                </div>
                 <div class="hero__col hero__col--left">
                   <p class="hero__kicker" data-node-id="108:13496">762 — 1258</p>
                   <p class="hero__copy" data-node-id="108:13497">For five centuries, Baghdad stood at the centre of a Golden Age of learning.</p>
@@ -151,6 +154,7 @@
                 <div class="hero__col hero__col--right">
                   <p class="hero__kicker" data-node-id="108:13498">The journey</p>
                   <p class="hero__copy" data-node-id="108:13499">Follow the city from its founding on the Tigris to the hospitals, libraries, and scholars that made it one of the great centres of knowledge in history.</p>
+                </div>
                 </div>
 
               </div>
@@ -236,7 +240,7 @@
                   </li>
                 </ul>
 
-                <p class="story__hint" data-node-id="124:23"><span class="story__star" aria-hidden="true"></span>Hover an image to enter its age</p>
+                <p class="story__hint" data-node-id="124:23"><span class="story__star" aria-hidden="true"></span><span class="story__hint-hover">Hover an image to enter its age</span><span class="story__hint-scroll">Scroll to enter its age</span></p>
                 <span class="story__star story__star--a" aria-hidden="true" data-node-id="124:27"></span>
                 <span class="story__star story__star--b" aria-hidden="true" data-node-id="124:29"></span>
 
@@ -406,6 +410,27 @@
                 </article>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portrait screens only (hidden on desktop): period I is over, so the story's slider comes
+           back and moves on to the next age by itself as the page scrolls (lib/next-period.js clones
+           the story's periods into it). What follows (scene 4 to the end of Period II) has no
+           portrait layout yet, so on portrait screens the page ends here (styles.css). -->
+      <section class="next-period" aria-labelledby="next-period-title">
+        <div class="next-period__viewport">
+          <div class="next-period__stage">
+            <div class="story__eyebrow">
+              <p class="story__eyebrow-text">The story</p>
+              <span class="story__star story__star--eyebrow" aria-hidden="true"></span>
+              <span class="story__hairline" aria-hidden="true"></span>
+            </div>
+            <h2 class="story__title" id="next-period-title">
+              <span class="story__title-line">Three</span>
+              <span class="story__title-line">Golden Ages</span>
+            </h2>
+            <p class="story__hint"><span class="story__star" aria-hidden="true"></span><span>Chapter coming soon</span></p>
           </div>
         </div>
       </section>
