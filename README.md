@@ -27,7 +27,7 @@ npx wrangler@4.149.0 pages deploy /tmp/baghdad-dist --project-name baghdad --bra
 4. Buka [http://127.0.0.1:8000](http://127.0.0.1:8000).
 5. Tekan `Ctrl+C` di Terminal untuk menghentikan server.
 
-Di macOS, tersedia juga `start.command` (server yang sama, tetapi dengan `Cache-Control: no-cache` agar browser tidak memakai skrip lama setelah file diubah). Jika port 8000 sudah digunakan, ganti angka port pada perintah di atas. VS Code Live Server atau server statis lain juga dapat digunakan.
+Di macOS, tersedia juga `start.command` (server yang sama, tetapi dengan `Cache-Control: no-cache` agar browser tidak memakai skrip lama setelah file diubah, dan antrean koneksi yang cukup panjang untuk puluhan modul yang diminta sekaligus). Server bawaan `python3 -m http.server` hanya mengantre 5 koneksi, sehingga sesekali memutus permintaan modul, dan saat itu skrip halaman tidak berjalan; jika itu terjadi, muat ulang halaman atau pakai `start.command`. Jika port 8000 sudah digunakan, ganti angka port pada perintah di atas. VS Code Live Server atau server statis lain juga dapat digunakan.
 
 Gunakan server lokal, bukan membuka `index.html` melalui `file://`: browser membatasi JavaScript modules pada berkas lokal. Setelah disajikan melalui localhost, semua gambar, SVG, font, dan kode tersedia lokal tanpa koneksi internet.
 

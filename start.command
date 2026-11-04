@@ -12,5 +12,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Cache-Control", "no-cache")
         super().end_headers()
 
-http.server.ThreadingHTTPServer(("127.0.0.1", 8000), Handler).serve_forever()
+# The default queue of 5 waiting connections is too short for the page, which asks for dozens of
+# modules and images at once: the rest were reset, and a module that failed to load stopped every
+# script on the page.
+class Server(http.server.ThreadingHTTPServer):
+    request_queue_size = 128
+
+Server(("127.0.0.1", 8000), Handler).serve_forever()
 '

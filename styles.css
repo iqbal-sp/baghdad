@@ -1583,10 +1583,15 @@ a.menu__link:focus-visible {
  * and painted beneath it (z-index −1, so the journey's blend modes stay unisolated): scene 1 sticks
  * to the top behind the pinned chapter, the chapter then scrolls up off it, and the scene holds
  * there for --scene-hold more so its parts finish rising in before it scrolls on as usual.
- * --uncover (0 → 1, set on <html> by lib/scenes.js) follows the chapter's bottom edge up the
- * screen; without JS it stays 1 (:root).
+ * --uncover (0 → 1, set by lib/scenes.js on scene 1 and on the journey, whose shadow reads it)
+ * follows the chapter's bottom edge up the screen; without JS it stays 1 (:root).
  */
 :root { --uncover: 1; --scene-hold: 35vh; }
+
+/* Stopped where nothing further down reads it, so each change restyles a handful of elements and
+   not the journey's ±850 or the scene's whole content. */
+#journey > *,
+.scene-cover .scene__stage > * { --uncover: 1; }
 
 @media (prefers-reduced-motion: reduce) {
   /* Nothing rises in, so there is nothing to wait for. */
@@ -2624,6 +2629,10 @@ a.menu__link:focus-visible {
 /* Above the Flourishing chapter, which the Period II timeline covers (lib/court-timeline.js). */
 .period-map::after { z-index: 5; }
 
+/* --covered is only for the dimming above; stopped at the children, so a change to it restyles
+   the covered section itself and not everything inside it (the map has ±800 elements). */
+:is(.scene--capital, .scene--knowledge, .period-map) > * { --covered: 0; }
+
 .knowledge__stage { height: 1491px; }
 
 .knowledge__title {
@@ -3086,7 +3095,7 @@ a.menu__link:focus-visible {
  * --return-length of scroll: once its bottom reaches the bottom of the view the closing sticks
  * there, and over that scroll it shrinks into card I of .period-map, a copy of the story made
  * from the story's own markup, stuck to the view behind it. The map's camera pulls back
- * (--map-zoom about card I) as the closing's ground dissolves; as it comes down, it turns over
+ * (its scale about card I) as the closing's ground dissolves; as it comes down, it turns over
  * into card I's own painting (.period-map__turn), and card I is marked done while card II steps
  * forward with its detail, as what comes next.
  */
@@ -3119,8 +3128,9 @@ a.menu__link:focus-visible {
 .period-map__camera {
   position: absolute;
   inset: 0;
-  transform-origin: var(--map-ox, 50%) var(--map-oy, 50%);
-  scale: var(--map-zoom, 1);
+  /* Its zoom about the card is written inline (lib/period-map.js, lib/sky.js). */
+  transform-origin: 50% 50%;
+  scale: 1;
 }
 
 .period-map .story {
@@ -4507,6 +4517,10 @@ a.menu__link:focus-visible {
   height: auto;
   margin: 0;
 }
+
+/* Unseen (opacity 0) until the close starts (lib/sky.js), so its ±650 elements are skipped by
+   the style and layout part II's and III's scroll work causes until then. */
+.period-map--end:not(.is-awake) { content-visibility: hidden; }
 
 .story--end .period--2:not(.is-turned) .period__thumb { visibility: hidden; }
 .story--end .period--2:not(.is-turned) .period__badge { opacity: 0; }
