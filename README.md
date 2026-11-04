@@ -65,6 +65,8 @@ baghdad/
 │   ├── round-city-plan.js     Generator denah Round City (sama dengan di Figma)
 │   ├── capital.js             Adegan 4: masuk seperti kartu, parallax, garis rute sampai tepi layar
 │   ├── knowledge.js           Kedalaman garis lengkung, bintang di perpotongan, cahaya kursor
+│   ├── knowledge-smoke.js     Asap yang tersapu kursor di section knowledge
+│   ├── smoke-touch.js         Aliran udara yang diseret kursor (dipakai asap hero dan knowledge)
 │   ├── closing.js             Penutup Periode I: lembar diserahkan, segel berkilau, condong ke kursor
 │   ├── cover.js               Section yang menimpa section sebelumnya (dipakai knowledge dan penutup)
 │   ├── period-map.js          Penutup mengecil ke kartu I, kartu I ditandai selesai, lalu dive ke kartu II (bab Periode II)
@@ -102,7 +104,7 @@ baghdad/
 
 ## Melanjutkan pengembangan
 
-Section **“How knowledge took root”** mengikuti section Capital, berdasarkan [Figma 196:110](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Baghdad?node-id=196-110). Buka `#knowledge` untuk langsung ke sana. Layout mengikuti frame 206:66; scroll menggeser garis dengan kedalaman berbeda, bintang mengikuti perpotongannya, dan kursor mouse menerangi garis di sekitarnya seperti frame 206:109. Dengan `prefers-reduced-motion`, dekorasi tetap diam dan semua konten langsung terlihat. Ketiga poin adalah konten bacaan, tanpa aksi klik.
+Section **“How knowledge took root”** mengikuti section Capital, berdasarkan [Figma 196:110](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Baghdad?node-id=196-110). Buka `#knowledge` untuk langsung ke sana. Layout mengikuti frame 206:66; scroll menggeser garis dengan kedalaman berbeda, bintang mengikuti perpotongannya, dan kursor mouse menerangi garis di sekitarnya seperti frame 206:109. Saat kursor bergerak, ada asap tipis yang tersapu di jalurnya: pola asap hero yang sama, terseret dan menggulung mengikuti gerakan, lalu pudar dalam beberapa detik. Saat diam tidak ada asap sama sekali, jadi warna section tidak berubah. Dengan `prefers-reduced-motion`, dekorasi tetap diam dan semua konten langsung terlihat. Ketiga poin adalah konten bacaan, tanpa aksi klik.
 
 **Penutup Periode I (833)** mengikuti section itu, berdasarkan [Figma 215:340](https://www.figma.com/design/W6tX1PQmmpbA50RBo29CVG/Baghdad?node-id=215-340). Buka `#period-1-end`. Sebuah lembar kertas bersegel lilin, dipegang tangan bersarung, membawa kata penutup: "The patron is gone. The books stay", lukisan Baghdad saat senja di dalam lengkung dengan "833" samar di atasnya sebagai aksen diam, dan paragraf penutup. Section ini menimpa "How knowledge took root" seperti section itu menimpa Capital; selama masuk, lembarnya terangkat dan berputar lurus seolah diserahkan, lukisannya muncul dari sepia, segelnya berkilau sekali saat mendarat, lampu di lukisan berkedip seperti nyala api, dan dengan mouse lembarnya sedikit condong ke kursor. Setelah dibaca, penutup mengecil masuk ke kartu I sementara kamera mundur ke "Three Golden Ages" sampai ketiga kartu tampil, dan sambil turun kartunya terbalik, seperti kartu yang dilempar ke meja, dari lukisan senja ke lukisan Round City; kartu I diberi tanda selesai dan kartu II maju sebagai zaman berikutnya. Menyelam ke kartu II belum dibuat karena Periode II belum ada.
 
