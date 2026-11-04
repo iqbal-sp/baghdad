@@ -40,12 +40,12 @@ Sumber: node `126:13542`, diperiksa pada 31 Oktober 2026. Frame 1440 × 1259, la
 
 | Node | Elemen | Geometri / gaya |
 | --- | --- | --- |
-| 126:14180 | Grunge | Texturelabs Grunge 357, 1886 × 1258 di tengah frame, 20%, color-dodge. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/foundations/grunge.jpg`) |
+| 126:14180 | Grunge | Texturelabs Grunge 357, 1886 × 1258 di tengah frame, 20%, color-dodge. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/foundations/grunge.avif`, dengan versi 1440px lewat `srcset`) |
 | 126:14177 | Cat tinta | Texturelabs InkPaint 409, 866 × 578 di kanan atas (top 1), 25%, color-dodge; dipasang di sudut layar, ukuran × skala artboard |
 | 126:14163 | Baris meta | Lebar 1224 di (109, 124), gap 120: "Period I", bintang 14px, hairline `#c8a15a` 0.5px (sisa lebar), bintang, "762–833". Teks DM Sans Medium 28px/1.4, tracking 40%, uppercase, `#ffebca`; `margin-right: -.4em` karena kotak Figma berakhir di huruf terakhir |
 | 126:14159 | Judul | Svetze 240px/1.2, tracking −4.8px, dipangkas ke cap height; (92, 215), tinggi 168 |
 | 126:14175 | Intro | 560 lebar, tengah, y 435, 20px/1.5, tracking 0.2px. Figma memakai Aref Ruqaa Ink; di web DM Sans (situs hanya memakai dua font), tetap 3 baris |
-| 126:14157 | Lukisan | 1254 × 682 di (93, 577), menampilkan bagian atas lukisan persegi 1254px. Figma memakai versi dengan pegunungan di cakrawala; atas arahan, kartu Periode I di story memakai file yang sama (`assets/story/round-city.jpg`) karena crossfade dua lukisan yang berbeda saat dive terlihat seperti glitch (gambar ganda) |
+| 126:14157 | Lukisan | 1254 × 682 di (93, 577), menampilkan bagian atas lukisan persegi 1254px. Figma memakai versi dengan pegunungan di cakrawala; atas arahan, kartu Periode I di story memakai file yang sama (`assets/story/round-city.avif`) karena crossfade dua lukisan yang berbeda saat dive terlihat seperti glitch (gambar ganda) |
 
 Bintang memakai `.story__star` yang sama (bentuknya identik dengan vektor 126:14169). Grain bab memakai lapisan grain journey yang sama. Diverifikasi pada 1440 × 1024: semua kotak cocok dengan Figma (selisih ≤ 1px; hairline 341.7 vs 340).
 
@@ -73,7 +73,7 @@ Sumber: node `153:14207` ("A new centre for a new dynasty") dan `158:91` ("A riv
 | 153:14213 / 153:14229 | Lukisan adegan 1 | Frame 690 × 640 di (397, 483) yang memotong gambar 702 × 652 sebesar 6px di tiap sisi; `assets/story/new-centre-new-dynasty.jpg` (1302 × 1208, dari Figma) |
 | 158:93 | Kolom teks adegan 2 | Flex kolom di (397, 120), lebar 636, gap 28: judul Svetze 90px/1.2 (tidak dipangkas, sesuai Figma) lalu cerita 18px/1.5. Figma memotong cerita 648px di lebar 636 ("cit"); di web kolom tidak memotong, dan cerita diberi 652px karena baris terakhirnya ±1px lebih lebar di browser sehingga tetap 4 baris |
 | 158:96 | Tahun | "762", Svetze 440px/0.88, tracking −17.6px; (76, 528) |
-| 158:97 | Lukisan adegan 2 | 560 × 420 di (656, 624), menimpa angka terakhir; bayangan 10 10 30 `rgb(4 10 18 / .11)`; `assets/story/river-route-decision.jpg` (1120 × 840, 2×, dari Figma) |
+| 158:97 | Lukisan adegan 2 | 560 × 420 di (656, 624), menimpa angka terakhir; bayangan 10 10 30 `rgb(4 10 18 / .11)`; `assets/story/river-route-decision.avif` (1120 × 840, 2×, dari Figma) |
 | 158:98 | Number in context | Kolom 520 di (89, 936), gap 10: bintang 12px (`.story__star`, bentuk identik dengan vektor 158:100) + "CE · 145 AH" DM Sans Medium 16px, tracking 40%; keterangan 16px/1.5; catatan 13px/1.4 `#0b0a0a` 55% |
 
 Kedua lukisan diekspor dari Figma (versi resolusi lebih tinggi dari PNG di `outputs/`) dan disimpan sebagai JPEG kualitas 88 progresif. Diverifikasi pada 1440 × 1024 (semua kotak sama dengan Figma), 1920 × 1080, dan 1280 × 720 (tepi atas adegan menempel di tepi bawah lukisan bab, kolom sejajar dengan lukisan, tanpa scroll horizontal), tanpa error konsol.
@@ -135,7 +135,7 @@ Frame asli `172:376`; rute dan ruling ditambahkan di salinannya `182:49` ("scree
 | Node | Elemen | Geometri / gaya |
 | --- | --- | --- |
 | 182:49 | Section | 1440 × 1533, `#442f1e`; tinggi `--capital-height` (1533 + 80px plester di bawah teks, tidak dari Figma) × `--stage-scale` |
-| 182:50 | Plester | Texturelabs InkPaint 368L, 2066 × 1533 di tengah, overlay 60%. Di web `::before` full-bleed (`cover`), diperkecil ke 2066 px sebagai `assets/capital/ink-plaster.jpg` |
+| 182:50 | Plester | Texturelabs InkPaint 368L, 2066 × 1533 di tengah, overlay 60%. Di web `::before` full-bleed (`cover`), diperkecil ke 2066 px sebagai `assets/capital/ink-plaster.avif` |
 | 182:51 | Pasar | Bingkai 778 × 674 di (357, 271), `01-beyond-the-walls.jpg` cover; unveil, jeda 150ms |
 | 182:53 / 182:55 | Lukisan samping | 374 × 468 di (−74, 477) dan (1192, 272); unveil, jeda 300 / 450ms. Di layar lebih lebar dari 1440 : 1024 keduanya memanjang sejauh `--spare` sehingga tetap keluar dari tepi layar |
 | 182:57 | Judul | Svetze 90 / 1.2, −1.8px, rata kanan, kotak 838 di (301, 120); naik kata demi kata |
@@ -153,7 +153,7 @@ Diverifikasi pada 1440 × 900 (skala 0.879, spare 99 px) dan 1024 × 768: posisi
 
 ## Navbar dan menu (219:638, 218:375)
 
-`<header class="navbar">` fixed di atas semua section (z-index 20). Tipografinya mengikuti baris navbar di frame menu Figma (219:638): "Baghdad" (tautan `href="#"`) dan "Menu" di kedua ujung baris 1276px di (80, 44), DM Sans Regular 16, tracking 5% (0.8px), huruf besar, dipangkas ke cap height (`text-box: trim-both cap alphabetic`), jadi teksnya tepat mulai di y 44 dan berakhir di x 1356. Ukurannya dalam px layar, tidak ikut skala artboard. Warna putih dengan `mix-blend-mode: difference` sehingga terbaca di latar terang adegan 1–2 maupun gelap adegan 3. `lib/navbar.js` menampilkannya (`.is-visible`: fade 0.5s dan turun 16px dalam 0.6s) begitu tepi bawah journey (bab Foundations yang terangkat) berada di 15% atas layar, dan menyembunyikannya lagi di atas titik itu; selama tersembunyi `visibility: hidden` sehingga tidak bisa difokus.
+`<header class="navbar">` fixed di atas semua section (z-index 20). Tipografinya mengikuti baris navbar di frame menu Figma (219:638): "Baghdad" (tautan `href="#"`) dan "Menu" di kedua ujung baris 1276px di (80, 44), DM Sans Regular 16, tracking 5% (0.8px), huruf besar, dipangkas ke cap height (`text-box: trim-both cap alphabetic`), jadi teksnya tepat mulai di y 44 dan berakhir di x 1356. Ukurannya dalam px layar, tidak ikut skala artboard. Warna putih dengan `mix-blend-mode: difference` sehingga terbaca di latar terang adegan 1–2 maupun gelap adegan 3. `lib/navbar.js` menampilkannya (`.is-visible`: fade 0.5s dan turun 16px dalam 0.6s) begitu tepi bawah journey (bab Foundations yang terangkat) berada di 15% atas layar, dan menyembunyikannya lagi di atas titik itu; selama tersembunyi `visibility: hidden` sehingga tidak bisa difokus. Navbar juga menyingkir di akhir Periode I (sejak peta tiga zaman muncul di balik penutup sampai timeline Periode II mencapai 15% atas layar) dan di akhir Periode II (sejak peta di `.people` mendapat `.has-arrived` dari `lib/sky.js` sampai akhir halaman).
 
 Menu (Figma 218:375, `lib/menu.js`): tombol "Menu" membuka `#site-menu` (`aria-expanded`). Teks tombol itu sendiri tidak berubah: menu punya baris navbarnya sendiri (`.menu__bar`, tipografi dan posisi sama, dengan "Close"), yang ikut turun bersama lembarnya dan menutupi "Menu" di tempat yang sama. Navbar halaman tetap tampil di bawahnya (`.is-menu-open`) sampai lembar terangkat lagi.
 
@@ -161,7 +161,7 @@ Menu (Figma 218:375, `lib/menu.js`): tombol "Menu" membuka `#site-menu` (`aria-e
 | --- | --- | --- |
 | 218:375 | Frame | 1440 × 1024 di `#170601`, artboard di skala global halaman, di tengah layar, `position: fixed` z-index 21 (di atas navbar) |
 | 219:652 | Atmosfer | Tekstur yang sama dengan hero (`assets/hero/atmosphere.jpg`), 1622 × 1081 di (−45, 66), color-dodge 80%; ukurannya mengikuti layar seperti di hero sehingga tepinya tidak terlihat |
-| 220:61 / 219:646 | Lukisan | 553 × 369 di (−224, 293), keluar dari tepi kiri frame; `assets/menu/scholars-market.jpg` (1106 × 737 JPEG dari PNG 1536 × 1024 Figma) |
+| 220:61 / 219:646 | Lukisan | 553 × 369 di (−224, 293), keluar dari tepi kiri frame; `assets/menu/scholars-market.avif` (1106 × 737, dari PNG 1536 × 1024 Figma) |
 | 219:645 | Daftar bab | Kolom di (631, 279), jarak 44: Svetze 80 / 1.2, −1.6px, putih. "Intro" ke awal halaman, "I. Foundations" ke bab Foundations; "II. The Flourishing" dan "III. Enduring Brilliance" tampil tetapi belum ditautkan (`aria-disabled`) karena bab-babnya belum ada |
 
 Gerak (tidak dari Figma):
@@ -223,7 +223,7 @@ Sumber: node `226:451`, diperiksa pada 3 November 2026. Frame 1440 × 1114 (clip
 
 | Node | Elemen | Geometri / gaya |
 | --- | --- | --- |
-| 227:466 | Tekstur | Gambar 1888 × 1259 di (−224, 0), soft light 100%. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/flourishing/texture.jpg`, JPEG q60, 393 KB) |
+| 227:466 | Tekstur | Gambar 1888 × 1259 di (−224, 0), soft light 100%. Di web full-bleed (`object-fit: cover`), disimpan 2000px (`assets/flourishing/texture.avif`, 191 KB, dengan versi 1440px lewat `srcset`) |
 | 226:455 | Grain | Noise putih 6%; di web noise SVG yang sama dengan `.journey__grain`, 6%, di bawah heading |
 | 226:458 | Baris meta | Lebar 1280 di (80, 791), dua label di ujungnya (space-between), tanpa bintang/hairline. DM Sans Medium 28px/1.4, tracking 40%, `#ffebca` (putih + krem 80%), `margin-right: −.4em` seperti Periode I |
 | 226:457 | Judul | Svetze 240px/1.1, tracking −4.8px, lebar 1134 sehingga patah setelah "The"; dipangkas ke cap height, (109, 128), tinggi 432 |
@@ -307,7 +307,7 @@ Diverifikasi pada 1024 × 768: pada `--turn` 0° tampilan sama dengan frame Figm
 
 | Fase | Bagian iris | Gerak |
 | --- | --- | --- |
-| Berkumpul | 0 → 30% | Track bergeser 624 artboard px lagi (`--focus`), menyusuri garis sampai panahnya (x 4224, `.court-timeline__end`) tepat di tengah layar. Bersamaan, garis emas mengalir dari 945 ke panah (`.court-timeline__tail`, 350px, ujungnya menyala seperti saat garis memanjang ke tahun) dan panahnya berubah emas dengan cahaya 5px (`--charge`) |
+| Berkumpul | 0 → 30% | Track bergeser 624 artboard px lagi (`--focus`), menyusuri garis sampai panahnya (x 4224, `.court-timeline__end`) tepat di tengah layar. Bersamaan, garis emas mengalir dari 945 ke panah (`.court-timeline__tail`, 350px, ujungnya menyala seperti saat garis memanjang ke tahun) dan panahnya berubah emas dengan cahaya 5px (`--charge`). Garis setelah 945 dan warna panah baru ikut setelah garis emas sampai 945 selesai digambar (transisi 1.1s, lalu `.is-full` di track). Jika scroll sudah masuk tahap ini lebih dulu, keduanya menyusul posisi scroll dalam 0.6s (`--full`, `@property`) |
 | Membuka | 30 → 100% | Lingkaran tumbuh dari 6px di panah ke sudut terjauh layar dengan kurva t^1.8, jadi lama sebagai jendela bulat (wajah Hunayn di kartu) lalu makin cepat. Tepi emasnya (`.court-timeline__iris`, 1px emas 75% dengan cahaya 32px ke luar dan 24px ke dalam yang tampak lewat tepi bagian II yang memudar) berada tepat di luar lingkaran, di bagian I, dan pudar di paruh akhir. Bagian I meredup sampai 60% hitam dan mengecil 5% di sekitar tengah layar (`--recede`); tahun-tahun dan kurung Samarra sudah hilang di 40% bukaan, jadi tidak ada potongan gambar yang tersisa di sudut, hanya garis, emasnya dan panah; isi bagian II mengendap dari 1.12 ke 1 di sekitar panah (`--iris-zoom`, pada `.people__view`) |
 | Terbuka | 100% | Mask dilepas dan pin menerima klik (`.is-open`); cakram mulai berputar setelah iris |
 
@@ -343,6 +343,15 @@ Dengan reduced motion tiap tahap langsung tampil dan penutupnya crossfade ke pet
 Hasil review menyebut web terasa berat dan lag. Semua perbaikan di bawah ini tidak mengubah desain maupun animasi.
 
 Pemeriksaan setelah Periode II (tanpa perubahan tampilan): tiga merpati hero kini WebP 512 px (87 KB, dari SVG ±1.9 MB terkompresi). `lib/sky.js` hanya menulis tahap yang bagiannya berubah, dan `lib/people.js` hanya menulis putaran dan lengkung saat nilainya berubah. Waktu skrip per perubahan scroll (termasuk style dan layout yang dipaksa, diukur di 200 posisi): Periode I median 4.6 ms, bagian I 5.8, bagian II 5.5, bagian III 7.0 (sebelumnya 8.0). Laju frame sebenarnya perlu diukur di Chrome biasa; panel browser aplikasi diperlambat ke 1 fps saat tidak aktif.
+
+Pemeriksaan Lighthouse desktop (4 November, tanpa perubahan tampilan). Sebelumnya 72 request (±4.3 MB) dimulai bersamaan saat halaman dibuka, termasuk gambar section yang jauh di bawah, sehingga lukisan hero berebut bandwidth. Di Chrome headless (WebGL tanpa GPU) penyiapan tiga asap WebGL juga menahan main thread ±500 ms; dengan GPU asli TBT-nya 0. Perbaikannya:
+
+- **JPEG → AVIF** (ffmpeg `libsvtav1`, dari PNG RGB dengan matriks bt709, ukuran piksel sama): `ink-plaster` 669 → 243 KB, `round-city` 565 → 437, `scholars-market` 310 → 135, `flourishing/texture` 393 → 191, `grunge` 362 → 295, `foundations/ink-paint` 235 → 151, `river-route-decision` 318 → 216. Dicek dengan decoder Apple (`sips`): warna rata-rata berbeda ≤ 0.5 dan selisih rata-rata per piksel 1.5–2.9 dari 255. Pengecekan lewat dekode ffmpeg menyesatkan (warna tampak bergeser), jadi tidak dipakai. JPEG lama tetap disimpan, tetapi tidak dirujuk.
+- **`srcset`** untuk grunge dan tekstur Flourishing (1440w / 2000w, `sizes="max(100vw, 150vh)"`) serta ink-paint Foundations (900w / 1800w, `sizes="min(60.14vw, 84.57vh)"`, yaitu 866 artboard px × skala panggung). Layar biasa mendapat versi kecil, retina tetap versi penuh. Thumbnail kartu, splatter dan Round City tidak diperkecil karena membesar saat dive dan zoom peta.
+- **Lazy**: gambar yang tidak ada di layar pertama (lukisan menu, Round City di Foundations, grunge, ink-paint, tekstur, lukisan bab Flourishing, kertas penutup) memakai `loading="lazy"`. Plester Capital (background CSS) baru diambil setelah section-nya mendapat `.is-near` dari `decodeAhead`. `decodeAhead` sendiri baru mulai setelah halaman dimuat dan browser idle (`afterLoad`). Kartu I di story memakai `fetchpriority="low"`, karena baru terlihat setelah scroll.
+- **Asap WebGL ditunda** (`afterLoad` dan `whenNear` di `lib/offscreen.js`). Kanvas asap hero dipasang sejak awal agar ikut animasi fade-in foto, tetapi shader, flow dan teksturnya baru disiapkan setelah halaman dimuat; sampai saat itu kanvasnya hitam, yang tidak mengubah apa pun di bawah color-dodge, jadi foto statisnya tampil apa adanya. Asap sambungan hero → story dibuat setelah halaman dimuat, atau saat slide dimulai jika itu lebih dulu. Asap Knowledge dibuat saat section-nya dalam 1.5 layar; sebelum itu cahayanya digambar CSS seperti fallback-nya.
+
+Hasil Lighthouse desktop di server lokal: skor 81 → 92 (dengan GPU) dan 61 → 92 (headless), LCP 3.3 → 1.8 s, TBT 0 ms (headless 400 → 0), CLS 0. Request saat halaman dibuka: ±2 MB. Tampilan hero, Foundations dan Flourishing dibandingkan dengan versi live dan terlihat sama.
 
 - **Gambar.** 11 lukisan diubah dari JPEG ke AVIF kualitas 80 (`sips`), dengan ukuran piksel yang sama dan PSNR 41–50 dB terhadap JPEG-nya, jadi secara visual sama. Hanya gambar yang hemat ≥10% yang diganti. `ink-plaster.jpg` dan `scholars-market.jpg` tetap JPEG karena konversi `sips`-nya salah warna (PSNR 15 dan 3 dB). `grunge`, `ink-paint`, `river-route-decision` dan `round-city` juga tetap JPEG karena hematnya kurang dari 10%. Ukuran piksel tidak diperkecil: pada retina di skala panggung penuh, lukisan-lukisan itu sudah tampil di atau di atas ukuran aslinya, dan Round City membesar ke 1254px saat menyelam ke bab Foundations. Pengecualiannya kartu II dan III di story dan peta, yang tampil 120px: keduanya kini memakai salinan 384px (`*-thumb.avif`, 44–51 KB dari ±470 KB), sementara lukisan penuhnya hanya dipakai menu. JPEG lama tetap disimpan, tetapi tidak dirujuk. Total aset yang dirujuk halaman turun dari 7.8 MB ke 6.6 MB.
 - **Dekode lebih awal** (`lib/offscreen.js`, `decodeAhead`): begitu sebuah section berada dalam 1.5 layar dari viewport, gambarnya dimuat dan didekode di luar main thread (`img.decode()`), jadi tidak lagi didekode pada frame saat section itu pertama tampil. Lukisan menu disiapkan saat kursor mendekati "Menu".

@@ -11,8 +11,8 @@
     <link rel="preload" href="assets/fonts/DMSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/illustration.avif" as="image" type="image/avif" fetchpriority="high">
     <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="styles.css?v=20261103-navbar-aside">
-    <script type="module" src="script.js?v=20261103-navbar-aside"></script>
+    <link rel="stylesheet" href="styles.css?v=20261104-lighter-load">
+    <script type="module" src="script.js?v=20261104-lighter-load"></script>
   </head>
   <body>
     <!-- Shown instead of the page below 1024px wide, until the responsive version exists. -->
@@ -46,10 +46,10 @@
           <!-- The pointed chapter's name, very large at 5% (lib/menu.js builds its words). -->
           <div class="menu__echo" aria-hidden="true"></div>
           <div class="menu__picture" aria-hidden="true" data-node-id="220:61">
-            <img src="assets/menu/scholars-market.jpg" width="1106" height="737" alt="" decoding="async" data-node-id="219:646">
+            <img src="assets/menu/scholars-market.avif" width="1106" height="737" alt="" decoding="async" loading="lazy" data-node-id="219:646">
             <!-- Each chapter's own painting, shown while it is pointed at. -->
             <img src="assets/hero/illustration.avif" width="1410" height="940" alt="" decoding="async" loading="lazy" data-for="intro">
-            <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="foundations">
+            <img src="assets/story/round-city.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="foundations">
             <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="flourishing">
             <img src="assets/story/scholars-garden.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy" data-for="brilliance">
           </div>
@@ -187,7 +187,7 @@
                   <li class="period period--1" data-parallax style="--x: 573px; --y: 280px; --depth: .35" data-node-id="122:21">
                     <span class="period__badge" aria-hidden="true" data-node-id="124:17">I</span>
                     <div class="period__thumb" tabindex="0" aria-describedby="period-1">
-                      <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="The round city of Baghdad on the Tigris" decoding="async" data-node-id="122:22">
+                      <img src="assets/story/round-city.avif" width="1254" height="1254" alt="The round city of Baghdad on the Tigris" decoding="async" fetchpriority="low" data-node-id="122:22">
                     </div>
                     <div class="period__detail" id="period-1" data-node-id="37:7392">
                       <span class="period__rule" aria-hidden="true" data-node-id="37:7393">
@@ -252,8 +252,8 @@
           <section class="chapter" id="foundations" aria-labelledby="foundations-title" data-node-id="126:13542">
             <div class="chapter__reveal">
               <div class="chapter__scroll">
-                <img class="chapter__grunge" src="assets/foundations/grunge.jpg" width="2000" height="1334" alt="" aria-hidden="true" decoding="async" data-node-id="126:14180">
-                <img class="chapter__ink" src="assets/foundations/ink-paint.jpg" width="1800" height="1201" alt="" aria-hidden="true" decoding="async" data-node-id="126:14177">
+                <img class="chapter__grunge" src="assets/foundations/grunge.avif" srcset="assets/foundations/grunge-1440.avif 1440w, assets/foundations/grunge.avif 2000w" sizes="max(100vw, 150vh)" width="2000" height="1334" alt="" aria-hidden="true" decoding="async" loading="lazy" data-node-id="126:14180">
+                <img class="chapter__ink" src="assets/foundations/ink-paint.avif" srcset="assets/foundations/ink-paint-900.avif 900w, assets/foundations/ink-paint.avif 1800w" sizes="min(60.14vw, 84.57vh)" width="1800" height="1201" alt="" aria-hidden="true" decoding="async" loading="lazy" data-node-id="126:14177">
                 <!-- Soft-edged window onto the chapter's background: four panels in the story colour whose
                      inner edges fade out, moved apart by lib/dive.js. Under the heading, so the text
                      can rise in before the window opens. -->
@@ -276,7 +276,7 @@
                     <p class="chapter__intro" data-node-id="126:14175">In seventy years, a new capital rose on the Tigris, drew people from across an empire, and began gathering knowledge from many languages.</p>
                   </div>
                   <div class="chapter__image" data-node-id="126:14157">
-                    <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="The round city of Baghdad on the Tigris, with mountains on the horizon" decoding="async">
+                    <img src="assets/story/round-city.avif" width="1254" height="1254" alt="The round city of Baghdad on the Tigris, with mountains on the horizon" decoding="async" loading="lazy">
                   </div>
                 </div>
               </div>
@@ -287,7 +287,7 @@
             <div class="dive" aria-hidden="true">
               <div class="dive__card">
                 <div class="dive__shadow"></div>
-                <img src="assets/story/round-city.jpg" width="1254" height="1254" alt="" decoding="async">
+                <img src="assets/story/round-city.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy">
               </div>
             </div>
           </section>
@@ -326,7 +326,7 @@
           </div>
           <p class="scene__year" data-reveal="rise" data-node-id="158:96">762</p>
           <div class="scene__image scene__image--river" data-reveal="unveil" data-parallax style="--delay: 250ms" data-node-id="158:97">
-            <img src="assets/story/river-route-decision.jpg" width="1120" height="840" alt="A cargo boat and a camel caravan bring supplies to a Tigris landing beside farmland, while an official and a builder mark out the first foundations of a new city" loading="lazy" decoding="async">
+            <img src="assets/story/river-route-decision.avif" width="1120" height="840" alt="A cargo boat and a camel caravan bring supplies to a Tigris landing beside farmland, while an official and a builder mark out the first foundations of a new city" loading="lazy" decoding="async">
           </div>
           <div class="scene__context" data-reveal style="--delay: 350ms" data-node-id="158:98">
             <p class="scene__label" data-node-id="158:99"><span class="story__star scene__star" aria-hidden="true" data-node-id="158:100"></span>CE · 145 AH</p>
@@ -551,7 +551,7 @@
           <section class="chapter chapter--flourishing" id="flourishing" aria-labelledby="flourishing-title" data-node-id="226:451">
             <div class="chapter__reveal">
               <div class="chapter__scroll">
-                <img class="chapter__texture" src="assets/flourishing/texture.jpg" width="2000" height="1333" alt="" aria-hidden="true" decoding="async" data-node-id="227:466">
+                <img class="chapter__texture" src="assets/flourishing/texture.avif" srcset="assets/flourishing/texture-1440.avif 1440w, assets/flourishing/texture.avif 2000w" sizes="max(100vw, 150vh)" width="2000" height="1333" alt="" aria-hidden="true" decoding="async" loading="lazy" data-node-id="227:466">
                 <div class="chapter__grain" aria-hidden="true" data-node-id="226:455"></div>
                 <div class="chapter__veil" aria-hidden="true">
                   <span class="chapter__veil-side chapter__veil-side--top"></span>
@@ -569,7 +569,7 @@
                     <p class="chapter__intro" data-node-id="226:464">For more than a century, Baghdad’s scholars translated, tested, and invented even as the court moved away and power shifted.</p>
                   </div>
                   <div class="chapter__image" data-node-id="227:469">
-                    <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="A seated scholar compares two manuscripts on a low wooden desk, their pages turned toward him, beside an astrolabe, an ink pot and an oil lamp" decoding="async" data-node-id="227:470">
+                    <img src="assets/story/scholar-reading.avif" width="1254" height="1254" alt="A seated scholar compares two manuscripts on a low wooden desk, their pages turned toward him, beside an astrolabe, an ink pot and an oil lamp" decoding="async" loading="lazy" data-node-id="227:470">
                   </div>
                 </div>
               </div>
@@ -587,7 +587,7 @@
         <section class="scene scene--closing" id="period-1-end" aria-labelledby="closing-title" data-node-id="215:340">
           <div class="scene__stage closing__stage">
             <div class="closing__sheet" data-node-id="215:361">
-              <img class="closing__paper" src="assets/closing/sheet.avif" width="1024" height="1536" alt="" decoding="async" data-node-id="215:362">
+              <img class="closing__paper" src="assets/closing/sheet.avif" width="1024" height="1536" alt="" decoding="async" loading="lazy" data-node-id="215:362">
               <span class="closing__glint" aria-hidden="true"></span>
               <!-- Shrinks within the paper as the closing is cropped into card I (lib/period-map.js). -->
               <div class="closing__content">

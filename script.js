@@ -7,7 +7,7 @@ import { startCity } from './lib/city.js';
 import { startCityIntro } from './lib/city-intro.js';
 import { startNavbar } from './lib/navbar.js';
 import { startMenu } from './lib/menu.js';
-import { decodeAhead, pauseOffscreen } from './lib/offscreen.js';
+import { afterLoad, decodeAhead, pauseOffscreen, whenNear } from './lib/offscreen.js';
 import { startCapital } from './lib/capital.js';
 import { startKnowledge } from './lib/knowledge.js';
 import { startKnowledgeSmoke } from './lib/knowledge-smoke.js';
@@ -34,6 +34,7 @@ startCity(document.querySelector('.city__explore'), { lenis });
 startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'), {
   returnPin: document.querySelector('.closing-pin'),
   resume: document.querySelector('.court-timeline'),
+  end: document.querySelector('.people'),
 });
 startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'), {
   lenis,
@@ -46,17 +47,20 @@ startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'
 });
 startCapital(document.querySelector('.scene--capital'));
 startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
-startKnowledgeSmoke(document.querySelector('.scene--knowledge'));
+// Its WebGL is only set up once the section is near (until then its light is drawn in CSS).
+const knowledge = document.querySelector('.scene--knowledge');
+afterLoad(() => whenNear(knowledge, () => startKnowledgeSmoke(knowledge)));
 startClosing(document.querySelector('.scene--closing'), { lenis });
 const periodMap = startPeriodMap(document.querySelector('.closing-pin'), { lenis });
 startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
 const people = startPeople(document.querySelector('.people'), { lenis });
 startIris(document.querySelector('.court-timeline'), document.querySelector('.people'), { lenis, onOpen: people?.enter });
 startSky(document.querySelector('.people'), { lenis });
-decodeAhead(document.querySelectorAll('main section'), {
+// After the first screen has loaded, so later sections' images don't compete with it.
+afterLoad(() => decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),
-});
+}));
 pauseOffscreen(document.querySelectorAll(
   '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp',
 ));

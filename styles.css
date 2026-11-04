@@ -2301,11 +2301,14 @@ a.menu__link:focus-visible {
   content: "";
   position: absolute;
   inset: 0;
-  background: url("assets/capital/ink-plaster.jpg") center / cover;
+  background: url("assets/capital/ink-plaster.avif") center / cover;
   opacity: .6;
   mix-blend-mode: overlay;
   pointer-events: none;
 }
+
+/* Only fetched once the scene is within reach (lib/offscreen.js, decodeAhead). */
+.scene--capital:not(.is-near)::before { background-image: none; }
 
 .scene--capital .scene__stage { height: 1533px; }
 
@@ -3242,6 +3245,9 @@ a.menu__link:focus-visible {
     scale(var(--stage-scale, 1));
   /* Part I steps back as the iris opens (lib/iris.js), about the screen's centre. */
   scale: calc(1 - var(--recede, 0) * .05);
+  /* The gold past 945 waits for the gold up to 945 (--full), then catches up with the scroll. */
+  --full: 0;
+  transition: --full .6s var(--ease-out);
 }
 
 /* Part I dims under the opening iris; its gold edge stays bright above that. */
@@ -3348,17 +3354,20 @@ a.menu__link:focus-visible {
   border-right: 1.4px solid rgb(240 223 211 / .5);
   rotate: 45deg;
   /* Turns gold and glows as the gold reaches it, before the iris opens from it (lib/iris.js). */
-  border-color: color-mix(in srgb, #c8a15a calc(var(--charge, 0) * 100%), rgb(240 223 211 / .5));
-  filter: drop-shadow(0 0 calc(var(--charge, 0) * 5px) rgb(200 161 90 / .9));
+  border-color: color-mix(in srgb, #c8a15a calc(var(--charge, 0) * var(--full) * 100%), rgb(240 223 211 / .5));
+  filter: drop-shadow(0 0 calc(var(--charge, 0) * var(--full) * 5px) rgb(200 161 90 / .9));
 }
 
 /* Past 945 the gold runs on to the arrow as 945 gathers (--charge, lib/iris.js): from just past
-   945's node (3874) to the arrow (line end − 6). */
+   945's node (3874) to the arrow (line end − 6). Only once the gold up to 945 is drawn
+   (.is-full, lib/court-timeline.js); a gather already under way is then caught up over .6s. */
+.court-timeline__track.is-full { --full: 1; }
+
 .court-timeline__tail {
   position: absolute;
   top: -.25px;
   left: 3094px;
-  width: calc(350px * var(--charge, 0));
+  width: calc(350px * var(--charge, 0) * var(--full));
   height: 1.5px;
   background: #c8a15a;
 }
@@ -3375,7 +3384,7 @@ a.menu__link:focus-visible {
   border-radius: 50%;
   background: #f3d9a4;
   box-shadow: 0 0 10px 3px rgb(200 161 90 / .7), 0 0 26px 8px rgb(200 161 90 / .25);
-  opacity: clamp(0, calc(var(--charge, 0) * 4 - var(--recede, 0) * 6), 1);
+  opacity: clamp(0, calc(var(--charge, 0) * var(--full) * 4 - var(--recede, 0) * 6), 1);
 }
 
 /* Where the iris opens: the middle of the arrow. Measured by lib/iris.js. */
@@ -3926,6 +3935,12 @@ a.menu__link:focus-visible {
 
 /* The rim, its ticks and the rete's stars, centred on (720, 1121.5). --settle is the entrance's
    extra turn, back to 0. */
+@property --full {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
 @property --settle {
   syntax: "<angle>";
   inherits: true;
