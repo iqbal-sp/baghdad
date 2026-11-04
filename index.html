@@ -207,7 +207,7 @@
                   </li>
                 </ul>
 
-                <p class="story__hint" data-node-id="124:23"><span class="story__star" aria-hidden="true"></span><span><span class="story__hint-hover">Hover</span><span class="story__hint-tap">Tap</span> an image to enter its age</span></p>
+                <p class="story__hint" data-node-id="124:23"><span class="story__star" aria-hidden="true"></span><span class="story__hint-hover">Hover an image to enter its age</span><span class="story__hint-scroll">Scroll to enter its age</span></p>
                 <span class="story__star story__star--a" aria-hidden="true" data-node-id="124:27"></span>
                 <span class="story__star story__star--b" aria-hidden="true" data-node-id="124:29"></span>
 
@@ -377,6 +377,26 @@
                 </article>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portrait screens only (hidden on desktop): period I is over, so the story's slider comes
+           back and moves on to the next age by itself as the page scrolls (lib/next-period.js clones
+           the story's periods into it). Period II's chapter is not written yet, so the page ends here. -->
+      <section class="next-period" aria-labelledby="next-period-title">
+        <div class="next-period__viewport">
+          <div class="next-period__stage">
+            <div class="story__eyebrow">
+              <p class="story__eyebrow-text">The story</p>
+              <span class="story__star story__star--eyebrow" aria-hidden="true"></span>
+              <span class="story__hairline" aria-hidden="true"></span>
+            </div>
+            <h2 class="story__title" id="next-period-title">
+              <span class="story__title-line">Three</span>
+              <span class="story__title-line">Golden Ages</span>
+            </h2>
+            <p class="story__hint"><span class="story__star" aria-hidden="true"></span><span>Chapter coming soon</span></p>
           </div>
         </div>
       </section>
