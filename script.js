@@ -10,6 +10,7 @@ import { startMenu } from './lib/menu.js';
 import { decodeAhead, pauseOffscreen } from './lib/offscreen.js';
 import { startCapital } from './lib/capital.js';
 import { startKnowledge } from './lib/knowledge.js';
+import { startKnowledgeSmoke } from './lib/knowledge-smoke.js';
 import { startClosing } from './lib/closing.js';
 import { startPeriodMap } from './lib/period-map.js';
 import { startCourtTimeline } from './lib/court-timeline.js';
@@ -44,6 +45,7 @@ startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'
 });
 startCapital(document.querySelector('.scene--capital'));
 startKnowledge(document.querySelector('.scene--knowledge'), { lenis });
+startKnowledgeSmoke(document.querySelector('.scene--knowledge'));
 startClosing(document.querySelector('.scene--closing'), { lenis });
 const periodMap = startPeriodMap(document.querySelector('.closing-pin'), { lenis });
 startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
