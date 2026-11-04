@@ -1074,6 +1074,122 @@ img { display: block; }
     transform .7s var(--ease-out) calc(var(--enter-delay, 0s) + var(--stagger));
 }
 
+/* "Hover" on desktop; portrait screens show every detail, so they say "Tap". */
+.story__hint-tap { display: none; }
+
+/*
+ * Compact story: portrait screens (phones, upright tablets). No artboard: the eyebrow, the
+ * title as wide as the screen and the three periods as a list, each with its detail always
+ * shown (there is no hover to reveal it; lib/periods.js stays off), centred in the viewport.
+ * The parallax layers still arrive at their own speeds during the slide (lib/journey.js).
+ */
+@media (max-aspect-ratio: 4/5) {
+  .story__stage {
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 56px 24px 40px;
+    transform: none;
+  }
+
+  .story__mural--tl { width: 140px; }
+  .story__mural--br { width: 250px; opacity: .45; }
+  .story__splatter { width: 210px; height: 227px; }
+  .story__star--a,
+  .story__star--b { display: none; }
+
+  /* "The story ★ ——", like the hero's meta line. */
+  .story__eyebrow { position: relative; top: auto; left: auto; gap: 12px; margin-bottom: 18px; }
+  .story__eyebrow-text { margin-right: -.4em; font-size: 12px; line-height: 1.4; }
+  .story__star--eyebrow { position: static; width: 10px; height: 10px; }
+  .story__hairline { position: static; width: 80px; }
+
+  /* "Golden Ages" is 5.65em wide; it fills the column. */
+  .story__title {
+    position: static;
+    margin-bottom: clamp(24px, 5vh, 44px);
+    font-size: min(150px, (100vw - 48px) / 5.65);
+    line-height: 1.2;
+  }
+
+  .periods {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vh, 28px);
+  }
+
+  .period {
+    position: relative;
+    top: auto;
+    left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    width: auto;
+    height: auto;
+  }
+
+  .period__thumb,
+  .period__thumb img { width: clamp(60px, 9vh, 80px); height: clamp(60px, 9vh, 80px); }
+
+  .period__badge { top: -9px; left: -9px; width: 22px; height: 22px; font-size: 10px; }
+
+  .period__detail,
+  .period--3 .period__detail {
+    position: static;
+    display: block;
+    flex: 1;
+    width: auto;
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .period__rule { display: none; }
+  .period__copy,
+  .period--3 .period__copy { width: auto; }
+
+  .period__label,
+  .period__name,
+  .period__summary { opacity: 1; transform: none; }
+
+  .period__label { margin-bottom: 2px; font-size: 11px; }
+  .period__name { margin-bottom: 4px; font-size: 26px; line-height: 1.15; }
+  .period--3 .period__name { white-space: normal; }
+  .period__summary { font-size: 14px; line-height: 1.45; }
+
+  .story__hint { position: static; margin-top: clamp(24px, 5vh, 44px); }
+  .story__hint-hover { display: none; }
+  .story__hint-tap { display: inline; }
+}
+
+/* Upright tablets: a narrower column in the middle, larger periods. */
+@media (max-aspect-ratio: 4/5) and (min-width: 600px) {
+  .story__stage { padding-inline: max(48px, (100% - 620px) / 2); }
+  .story__title { font-size: calc(min(100vw - 96px, 620px) / 5.65); }
+  .period { gap: 28px; }
+  .period__thumb,
+  .period__thumb img { width: 104px; height: 104px; }
+  .period__label { font-size: 12px; }
+  .period__name { font-size: 34px; }
+  .period__summary { font-size: 17px; }
+  .story__eyebrow-text { font-size: 14px; }
+  .story__hint { font-size: 14px; }
+  .story__mural--tl { width: 260px; }
+  .story__mural--br { width: 380px; }
+}
+
+/* Very short phones (iPhone SE 1st gen, 568px): tighter list. */
+@media (max-aspect-ratio: 4/5) and (max-height: 600px) {
+  .story__stage { padding-block: 40px 28px; }
+  .period__name { font-size: 22px; }
+  .period__summary { font-size: 13px; }
+}
+
 /* Diving into period I (lib/dive.js): the story card hands over to the flying card,
    and the story stops reacting to the pointer. */
 .journey.is-diving .story__stage { will-change: transform; }
