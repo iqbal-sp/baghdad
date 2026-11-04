@@ -3172,7 +3172,7 @@ a.menu__link:focus-visible {
  * (2880 artboard px) plus a view; the track is pinned and lib/court-timeline.js turns the scroll
  * into --shift (0 → 1), which moves it sideways so that the first screen starts centred and the
  * last ends centred. The year nearest the centre of the screen is lit (.is-active), and the line
- * is gold up to it (--progress). Images are placeholders in their arches.
+ * is gold up to it (--progress). Each year has its scene in a plain frame (assets/court).
  *
  * Motion (not in Figma; lib/court-timeline.js sets the classes, .is-armed only with motion
  * allowed, so without it everything simply shows):
@@ -3402,8 +3402,8 @@ a.menu__link:focus-visible {
 /* Clicking another year brings it to the centre (lib/court-timeline.js). */
 .court-timeline__year:not(.is-active) { cursor: pointer; }
 
-/* The frame stays put; the image inside it (a placeholder for now) runs a little behind the
-   track (--drift), with room either side to do so. */
+/* The frame stays put; the image inside it runs a little behind the track (--drift), with room
+   either side to do so. The scenes are 16:9, a shade narrower than the 452 × 252.5 they fill. */
 .court-timeline__picture {
   top: 159.5px;
   left: 10px;
@@ -3422,20 +3422,11 @@ a.menu__link:focus-visible {
   translate: var(--drift, 0) 0;
 }
 
-.court-timeline__placeholder {
-  position: absolute;
-  top: 102px;
-  left: 50%;
-  width: 260px;
-  margin: 0;
-  padding-top: 40px;
-  translate: -50% 0;
-  color: rgb(240 223 211 / .6);
-  font-family: var(--font-label);
-  font-size: 13px;
-  line-height: 1.4;
-  /* A picture icon above the caption, while the image is to come. */
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 28 28' fill='none'><rect x='3' y='5' width='22' height='18' rx='1.5' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4'/><path d='M3 19l6-6 5 5 4-3 7 6' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4' stroke-linejoin='round'/><circle cx='19' cy='10' r='2' stroke='%23C8A15A' stroke-opacity='.6' stroke-width='1.4'/></svg>") 50% 0 / 26px 26px no-repeat;
+.court-timeline__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* 32px below the picture (Figma has 25). */
@@ -3749,7 +3740,7 @@ a.menu__link:focus-visible {
  * turns the astrolabe disc (--turn, about its centre at 720, 1121.5), bringing the five scholars
  * one after another up under the card in the hand, which shows the one at the top (.is-active).
  * The rim is drawn whole (assets/people/rim.svg) so it can turn; Figma's is cut at the frame.
- * Portraits are placeholders.
+ * Portraits: assets/people/portraits, whole, as in Figma.
  *
  * Motion (not in Figma; lib/people.js sets the classes, .is-armed only with motion allowed):
  * - entrance (.is-entered): the arch rises from its feet to the apex and the finial drops on to
@@ -3757,7 +3748,8 @@ a.menu__link:focus-visible {
  *   the stations follow one by one, and the hand brings the card up from below;
  * - each station grows and brightens as it nears the top (--near, --size), and passes under the
  *   card there;
- * - a new name on the card closes up from wide spacing, its line and fields rising after it;
+ * - the card changes with the turn itself, not on a timer: its portrait wheel turns the next face
+ *   in, and the last entry fades and slides out to the left as the next comes in from the right;
  * - it is uncovered by part I: part I goes on up over it at the scroll's speed while this comes
  *   up from behind at UNDER of it (lib/people.js, translate on the pin), in part I's shade
  *   (--shown, 0 → 1) until it is all there.
@@ -3899,8 +3891,10 @@ a.menu__link:focus-visible {
 .people__arch { top: 0; left: 0; }
 .people__finial { top: 5px; left: 704px; }
 
+/* The body ends 20px above the card's frame (514), as in Figma; its three lines are 79.2 here
+   (Figma rounds them to 78), so the block starts at 181 rather than Figma's 182. */
 .people__head {
-  top: 148px;
+  top: 181px;
   left: 405px;
   width: 630px;
   text-align: center;
@@ -3925,25 +3919,25 @@ a.menu__link:focus-visible {
 /* The tracking trails the last letter; pulled back so the stars sit evenly. */
 .people__kicker span { margin-right: -.4em; white-space: pre; }
 
-/* Svetze 90 / 1.2, −2% tracking, at y 182. */
+/* Svetze 80 / 1.2, −2% tracking, 16 below the kicker. */
 .people__title {
   margin: 16px 0 0;
   font-family: var(--font-display);
-  font-size: 90px;
+  font-size: 80px;
   font-weight: 400;
   line-height: 1.2;
-  letter-spacing: -1.8px;
+  letter-spacing: -1.6px;
 }
 
 .people__title > span { display: block; }
 
-/* DM Sans 18 / 1.65, 581 wide, at y 418. */
+/* DM Sans 16 / 1.65, 502 wide, 8 below the title. */
 .people__body {
-  width: 581px;
-  margin: 20px auto 0;
+  width: 502px;
+  margin: 8px auto 0;
   color: #675f56;
   font-family: var(--font-label);
-  font-size: 18px;
+  font-size: 16px;
   font-variation-settings: "opsz" 14;
   line-height: 1.65;
 }
@@ -3983,10 +3977,16 @@ a.menu__link:focus-visible {
 .people__seat-dots { inset: 0; }
 .people__seat-ring { top: 7px; left: 7px; }
 
+/* The portrait, round, with a fine gold edge; dimmer the further it is from the top. */
 .people__seat-portrait {
   top: 15px;
   left: 15px;
-  opacity: calc(.69 + .31 * var(--near, 1));
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  outline: 1px solid rgb(200 161 90 / .35);
+  outline-offset: -1px;
+  opacity: calc(.55 + .45 * var(--near, 1));
   transition: filter .4s var(--ease-out);
 }
 
@@ -4040,11 +4040,43 @@ a.menu__link:focus-visible {
 }
 
 .people__card > * { position: absolute; }
-.people__card-portrait { top: 68px; left: 125px; }
+/* Whoever is at the top, 96 round with a gold edge. Behind it the five portraits sit on a small
+   wheel that turns with the disc (lib/people.js, translate): the next comes in from the right
+   along its arc as the last goes out to the left. */
+.people__card-portrait {
+  top: 68px;
+  left: 125px;
+  width: 96px;
+  height: 96px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #2a2213;
+}
+
+/* Each round itself, so no straight edge shows while two pass through the window. */
+.people__card-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* Without the script, only the first: the card starts on Hunayn. */
+.people__card-portrait img:not(:first-child),
+.people__entry:not(:first-child) { visibility: hidden; }
+
+.people__card-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1.2px solid rgb(200 161 90 / .8);
+  border-radius: 50%;
+}
 .people__card-ring { top: 61px; left: 118px; }
 
-/* Each entry is a 240-wide column at (53, 186): name, line, the star rule 44 below the line, and
-   the fields 16 below the rule. */
+/* Each entry is a 240-wide column at (53, 186): name and line, then the star rule and the fields,
+   32 apart. */
 .people__entries { top: 186px; left: 53px; width: 240px; }
 
 .people__entry {
@@ -4057,10 +4089,17 @@ a.menu__link:focus-visible {
   align-items: center;
   color: #000;
   text-align: center;
-  visibility: hidden;
+  /* lib/people.js: --o, how much of it shows, and --x, how far it has slid, both from the turn. */
+  opacity: var(--o, 0);
 }
 
-.people__entry.is-active { visibility: visible; }
+.people__entry:first-child { --o: 1; }
+
+/* What is on it slides with the turn, the lower lines a little further, so they follow the name. */
+.people__entry > * { translate: calc(var(--x, 0px) * var(--k, 1)) 0; }
+.people__entry .people__line { --k: 1.2; }
+.people__entry .people__divider { --k: 1.4; }
+.people__entry .people__fields { --k: 1.6; }
 
 .people__name {
   margin: 0;
@@ -4075,17 +4114,18 @@ a.menu__link:focus-visible {
 .people__line {
   width: 196px;
   margin: 8px 0 0;
+  color: #71644f;
   font-family: var(--font-label);
   font-size: 14px;
   font-variation-settings: "opsz" 14;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-.people__divider { display: block; margin-top: 44px; }
+.people__divider { display: block; margin-top: 32px; }
 
 .people__fields {
   width: 196px;
-  margin: 16px 0 0;
+  margin: 32px 0 0;
   color: rgb(0 0 0 / .6);
   font-family: var(--font-label);
   font-size: 10px;
@@ -4097,34 +4137,6 @@ a.menu__link:focus-visible {
 }
 
 /* --- Motion. Armed by lib/people.js only with motion allowed. --- */
-
-/* A new name closes up from wide spacing; its line and fields rise in after it. The one leaving
-   fades as it goes. */
-.people.is-armed .people__entry { transition: visibility 0s linear .35s; }
-.people.is-armed .people__entry.is-active { transition: none; }
-
-.people.is-armed .people__entry > * {
-  opacity: 0;
-  translate: 0 8px;
-  transition: opacity .3s var(--ease-out), translate .3s var(--ease-out);
-}
-
-.people.is-armed .people__name { letter-spacing: .2em; transition: opacity .3s var(--ease-out), letter-spacing .3s var(--ease-out); }
-
-.people.is-armed .people__entry.is-active > * {
-  opacity: 1;
-  translate: 0 0;
-  transition: opacity .7s var(--ease-out) var(--d, .15s), translate 1s var(--rise) var(--d, .15s);
-}
-
-.people.is-armed .people__entry.is-active .people__name {
-  letter-spacing: -.01em;
-  transition: opacity .7s var(--ease-out) .15s, letter-spacing 1.3s var(--rise) .15s;
-}
-
-.people__entry .people__line { --d: .3s; }
-.people__entry .people__divider { --d: .38s; }
-.people__entry .people__fields { --d: .45s; }
 
 /* Entrance: the arch rises from its feet to the apex, then the finial drops on to it. */
 .people.is-armed .people__arch { clip-path: inset(100% 0 0 0); }
@@ -4192,7 +4204,7 @@ a.menu__link:focus-visible {
 }
 
 .people.is-entered .people__seat-portrait {
-  opacity: calc(.69 + .31 * var(--near, 1));
+  opacity: calc(.55 + .45 * var(--near, 1));
   transition: opacity .8s var(--ease-out) calc(.9s + var(--i, 0) * .12s), filter .4s var(--ease-out);
 }
 
