@@ -282,8 +282,8 @@ Gerak (tidak dari Figma; `lib/people.js` memberi kelas, transisinya di CSS). Han
 
 | Langkah | Pemicu | Gerak |
 | --- | --- | --- |
-| Datang | Puncak section naik dari bawah ke atas layar | Kebalikan dari menimpa: timeline bagian I (di atas, `z-index` 3) terus naik sekecepatan scroll, sementara section ini (di bawahnya, `z-index` 2) muncul dari belakangnya dan naik 50% kecepatan scroll (pin dinaikkan `translate` sampai menempel). Selama terbuka ia berada di bayangan bagian I: gelap 35% dan bayangan 48px di tepi bagian I, keduanya hilang saat puncak section sampai di atas (`--shown` 0 → 1) |
-| Masuk | Puncak section naik 25% layar (`.is-entered`) | Lengkung naik dari kaki ke puncak (2s, `clip-path`), finial turun ke atasnya di 1.7s; kicker, dua baris judul dan teks naik 44px di .3 / .42 / .54 / .72s, bintang kicker berputar masuk; cakram dan stasiun naik 140px sambil berputar 24° ke tempatnya (`--settle`, 2.6s); stasiun muncul satu per satu (+.12s); tangan mengangkat kartu 360px dari bawah (1.6s, mulai .8s) |
+| Datang | Iris dari bagian I (lihat di bawah) | Lingkaran yang membuka dari titik 945 |
+| Masuk | Iris mulai terbuka (4% bukaan, `lib/iris.js` memberi `.is-entered`) | Lengkung naik dari kaki ke puncak (2s, `clip-path`), finial turun ke atasnya di 1.7s; kicker, dua baris judul dan teks naik 44px di .3 / .42 / .54 / .72s, bintang kicker berputar masuk; cakram dan stasiun naik 140px sambil berputar 24° ke tempatnya (`--settle`, 2.6s); stasiun muncul satu per satu (+.12s); tangan mengangkat kartu 360px dari bawah (1.6s, mulai .8s) |
 | Putaran | Mengikuti scroll | Lima tokoh dalam empat putaran 30°; tiap tokoh berhenti di puncak selama 30% bagiannya, putarannya smoothstep. Stasiun membesar dan terang mendekati puncak lalu masuk ke bawah kartu |
 | Ganti tokoh | Mengikuti putaran, bukan waktu | Kartu bergerak bersama scroll. Potretnya, masing-masing bulat, berada di roda kecil (jari-jari 214, jarak antarpotret 112, jadi ada celah di antara keduanya) yang berputar bersama cakram: wajah berikutnya masuk dari kanan mengikuti busur, yang lama keluar ke kiri. Tiap isi kartu tampak menurut jarak stasiunnya dari puncak (`--o`, hilang di setengah stasiun, smoothstep) dan bergeser 16px per setengah stasiun (`--x`); kalimat, pembatas dan bidang bergeser 1.2 / 1.4 / 1.6 kali nama, jadi mengikuti di belakangnya. Hanya `translate` dan `opacity` |
 | Pindah tokoh | Klik stasiun, atau ← / → saat cakram menempel | Halaman di-scroll (Lenis, 1.4s) ke tengah jeda tokoh itu |
@@ -291,6 +291,20 @@ Gerak (tidak dari Figma; `lib/people.js` memberi kelas, transisinya di CSS). Han
 Dengan reduced motion tidak ada yang dipasang: semua tampil, dan cakram melompat dari satu tokoh ke berikutnya tanpa putaran halus.
 
 Diverifikasi pada 1024 × 768: pada `--turn` 0° tampilan sama dengan frame Figma; 60° / 45° / 0° / −60° menampilkan Hunayn / al-Kindi (di tengah putaran) / Banu Musa / al-Razi; urutan masuk berjalan; tanpa error konsol.
+
+## Transisi bagian I → II: iris dari 945 (tidak dari Figma)
+
+`lib/iris.js`. Timeline bagian I dibuat 1200 artboard px × skala lebih tinggi dari jarak tempuh track-nya (`--iris`), dan section bagian II dimulai satu layar ditambah jarak itu lebih tinggi (`margin-top` negatif), di bawahnya dalam alur tapi di atasnya dalam tumpukan (`z-index` 4). Selama 1200px itu keduanya menempel: bagian I masih menampilkan layar terakhirnya, dan pin bagian II di-`clip-path` menjadi lingkaran. Section bagian II sendiri `pointer-events: none` (hanya pin-nya yang menerima klik), jadi area di luar lingkaran tetap milik bagian I.
+
+| Fase | Bagian iris | Gerak |
+| --- | --- | --- |
+| Berkumpul | 0 → 22% | Track bergeser 260 artboard px lagi (`--focus`) sehingga 945 (x 3860) tepat di tengah layar; titiknya membesar 1.5× dengan cahaya emas (`--charge`); "Next · Part II" pudar sambil bergeser 32px ke kanan |
+| Membuka | 22 → 100% | Lingkaran tumbuh dari jari-jari titik ke sudut terjauh layar dengan kurva t^1.8, jadi lama sebagai jendela bulat (wajah Hunayn di kartu) lalu makin cepat. Tepi emasnya (`.court-timeline__iris`, 1.5px dengan cahaya 28px) berada tepat di luar lingkaran, di bagian I, dan pudar di paruh akhir. Bagian I meredup sampai 60% hitam dan mengecil 5% di sekitar tengah layar (`--recede`); isi bagian II mengendap dari 1.12 ke 1 di sekitar titik itu (`--iris-zoom`, pada `.people__view`); bintang 945 berlanjut di dalam lingkaran (`.people__iris-star`), membesar sampai 6× sambil berputar dan pudar di 45% pertama bukaan |
+| Terbuka | 100% | `clip-path` dilepas (`.is-open`); cakram mulai berputar setelah iris |
+
+Pusat lingkaran diukur dari titik 945 sendiri setelah transform track frame itu dipasang, jadi tetap di titiknya pada skala berapa pun. Latar bagian II dipindah dari pin ke `.people__view`, agar tinta (`overlay`) dan tangan (`lighten`) tetap berbaur dengan latar di dalam grup yang dibuat oleh `scale`. Dengan reduced motion tidak ada fase berkumpul maupun pertumbuhan: bagian II langsung tampil dari separuh iris.
+
+Diverifikasi pada 1440 × 900: bagian II mulai tepat di akhir track (24294 px); jari-jari 0 / 13 / 77 / 155 / 460 / 907 px di 10 / 22 / 40 / 50 / 75 / 100% iris, pusat di (720, 554 → 548); scroll balik menutup iris lagi; stasiun bisa diklik setelah terbuka dan bagian I tetap bisa diklik di luar lingkaran; reduced motion: tertutup lalu terbuka penuh di separuh iris; tanpa error konsol.
 
 ## Performa (tanpa perubahan tampilan)
 

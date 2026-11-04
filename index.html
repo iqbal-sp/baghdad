@@ -725,6 +725,8 @@
               <span class="court-timeline__next-title">The people<br>behind it</span>
             </p>
           </div>
+          <!-- The gold edge of the iris that opens on part II from 945's node (lib/iris.js). -->
+          <span class="court-timeline__iris" aria-hidden="true"></span>
         </div>
       </section>
 
@@ -733,122 +735,128 @@
            hand, which then shows who they were (lib/people.js). -->
       <section class="people" id="people" aria-labelledby="people-title" data-node-id="265:166">
         <div class="people__pin">
-          <img class="people__ink" src="assets/people/ink-paint.avif" width="2048" height="1520" alt="" aria-hidden="true" decoding="async" loading="lazy">
-          <div class="people__stage">
-            <div class="people__pattern" aria-hidden="true"></div>
+          <!-- Everything part II shows, opened by the iris from part I (lib/iris.js) and settling
+               from a slight zoom as it opens. -->
+          <div class="people__view">
+            <img class="people__ink" src="assets/people/ink-paint.avif" width="2048" height="1520" alt="" aria-hidden="true" decoding="async" loading="lazy">
+            <div class="people__stage">
+              <div class="people__pattern" aria-hidden="true"></div>
 
-            <!-- The rim and its stars turn with the scroll (--turn). -->
-            <div class="people__disc" aria-hidden="true">
-              <img class="people__rim" src="assets/people/rim.svg" width="1040" height="1040" alt="" decoding="async" loading="lazy">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -75deg">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -45deg">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -15deg">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 15deg">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 45deg">
-              <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 75deg">
+              <!-- The rim and its stars turn with the scroll (--turn). -->
+              <div class="people__disc" aria-hidden="true">
+                <img class="people__rim" src="assets/people/rim.svg" width="1040" height="1040" alt="" decoding="async" loading="lazy">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -75deg">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -45deg">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: -15deg">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 15deg">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 45deg">
+                <img class="people__star" src="assets/people/rete-star.svg" width="12" height="12" alt="" style="--a: 75deg">
+              </div>
+
+              <img class="people__arch" src="assets/people/arch.svg" width="1440" height="1009" alt="" aria-hidden="true" decoding="async" loading="lazy">
+              <img class="people__finial" src="assets/people/finial.svg" width="32" height="52" alt="" aria-hidden="true">
+
+              <div class="people__head">
+                <p class="people__kicker"><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span>Part II · 833–945</span><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""></p>
+                <h3 class="people__title" id="people-title"><span>The people</span> <span>behind it</span></h3>
+                <p class="people__body">Baghdad’s learning was carried by people: translators who checked every manuscript, a philosopher who broke codes, engineers, and physicians who wrote at the bedside. Here are five of them.</p>
+              </div>
+
+              <!-- Five stations on the disc, 30° apart; the one at the top is under the card. -->
+              <ol class="people__stations" role="list">
+                <li class="people__station" style="--a: -60deg">
+                  <button class="people__seat" type="button" aria-label="Hunayn ibn Ishaq">
+                    <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                    <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                    <img class="people__seat-portrait" src="assets/people/portraits/01-hunayn-ibn-ishaq.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  </button>
+                  <span class="people__numeral" lang="ar" aria-hidden="true">١</span>
+                </li>
+                <li class="people__station" style="--a: -30deg">
+                  <button class="people__seat" type="button" aria-label="Al-Kindi">
+                    <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                    <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                    <img class="people__seat-portrait" src="assets/people/portraits/02-al-kindi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  </button>
+                  <span class="people__numeral" lang="ar" aria-hidden="true">٢</span>
+                </li>
+                <li class="people__station" style="--a: 0deg">
+                  <button class="people__seat" type="button" aria-label="Banu Musa">
+                    <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                    <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                    <img class="people__seat-portrait" src="assets/people/portraits/03-banu-musa.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  </button>
+                  <span class="people__numeral" lang="ar" aria-hidden="true">٣</span>
+                </li>
+                <li class="people__station" style="--a: 30deg">
+                  <button class="people__seat" type="button" aria-label="Thabit ibn Qurra">
+                    <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                    <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                    <img class="people__seat-portrait" src="assets/people/portraits/04-thabit-ibn-qurra.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  </button>
+                  <span class="people__numeral" lang="ar" aria-hidden="true">٤</span>
+                </li>
+                <li class="people__station" style="--a: 60deg">
+                  <button class="people__seat" type="button" aria-label="Al-Razi">
+                    <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
+                    <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
+                    <img class="people__seat-portrait" src="assets/people/portraits/05-al-razi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  </button>
+                  <span class="people__numeral" lang="ar" aria-hidden="true">٥</span>
+                </li>
+              </ol>
             </div>
 
-            <img class="people__arch" src="assets/people/arch.svg" width="1440" height="1009" alt="" aria-hidden="true" decoding="async" loading="lazy">
-            <img class="people__finial" src="assets/people/finial.svg" width="32" height="52" alt="" aria-hidden="true">
-
-            <div class="people__head">
-              <p class="people__kicker"><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""><span>Part II · 833–945</span><img src="assets/people/kicker-star.svg" width="12" height="12" alt=""></p>
-              <h3 class="people__title" id="people-title"><span>The people</span> <span>behind it</span></h3>
-              <p class="people__body">Baghdad’s learning was carried by people: translators who checked every manuscript, a philosopher who broke codes, engineers, and physicians who wrote at the bedside. Here are five of them.</p>
-            </div>
-
-            <!-- Five stations on the disc, 30° apart; the one at the top is under the card. -->
-            <ol class="people__stations" role="list">
-              <li class="people__station" style="--a: -60deg">
-                <button class="people__seat" type="button" aria-label="Hunayn ibn Ishaq">
-                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
-                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
-                  <img class="people__seat-portrait" src="assets/people/portraits/01-hunayn-ibn-ishaq.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                </button>
-                <span class="people__numeral" lang="ar" aria-hidden="true">١</span>
-              </li>
-              <li class="people__station" style="--a: -30deg">
-                <button class="people__seat" type="button" aria-label="Al-Kindi">
-                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
-                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
-                  <img class="people__seat-portrait" src="assets/people/portraits/02-al-kindi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                </button>
-                <span class="people__numeral" lang="ar" aria-hidden="true">٢</span>
-              </li>
-              <li class="people__station" style="--a: 0deg">
-                <button class="people__seat" type="button" aria-label="Banu Musa">
-                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
-                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
-                  <img class="people__seat-portrait" src="assets/people/portraits/03-banu-musa.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                </button>
-                <span class="people__numeral" lang="ar" aria-hidden="true">٣</span>
-              </li>
-              <li class="people__station" style="--a: 30deg">
-                <button class="people__seat" type="button" aria-label="Thabit ibn Qurra">
-                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
-                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
-                  <img class="people__seat-portrait" src="assets/people/portraits/04-thabit-ibn-qurra.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                </button>
-                <span class="people__numeral" lang="ar" aria-hidden="true">٤</span>
-              </li>
-              <li class="people__station" style="--a: 60deg">
-                <button class="people__seat" type="button" aria-label="Al-Razi">
-                  <img class="people__seat-dots" src="assets/people/station-outer.png" width="134" height="134" alt="">
-                  <img class="people__seat-ring" src="assets/people/station-ring.svg" width="120" height="120" alt="">
-                  <img class="people__seat-portrait" src="assets/people/portraits/05-al-razi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                </button>
-                <span class="people__numeral" lang="ar" aria-hidden="true">٥</span>
-              </li>
-            </ol>
-          </div>
-
-          <!-- The card in the hand: whoever is at the top of the disc. Its picture is outside the
-               stages so it can lighten what is behind it, ground included. -->
-          <img class="people__hand" src="assets/people/card-in-hand.avif" width="1024" height="1536" alt="" aria-hidden="true" decoding="async" loading="lazy">
-          <div class="people__stage people__stage--front">
-            <div class="people__card">
-              <span class="people__card-portrait" aria-hidden="true">
-                <img src="assets/people/portraits/01-hunayn-ibn-ishaq.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                <img src="assets/people/portraits/02-al-kindi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                <img src="assets/people/portraits/03-banu-musa.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                <img src="assets/people/portraits/04-thabit-ibn-qurra.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-                <img src="assets/people/portraits/05-al-razi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
-              </span>
-              <img class="people__card-ring" src="assets/people/card-ring.svg" width="110" height="110" alt="" aria-hidden="true">
-              <div class="people__entries">
-                <div class="people__entry">
-                  <h4 class="people__name">Hunayn<br>ibn Ishaq</h4>
-                  <p class="people__line">Gathered every copy of a text before he translated it.</p>
-                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
-                  <p class="people__fields">Translation · Medicine</p>
-                </div>
-                <div class="people__entry" aria-hidden="true">
-                  <h4 class="people__name">Al-Kindi</h4>
-                  <p class="people__line">The philosopher who broke codes by counting letters.</p>
-                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
-                  <p class="people__fields">Philosophy · Cryptography · Music</p>
-                </div>
-                <div class="people__entry" aria-hidden="true">
-                  <h4 class="people__name">Banu Musa</h4>
-                  <p class="people__line">Engineers, surveyors and patrons: three brothers in one.</p>
-                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
-                  <p class="people__fields">Mathematics · Astronomy · Mechanics</p>
-                </div>
-                <div class="people__entry" aria-hidden="true">
-                  <h4 class="people__name">Thabit<br>ibn Qurra</h4>
-                  <p class="people__line">Translated Euclid, then went beyond him.</p>
-                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
-                  <p class="people__fields">Mathematics · Astronomy</p>
-                </div>
-                <div class="people__entry" aria-hidden="true">
-                  <h4 class="people__name">Al-Razi</h4>
-                  <p class="people__line">A physician who wrote down what he saw at the bedside.</p>
-                  <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
-                  <p class="people__fields">Medicine · Alchemy · Philosophy</p>
+            <!-- The card in the hand: whoever is at the top of the disc. Its picture is outside the
+                 stages so it can lighten what is behind it, ground included. -->
+            <img class="people__hand" src="assets/people/card-in-hand.avif" width="1024" height="1536" alt="" aria-hidden="true" decoding="async" loading="lazy">
+            <div class="people__stage people__stage--front">
+              <div class="people__card">
+                <span class="people__card-portrait" aria-hidden="true">
+                  <img src="assets/people/portraits/01-hunayn-ibn-ishaq.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  <img src="assets/people/portraits/02-al-kindi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  <img src="assets/people/portraits/03-banu-musa.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  <img src="assets/people/portraits/04-thabit-ibn-qurra.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                  <img src="assets/people/portraits/05-al-razi.avif" width="400" height="400" alt="" decoding="async" loading="lazy">
+                </span>
+                <img class="people__card-ring" src="assets/people/card-ring.svg" width="110" height="110" alt="" aria-hidden="true">
+                <div class="people__entries">
+                  <div class="people__entry">
+                    <h4 class="people__name">Hunayn<br>ibn Ishaq</h4>
+                    <p class="people__line">Gathered every copy of a text before he translated it.</p>
+                    <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                    <p class="people__fields">Translation · Medicine</p>
+                  </div>
+                  <div class="people__entry" aria-hidden="true">
+                    <h4 class="people__name">Al-Kindi</h4>
+                    <p class="people__line">The philosopher who broke codes by counting letters.</p>
+                    <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                    <p class="people__fields">Philosophy · Cryptography · Music</p>
+                  </div>
+                  <div class="people__entry" aria-hidden="true">
+                    <h4 class="people__name">Banu Musa</h4>
+                    <p class="people__line">Engineers, surveyors and patrons: three brothers in one.</p>
+                    <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                    <p class="people__fields">Mathematics · Astronomy · Mechanics</p>
+                  </div>
+                  <div class="people__entry" aria-hidden="true">
+                    <h4 class="people__name">Thabit<br>ibn Qurra</h4>
+                    <p class="people__line">Translated Euclid, then went beyond him.</p>
+                    <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                    <p class="people__fields">Mathematics · Astronomy</p>
+                  </div>
+                  <div class="people__entry" aria-hidden="true">
+                    <h4 class="people__name">Al-Razi</h4>
+                    <p class="people__line">A physician who wrote down what he saw at the bedside.</p>
+                    <img class="people__divider" src="assets/people/card-divider.svg" width="120" height="12" alt="">
+                    <p class="people__fields">Medicine · Alchemy · Philosophy</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
+          <!-- 945's star, carried through the iris and spent as it opens. -->
+          <span class="people__iris-star" aria-hidden="true"><svg viewBox="0 0 18 18"><path d="M15.36 2.64L12.16 7.69L18 9L12.16 10.31L15.36 15.36L10.31 12.16L9 18L7.69 12.16L2.64 15.36L5.84 10.31L0 9L5.84 7.69L2.64 2.64L7.69 5.84L9 0L10.31 5.84L15.36 2.64Z"/></svg></span>
         </div>
       </section>
     </main>
