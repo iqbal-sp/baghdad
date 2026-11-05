@@ -330,7 +330,6 @@ Bukan section sendiri: TAIL (3940 artboard px) terakhir dari pin bagian II (`lib
 | Elemen | Geometri / gaya |
 | --- | --- |
 | Lukisan | `assets/sky/baghdad-night-945.avif` (dari PNG 1920 × 1080, 79 KB), mengisi artboard seperti FILL di Figma: 1820 lebar di x −190 |
-| About 100 | Grafis diam, tanpa animasi: "ABOUT 100" Svetze 300 / 1.05, −2%, huruf besar, putih 34% dengan blend `overlay` di atas lukisan, di tengah pada y 771 (terpotong layar di bawah) |
 | Langit | Gradasi `#05060C` 75% → 20% di 70% → 0 setinggi 640; bintang latar `assets/sky/stars.svg`, titik yang sama dengan Figma |
 | Bintang tokoh | Di (423, 540), (492, 330), (720, 120), (948, 330), (1017, 540): sinar bintang delapan sudut 108 (28%), cincin bertitik 74 (emas 50%, garis 1/3), potret 56 bertepi emas 90%, angka Aref Ruqaa Ink 18 emas 85% 71.5 di atas pusat |
 | Garis | Lengkung runcing dari Figma (`.sky__figure`, emas 50%, kaki memudar ke kota), dipotong di sekitar tiap bintang |
