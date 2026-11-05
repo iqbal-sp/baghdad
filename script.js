@@ -19,6 +19,9 @@ import { startPeople } from './lib/people.js';
 import { startIris } from './lib/iris.js';
 import { startSky } from './lib/sky.js';
 import { startNextPeriod } from './lib/next-period.js';
+import { startBrilliance } from './lib/brilliance.js';
+import { startBuiltToLast } from './lib/built-to-last.js';
+import { startHall } from './lib/hall.js';
 
 const heroElement = document.querySelector('.hero');
 const heroLayout = startHeroLayout(heroElement);
@@ -42,6 +45,7 @@ startNavbar(document.querySelector('.navbar'), document.querySelector('#journey'
   returnPin: document.querySelector('.closing-pin'),
   resume: document.querySelector('.court-timeline'),
   end: document.querySelector('.people'),
+  endResume: document.querySelector('#built-to-last'),
 });
 startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'), {
   lenis,
@@ -50,6 +54,8 @@ startMenu(document.querySelector('.navbar'), document.querySelector('#site-menu'
     foundations: () => goToChapter(true),
     // Set up below, once the closing's map exists; only called from a click.
     flourishing: () => periodMap.goToChapter?.(true),
+    // Likewise, once the end map exists.
+    brilliance: () => brilliance.goToChapter?.(true),
   },
 });
 startCapital(document.querySelector('.scene--capital'));
@@ -63,12 +69,15 @@ startCourtTimeline(document.querySelector('.court-timeline'), { lenis });
 const people = startPeople(document.querySelector('.people'), { lenis });
 startIris(document.querySelector('.court-timeline'), document.querySelector('.people'), { lenis, onOpen: people?.enter });
 startSky(document.querySelector('.people'), { lenis });
+const brilliance = startBrilliance(document.querySelector('.people'), { lenis });
+startBuiltToLast(document.querySelector('.built-to-last'), { lenis });
+startHall(document.querySelector('.hall'), { lenis });
 // After the first screen has loaded, so later sections' images don't compete with it.
 afterLoad(() => decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),
 }));
 pauseOffscreen(document.querySelectorAll(
-  '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp',
+  '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp, .hall__glow',
 ));
 startNextPeriod(document.querySelector('.next-period'), storyElement);

@@ -71,9 +71,9 @@ Sumber: node `153:14207` ("A new centre for a new dynasty") dan `158:91` ("A riv
 | 153:14207 / 158:91 | Section | 1440 × 1249; latar `#efefef` / `#ffffff` (sesuai Figma, keduanya berbeda) |
 | 153:14210 / 158:92 | Penanda | "01 · 750" / "02 · 762", DM Sans Medium 20px/1.4, tracking 40%, uppercase, `#0b0a0a`; (89, 120) |
 | 153:14208 | Judul adegan 1 | Svetze 90px/1.2, tracking −1.8px, lebar 691, kotak dipangkas ke cap height (`text-box-trim`); (397, 120), tinggi 171 |
-| 153:14211 | Cerita adegan 1 | DM Sans 18px/1.5, `opsz` 14, lebar 648; (397, 335), 4 baris |
+| 153:14211 | Cerita adegan 1 | DM Sans 18px/1.65 (semua body text 18px kini 165%, tracking normal; sebelumnya 1.5), `opsz` 14, lebar 648; (397, 335), 4 baris |
 | 153:14213 / 153:14229 | Lukisan adegan 1 | Frame 690 × 640 di (397, 483) yang memotong gambar 702 × 652 sebesar 6px di tiap sisi; `assets/story/new-centre-new-dynasty.jpg` (1302 × 1208, dari Figma) |
-| 158:93 | Kolom teks adegan 2 | Flex kolom di (397, 120), lebar 636, gap 28: judul Svetze 90px/1.2 (tidak dipangkas, sesuai Figma) lalu cerita 18px/1.5. Figma memotong cerita 648px di lebar 636 ("cit"); di web kolom tidak memotong, dan cerita diberi 652px karena baris terakhirnya ±1px lebih lebar di browser sehingga tetap 4 baris |
+| 158:93 | Kolom teks adegan 2 | Flex kolom di (397, 120), lebar 636, gap 28: judul Svetze 90px/1.2 (tidak dipangkas, sesuai Figma) lalu cerita 18px/1.65 (sebelumnya 1.5). Figma memotong cerita 648px di lebar 636 ("cit"); di web kolom tidak memotong, dan cerita diberi 652px karena baris terakhirnya ±1px lebih lebar di browser sehingga tetap 4 baris |
 | 158:96 | Tahun | "762", Svetze 440px/0.88, tracking −17.6px; (76, 528) |
 | 158:97 | Lukisan adegan 2 | 560 × 420 di (656, 624), menimpa angka terakhir; bayangan 10 10 30 `rgb(4 10 18 / .11)`; `assets/story/river-route-decision.avif` (1120 × 840, 2×, dari Figma) |
 | 158:98 | Number in context | Kolom 520 di (89, 936), gap 10: bintang 12px (`.story__star`, bentuk identik dengan vektor 158:100) + "CE · 145 AH" DM Sans Medium 16px, tracking 40%; keterangan 16px/1.5; catatan 13px/1.4 `#0b0a0a` 55% |
@@ -147,11 +147,11 @@ Frame asli `172:376`; rute dan ruling ditambahkan di salinannya `182:49` ("scree
 | 182:51 | Pasar | Bingkai 778 × 674 di (357, 271), `01-beyond-the-walls.jpg` cover; unveil, jeda 150ms |
 | 182:53 / 182:55 | Lukisan samping | 374 × 468 di (−74, 477) dan (1192, 272); unveil, jeda 300 / 450ms. Di layar lebih lebar dari 1440 : 1024 keduanya memanjang sejauh `--spare` sehingga tetap keluar dari tepi layar |
 | 182:57 | Judul | Svetze 90 / 1.2, −1.8px, rata kanan, kotak 838 di (301, 120); naik kata demi kata |
-| 182:58 | Isi | DM Sans 18 `#8a8686`, 581 lebar di (430, 1009), jarak 44. Leading dibuka dari 165% (Figma) ke 185% agar ruling tidak menempel ke teks |
+| 182:58 | Isi | DM Sans 18 `#8a8686`, 581 lebar di (430, 1009), jarak 44. Leading sempat dibuka ke 185% agar ruling tidak menempel ke teks; kini kembali 165% seperti Figma (semua body text 18px 165%), dan ruling dipindah ke 29px |
 | 182:61 / 182:63 | Badge I, II | Badge tetap dihapus. Indentasi baris pertama kedua paragraf dipulihkan mengikuti referensi Figma dengan `text-indent: 110px`, tanpa spasi tambahan pada isi teks |
 | 182:75 | Rute | SVG 1440 × 1533 di atas lukisan (tidak ada garis yang menimpa lukisan, jadi urutannya sama saja dengan Figma). Lima kurva emas 50%, 0.9px, dari x −10 / 1450 ke tepi lukisan; tiga cabang putus-putus 2 5 (32%); titik singgah 3px di t 0.3 dan 0.62 (yang tertutup lukisan dihilangkan); gerbang = cincin 13px + titik krem 4px |
 | 182:121 | Label | "Route label" (komponen, Align Left/Right): nama DM Sans Medium 10, tracking 22%, krem 78%; isi 12px krem 50%; 24px dari tepi layar (`--spare`). Daftar `<ul>` sungguhan, bukan dekorasi |
-| 182:71 | Ruling mistara | Per paragraf `::before`: satu garis emas 16% di 31px dalam tiap baris 33.3px (8px di bawah baseline, bebas dari descender), 26px melewati kolom, dengan lubang jarum krem 30% di kedua ujung. Garis margin vertikal (`.capital__margins`, di dalam `.capital__text` dengan `inset: -14px -26px`, jadi ikut tinggi teks) dari 14px di atas paragraf I sampai 14px di bawah paragraf II |
+| 182:71 | Ruling mistara | Per paragraf `::before`: satu garis emas 16% di 29px dalam tiap baris 29.7px (18px/165%; baseline DM Sans di 20.85px, jadi 8px di bawah baseline, bebas dari descender; sebelumnya 31px dalam baris 33.3px pada line height 1.85), 26px melewati kolom, dengan lubang jarum krem 30% di kedua ujung. Garis margin vertikal (`.capital__margins`, di dalam `.capital__text` dengan `inset: -14px -26px`, jadi ikut tinggi teks) dari 14px di atas paragraf I sampai 14px di bawah paragraf II |
 
 Masuk sebagai kartu (tidak dari Figma, berdasarkan arahan): adegan dibungkus `.capital-cover` yang mulai `--capital-wipe` (130vh) sebelum penjelajah Round City lepas dari pin dan lebih tinggi sebanyak itu dari adegan, jadi adegan menempel di atas layar selama 130vh di atas denah yang diam, lalu scroll biasa. Sebelumnya denah diam di Palace selama `--capital-rest` (60vh) agar zoom dan panelnya sempat terbaca. `lib/capital.js` (`startCover`) mengubah scroll itu menjadi `--wipe` 0 → 1 (ease-out `1 − (1 − t)^1.5`, langsung bergerak lalu melambat saat mendarat) dan meletakkan adegan di atas denah seperti kartu: mulai tepat di bawah layar, 8% lebar layar ke kanan dan diputar 12° berlawanan jarum jam di sekitar tengah tepi atasnya (jadi sudut kanan atas yang lebih dulu masuk), lalu naik, berputar lurus, dan mendarat di tempatnya (`--sheet-x`, `--sheet-y`, `--sheet-turn` sebagai `translate`/`rotate` pada `.scene`). Tepi kartu lurus; bayangannya di atas denah (60%, blur 90px) memudar saat kartu mendarat, dan isi adegan mengendap dari skala 1.04. Sapuan dari sudut kanan atas, tepi tinta (CSS Paint Worklet) dan sapuan dari bawah sempat dicoba lalu diganti atas arahan. Bagian adegan (`[data-reveal]`) masuk seperti adegan 1–2, begitu terlihat di layar, jadi ikut tiba bersama kartu, masing-masing dengan animasinya sendiri: lukisan memudar masuk sambil dicuci dari sepia gelap ke warna penuh dan mengendap dari zoom, kata judul naik dari blur 14px, paragraf dari blur 6px, nama tempat merapat dari spasi huruf 0.6em. Parallax kedalaman (`startDepth` di `lib/capital.js`, inersia 0.14 per frame): dari awal kartu masuk sampai adegan lewat, tiap lukisan bergerak dengan kecepatannya sendiri dalam px artboard per viewport scroll (`--drift-*`): kiri naik 90, kanan turun 70 (berlawanan arah dengan kiri), pasar naik 42, judul naik 16. Semuanya tepat di posisi Figma saat kartu mendarat. Rute ikut kecepatan pasar karena semua gerbangnya ada di tepi pasar. Di dalam bingkai, gambar tertinggal ke arah sebaliknya 22px per viewport (`--inner-*`); gambar beristirahat di skala 1.12 sehingga ada ruang 6% tinggi bingkai di atas dan bawah, dan geserannya dibatasi di situ. Selama kartu masuk lukisan samping juga bergeser ±120px dari sisinya (`--wipe`). Karena adegan 4 masih section terakhir, parallax setelah kartu mendarat baru sekitar setengah viewport sebelum halaman habis. Link `#capital` langsung ke saat kartu sudah mendarat. Tanpa JS atau dengan `prefers-reduced-motion`, adegan hanya naik menimpa denah lalu diam sebentar.
 
@@ -396,3 +396,70 @@ Cabang `responsive-mobile` (hero, story, dive ke Foundations, slider periode ber
 
 Diverifikasi: di desktop (1440 × 900) screenshot sebelum dan sesudah gabungan identik di 52 posisi maju dan 35 posisi mundur, dan urutan tampil-sembunyi navbar sama. Di 390 × 844, 820 × 1180 dan 844 × 390: tanpa error, tanpa scroll horizontal; slider penutup berpindah ke Periode II di akhir halaman portrait.
 
+## Periode III — Enduring Brilliance (314:3692) dan Built to last (335:4367)
+
+Gerak tidak dari Figma, berdasarkan arahan "apply animationnya" dan pola Periode I–II. Semua angka scroll dalam px artboard × `--stage-scale`.
+
+### Pembuka (`lib/brilliance.js`)
+
+Bab ini bagian dari pin `.people`, seperti Flourishing di pin penutup Periode I: `#brilliance` duduk di `.period-map--end`, dan `TAIL` di `lib/sky.js` bertambah `ONWARD`. `content-visibility` peta kini hanya pada `.period-map__camera`, supaya heading bab bisa diukur saat start-up.
+
+| Tahap | Panjang | Isi |
+| --- | --- | --- |
+| Diam | 300 | Kartu III berdiri di depan |
+| Dive | 2048 | `createDive` dari kartu III (414.6, 654.6, 124.8) ke lukisan; heading memakai `lib/heading-reveal.js`; mural tumbuh mulai 70% |
+| Judul | 1100 | Baris 1 dari −1480, baris 2 dari +1760 (px frame, terlambat 7%), ease-out, berhenti tepat di posisi Figma. Tidak saat dive, karena kartu terbang ada di atasnya |
+| Jeda | 140 | Diam |
+| Baca | 560 | Frame digeser `1259 × lebar/1440 − tinggi layar`; paragraf masuk kata demi kata saat mencapai 92% tinggi layar, selesai sebelum baca berakhir |
+| Cover | 1024 | Built to last naik menutupi frame terakhir |
+
+- Bab mengikuti lebar halaman, bukan `--stage-scale`, jadi `createDive` kini menerima `land` dan `read` berupa fungsi viewport, plus `card` (lebar kotak kartu). `land` tetap dalam px artboard story, `read` dalam px layar. Periode I–II tidak berubah.
+- Veil ada di atas stage, bukan di bawahnya seperti Periode I–II: difference blend butuh latar di dalam group yang sama. Yang harus terlihat selama veil terbuka (heading, mural) ada di `.brilliance__front`.
+- Mural di-inline saat `.people` mendekat (`fetch`), bukan ditulis di `index.html`. Tiap anak langsung `<g>` adalah batang atau tunas; tunas tumbuh dari titik pertama path pertamanya. Jika `fetch` gagal, `<img>` tetap tampil.
+
+### Part I (`lib/built-to-last.js`)
+
+Frame 1440 × 964, diskala ke lebar halaman, minimal setinggi layar. `margin-top` −1024 sehingga section naik di atas pin yang masih menempel (`coverPrevious` dengan `pinned`); tidak ada pin sendiri.
+
+Gerak (tidak dari Figma, atas arahan): selama section tiba, dari 30% (saat cakram mulai masuk layar) sampai 100%, ease-out kuadratik, cakram berputar dari +180° ke 0° (dari kanan ke kiri), dan gambar gerbang serta tulisan lengkung dari −180° ke 0°. Sudut dan titik mulainya ada di `TURN` dan `START`. Sisanya diam. Dengan reduced motion tidak ada putaran.
+
+| Bagian | Catatan |
+| --- | --- |
+| Pusat putar | Cakram di (720.47, 559.4), diukur dari alpha `seal.webp`, bukan pusat kotak 514. Tulisan di (720, 559), pusat lingkaran teks 335:4391. Gambar di pusat elips masknya |
+| Bayangan | `drop-shadow` ada di `.built-to-last__seal`, rotasi di `.built-to-last__seal-crop` di dalamnya, supaya arah bayangan tetap |
+| Mask gerbang | Lubang cakram 225 × 232, sedikit lonjong, jadi mask (Figma 226.7 × 233.8) dilebarkan ke 240 × 240 dengan pusat sama. Saat diam tepinya tertutup cakram, jadi tampilannya tetap; saat berputar gambar tetap memenuhi lubang |
+| Tulisan lengkung | `assets/built-to-last/curved-copy.svg` dari ekspor 335:4391; latar `#F5F5F5` dan `#EFEFEF` bawaan ekspor dihapus. Teks 16px, posisi (482.479, 519.475), berputar pada pusat lingkaran teks (720, 559) |
+| Relief | `embossed-top.png` dan `embossed-bottom.png` adalah render Figma 2× yang opaque di warna kertas. Ekspor SVG-nya kehilangan feather, sehingga tepinya terpotong keras. `z-index: −1`, di bawah orbit |
+| Orbit dan garis | Opacity 30% sudah ada di dalam SVG; tidak ada opacity tambahan di CSS |
+
+Relief saat hover (tidak dari Figma): `embossed-full.svg` adalah huruf relief dari kedua mask group Figma tanpa mask elipsnya, dengan filter emboss yang dilunakkan (blur tepi lebih lebar, highlight putih 50% dan 32%, bukan 90% dan 60%), sehingga hurufnya utuh dan menyatu dengan kertas. Letaknya di atas `embossed-*.png` dan di bawah kertas, opacity 70%. Terlihat lewat mask radial 380 px dengan falloff bertahap di sekitar pointer, yang mengikuti dengan inersia 0.1 per frame, dan memudar 1.2 detik saat masuk atau keluar section. Hanya untuk pointer halus; tidak aktif dengan reduced motion.
+
+### Aula tiga fondasi (`lib/hall.js`, Figma 359:220)
+
+Frame adegan 1440 × 964. Stage difit ke layar (`--hall-scale`, nilai terkecil dari lebar / 1440 dan tinggi / 964), berbeda dari frame Period III lain yang mengikuti lebar halaman, supaya lukisan dan teks selalu muat. Tiap bay 1582 px stage dengan offset −71, −91 dari potongan di Figma, jadi di layar lebar bay tetangga ikut terlihat. Bay saling menimpa 110 px di dalam pintu gelap, dan dinding berikutnya memudar masuk lewat mask, jadi lantai dan karpet menyambung tanpa garis; jarak antar bay 1472 px.
+
+| Bagian | Ukuran | Catatan |
+| --- | --- | --- |
+| Dinding | `assets/hall/bay-*.avif`, 1536 × 1024 | Figma AI. Sisi atas bingkai bawaan di `bay-buyid` ditambal dengan bata. Benda pameran ada di dalam gambar |
+| Lukisan | 696 × 466 di (372, 49) | Tiga gambar dari Figma 357:4851, utuh 3:2 |
+| Cahaya lukisan | Satu lapisan multiply | Warna hangat 34% dan gradasi radial ke sudut |
+| Bingkai | `frame.webp`, 763.5 × 534 di (338, 15) | Figma AI, latar hijau dipisahkan, bukaan transparan. Satu pita ornamen 127 px dipotong di tengah agar bukaan 3:2, dan kecerahan dipanggang 88% |
+| Plakat | `plaque.webp`, 219 × 38 di (610.5, 533) | Figma AI. Teks hidup DM Sans Medium 10 px dengan `mix-blend-mode: multiply`, dan `::after` terang sebagai bibir bawah ukiran |
+| Teks | Svetze 52 / 56, DM Sans 18 / 165%, di y 618 | Lebar body 680. Satu blok per scene, ditumpuk di posisi yang sama |
+
+Scroll, dalam px artboard × `--stage-scale`:
+
+| Tahap | Panjang | Isi |
+| --- | --- | --- |
+| Menembus cakram | `THROUGH` 1500 | `.built-to-last` lebih tinggi sebanyak ini dan `.built-to-last__pin` menempel di kaki frame. `.hall` naik sejauh itu ditambah satu view, jadi pinnya sudah menempel. `.built-to-last__picture` berisi lukisan pertama selebar 362 px dengan lapisan cahaya yang sama, dan aula mengambil alih di ukuran dan posisi itu, jadi tidak ada perubahan gambar. Kamera cakram zoom dengan laju konstan dari pusat lubang, `clip-path: circle` aula tumbuh bersama lubang, dan lukisan awalnya tumbuh dengan laju yang sama lalu melambat ke tempatnya |
+| Masuknya teks | 80–100% dari `THROUGH` | Teks scene 1 naik |
+| Berjalan | `TRAVEL` 4600 | Tiap bay diam selama 36% dari bagiannya. Teks hilang 0.2 bay dari tempatnya: heading naik per kata (`WORDS`), body menyusul (`BODY`), sama saat keluar. Titik penanda terang mengikuti jarak kamera ke tiap bay. Peredupan adalah satu lapisan pada view (`.hall__passage`), bukan per bay, jadi tidak punya tepi |
+| Surat penutup | `THROW` 1200 | `--hall-travel` menjadi `TRAVEL + THROW`; jalan di dinding tetap sama panjang. Teks dan titik penanda hilang mengikuti scroll sampai `TOSS` (30%), lalu surat dilempar (`lib/letter-throw.js`) |
+
+Lemparan surat (`lib/letter-throw.js`, Figma 376:189 dan 376:217) adalah satu-satunya bagian aula yang tidak mengikuti scroll. Scroll hanya memicunya, lalu berjalan dalam waktu nyata selama 2 detik, karena lemparan yang di-scrub terasa terlalu halus dan bisa berhenti di udara. Di-scroll balik, kertas jatuh keluar layar dalam 0.62 detik; kalau dipicu lagi saat masih jatuh, lemparan menunggu sampai jatuhnya selesai.
+
+Saat terbang, kertas digambar di WebGL2 (`.hall__sheet`) sebagai mesh 72 × 46 yang dilengkungkan mengelilingi silinder, ditambah puntiran dan riak, dan terangnya mengikuti normal permukaan. Semua gerak (`pose`) adalah osilator teredam dengan laju yang tidak saling berkelipatan; tinggi kertas memakai pegas teredam yang dimulai dengan kecepatan, bukan dari diam. Di detik 1.75 semua ayunan habis dan mesh benar-benar rata di kotak yang sama dengan DOM, lalu `.hall__letter` memudar masuk sampai 2.05 detik, jadi teks saat diam adalah teks asli. Tekstur mesh digambar dari kertas dan teks DOM saat `prepare`, sebelum aula tiba, supaya frame pertama lemparan tidak perlu kompilasi atau upload. Ruangan meredup ke `rgb(10 4 3 / .68)` selama 0.8 detik pertama. Tanpa WebGL2, huruf DOM mengambil pose yang sama tanpa melengkung; jalur ini belum diuji di browser.
+
+Kertas `assets/hall/letter.webp`, 1400 × 906, Figma AI, 680 × 440 di stage, pusatnya (726, 472.4) dengan putaran −1.6°, sama dengan frame 4b. Diuji di 874 × 799 DPR 2 pada lempar, jatuh, lempar ulang, dan scroll bolak-balik saat masih jatuh: median 8.3 ms, p95 9.1 ms, terburuk 9.4 ms, tanpa long task. Reduced motion: tanpa canvas, surat langsung tampil.
+
+Saat bay tercapai (`.is-here`), satu pita cahaya tipis (paling terang 20%) melintas pelan di bingkai selama 3.4 detik lalu plakat, sekali, dengan animasi CSS yang dimask ke bentuk `frame.webp` dan `plaque.webp`, jadi tidak menyentuh lukisan. Per frame hanya transform, opacity, dan clip yang berubah, di layer sendiri (`will-change`), supaya dinding tidak digambar ulang. Lukisan tidak diskalakan saat berjalan, dan semua gambar di-decode sebelum section tiba (`preload`, `decoding="sync"`). Clip dipakai sebagai ganti mask, karena mask seukuran aula digambar ulang tiap frame. Tiang depan (`column.webp`, Figma AI, digelapkan, diburamkan, dan diberi bayangan lembut di dalam gambar) bergerak 1.8× dinding dan berada di luar layar saat bay diam. Aula dan cakram tidak pernah disembunyikan dengan `visibility`, supaya tidak perlu digambar ulang saat kembali: aula dipotong ke lingkaran nol, dan cakram tertutup aula. Lentera berkedip pelan lewat `.hall__glow`, dan berhenti saat di luar layar. Dengan reduced motion, `--through` tetap 0, `.hall` tidak armed, dan bay berganti per langkah. Diuji di 1280 × 720, 1440 × 964, dan 1920 × 1080 tanpa error; pada lintasan pertama setelah muat di DPR 2, maju dan mundur: median 8.3 ms, p95 di bawah 10 ms, tidak ada frame di atas 25 ms, tanpa long task. Lewat `#three-doors` halaman mendarat di aula setelah `load`, karena browser menggulir ke anchor saat itu.

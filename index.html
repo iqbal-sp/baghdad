@@ -11,8 +11,8 @@
     <link rel="preload" href="assets/fonts/DMSans-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="assets/hero/illustration.avif" as="image" type="image/avif" fetchpriority="high">
     <link rel="stylesheet" href="lib/vendor/lenis/lenis.css">
-    <link rel="stylesheet" href="styles.css?v=20261104-responsive">
-    <script type="module" src="script.js?v=20261104-responsive"></script>
+    <link rel="stylesheet" href="styles.css?v=20261105-letter4">
+    <script type="module" src="script.js?v=20261105-letter4"></script>
   </head>
   <body>
     <!-- Appears once the Foundations chapter has lifted off scene 1, and stays for the rest of the
@@ -47,8 +47,7 @@
               <li style="--i: 0"><a class="menu__link" href="#" data-go="intro" data-picture="intro" data-echo="Intro" data-node-id="219:640">Intro</a></li>
               <li style="--i: 1"><a class="menu__link" href="#foundations" data-go="foundations" data-picture="foundations" data-echo="Foundations" data-node-id="219:642">I. Foundations</a></li>
               <li style="--i: 2"><a class="menu__link" href="#flourishing" data-go="flourishing" data-picture="flourishing" data-echo="Flourishing" data-node-id="219:643">II. The Flourishing</a></li>
-              <!-- Not built yet: listed, not linked. -->
-              <li style="--i: 3"><span class="menu__link" aria-disabled="true" data-picture="brilliance" data-echo="Brilliance" data-node-id="219:644">III. Enduring Brilliance</span></li>
+              <li style="--i: 3"><a class="menu__link" href="#brilliance" data-go="brilliance" data-picture="brilliance" data-echo="Brilliance" data-node-id="219:644">III. Enduring Brilliance</a></li>
             </ol>
           </nav>
         </div>
@@ -759,9 +758,55 @@
       <section class="people" id="people" aria-labelledby="people-title" data-node-id="265:166">
         <div class="people__pin">
           <!-- Period II's end: the three ages, which the night sky of part III closes into as card
-               II, before card III steps forward (lib/sky.js). Built from the story's own markup. -->
-          <div class="period-map period-map--end" aria-hidden="true">
-            <div class="period-map__camera"></div>
+               II, before card III steps forward (lib/sky.js). Built from the story's own markup.
+               Period III's chapter waits on it, as Period II's waits on the map before it. -->
+          <div class="period-map period-map--end">
+            <div class="period-map__camera" aria-hidden="true"></div>
+
+            <!-- Period III chapter (Figma 314:3692, 1440 × 1259), opened from card III of the map as
+                 Period I and II are opened from theirs (lib/dive.js); its great title then sweeps in
+                 across the painting (lib/brilliance.js). Scaled to the page's width: the title and
+                 the painting are cut by the screen's edges. -->
+            <section class="chapter chapter--brilliance brilliance period-three" id="brilliance" aria-labelledby="brilliance-title" data-node-id="314:3692">
+              <div class="chapter__reveal">
+                <div class="chapter__scroll">
+                  <div class="period-three__stage brilliance__stage">
+                    <img class="brilliance__paper" src="assets/brilliance/paper.avif" width="1886" height="1258" alt="" aria-hidden="true" decoding="async" loading="lazy" data-node-id="318:3892">
+                    <p class="brilliance__intro" data-node-id="314:3698">As power passed from one dynasty to another, Baghdad turned its learning into lasting institutions—and its books began journeys far beyond the city.</p>
+                    <div class="chapter__image" data-node-id="314:3699">
+                      <img src="assets/brilliance/physician-courtyard.avif" width="1254" height="1254" alt="A physician checks a patient's pulse beside a courtyard fountain while an assistant reads from a book" decoding="async" loading="lazy">
+                    </div>
+                    <p class="brilliance__display" aria-hidden="true" data-node-id="314:3695"><span>Enduring </span><br><span>Brilliance</span></p>
+                  </div>
+                  <div class="chapter__veil" aria-hidden="true">
+                    <span class="chapter__veil-side chapter__veil-side--top"></span>
+                    <span class="chapter__veil-side chapter__veil-side--right"></span>
+                    <span class="chapter__veil-side chapter__veil-side--bottom"></span>
+                    <span class="chapter__veil-side chapter__veil-side--left"></span>
+                  </div>
+                  <!-- Over the veil, so they rise in while it is still opening. -->
+                  <div class="period-three__stage brilliance__front">
+                    <div class="chapter__heading brilliance__heading" data-node-id="314:3714">
+                      <h2 class="chapter__title" id="brilliance-title" data-node-id="314:3702">Enduring Brilliance</h2>
+                      <div class="brilliance__meta" data-node-id="314:3710">
+                        <p class="chapter__kicker" data-node-id="314:3711">Period III</p>
+                        <img class="chapter__star" src="assets/brilliance/star.svg" width="14" height="14" alt="" aria-hidden="true" data-node-id="314:3715">
+                        <p class="chapter__kicker" data-node-id="314:3712">945–1258</p>
+                      </div>
+                    </div>
+                    <div class="brilliance__mural" aria-hidden="true" data-node-id="318:3744"><img src="assets/brilliance/floral-mural.svg" width="462" height="326" alt="" decoding="async" loading="lazy"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- The period III card in flight: from card III of the map onto the chapter's painting. -->
+              <div class="dive" aria-hidden="true">
+                <div class="dive__card">
+                  <div class="dive__shadow"></div>
+                  <img src="assets/brilliance/physician-courtyard.avif" width="1254" height="1254" alt="" decoding="async" loading="lazy">
+                </div>
+              </div>
+            </section>
           </div>
           <!-- Everything part II shows, opened by the iris from part I (lib/iris.js) and settling
                from a slight zoom as it opens. -->
@@ -948,6 +993,117 @@
               </div>
             </div>
           </div>
+        </div>
+      </section>
+      <!-- Period III, part I (Figma 335:4367, 1440 × 964). It slides up over the chapter, the disc
+           turning right to left into place as it comes and what is on it the other way
+           (lib/built-to-last.js). -->
+      <section class="built-to-last period-three" id="built-to-last" aria-labelledby="built-to-last-title" data-node-id="335:4367">
+        <div class="built-to-last__pin">
+        <div class="built-to-last__camera">
+        <div class="period-three__stage built-to-last__stage">
+          <img class="built-to-last__orbit built-to-last__orbit--top" src="assets/built-to-last/orbit.svg" width="1169" height="1169" alt="" aria-hidden="true" loading="lazy" data-node-id="335:4368">
+          <img class="built-to-last__orbit built-to-last__orbit--bottom" src="assets/built-to-last/orbit.svg" width="1169" height="1169" alt="" aria-hidden="true" loading="lazy" data-node-id="335:4369">
+          <img class="built-to-last__embossed built-to-last__embossed--bottom" src="assets/built-to-last/embossed-bottom.png" width="1440" height="312" alt="" aria-hidden="true" loading="lazy" data-node-id="335:4370">
+          <img class="built-to-last__embossed built-to-last__embossed--top" src="assets/built-to-last/embossed-top.png" width="1430.5" height="318" alt="" aria-hidden="true" loading="lazy" data-node-id="335:4375">
+          <img class="built-to-last__embossed built-to-last__embossed--full" src="assets/built-to-last/embossed-full.svg" width="1440" height="964" alt="" aria-hidden="true" loading="lazy">
+          <img class="built-to-last__paper" src="assets/built-to-last/paper.avif" width="1564" height="1168" alt="" aria-hidden="true" decoding="async" loading="lazy" data-node-id="335:4380">
+          <img class="built-to-last__line" src="assets/built-to-last/timeline.svg" width="1440" height="0.5" alt="" aria-hidden="true" loading="lazy" data-node-id="335:4381">
+          <div class="built-to-last__window" data-node-id="335:4382"><div class="built-to-last__picture"><img src="assets/hall/painting-hospital.avif" width="1536" height="1024" alt="" decoding="sync" data-node-id="335:4384"><span class="hall__light" aria-hidden="true"></span></div></div>
+          <div class="built-to-last__seal" data-node-id="335:4386"><div class="built-to-last__seal-crop" data-node-id="335:4387"><img src="assets/built-to-last/seal.webp" width="1254" height="1254" alt="" aria-hidden="true" decoding="async" loading="lazy"></div></div>
+          <div class="built-to-last__heading" data-node-id="335:4388">
+            <p data-node-id="335:4389">Part I · 982–1233</p>
+            <h3 id="built-to-last-title" data-node-id="335:4390">Built to last</h3>
+          </div>
+          <img class="built-to-last__curved-copy" src="assets/built-to-last/curved-copy.svg" width="473" height="274" alt="Three patrons, three dynasties, three foundations. Each built to outlive the one who paid for it." decoding="async" loading="lazy" data-node-id="335:4391">
+          <div class="built-to-last__date built-to-last__date--buyid" data-node-id="335:4392"><p>982</p><span>Buyid</span></div>
+          <div class="built-to-last__date built-to-last__date--abbasid" data-node-id="335:4395"><p>1233</p><span>Abbasid</span></div>
+          <div class="built-to-last__date built-to-last__date--seljuk" data-node-id="335:4398"><p>1067</p><span>Seljuk</span></div>
+          <span class="built-to-last__star built-to-last__star--left" aria-hidden="true" data-node-id="335:4401">✦</span>
+          <span class="built-to-last__star built-to-last__star--right" aria-hidden="true" data-node-id="335:4402">✦</span>
+          <span class="built-to-last__star built-to-last__star--bottom" aria-hidden="true" data-node-id="335:4403">✦</span>
+          <img class="built-to-last__point built-to-last__point--right" src="assets/built-to-last/orbit-point.svg" width="5" height="5" alt="" aria-hidden="true" data-node-id="335:4404">
+          <img class="built-to-last__point built-to-last__point--left" src="assets/built-to-last/orbit-point.svg" width="5" height="5" alt="" aria-hidden="true" data-node-id="335:4405">
+        </div>
+        </div>
+        </div>
+      </section>
+      <!-- Period III, part I: the three foundations (Figma 359:220, each scene 1440 × 964). One long
+           hall, opened through the hollow of the disc above; the page's scroll walks along it, from
+           each painting to the next (lib/hall.js). -->
+      <section class="hall" id="three-doors" aria-label="The three foundations" data-node-id="359:220">
+        <div class="hall__pin">
+          <div class="hall__stage">
+            <div class="hall__track">
+            <div class="hall__bay">
+              <img class="hall__wall" src="assets/hall/bay-buyid.avif" width="1536" height="1024" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__shade" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--left" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--right" aria-hidden="true"></span>
+              <div class="hall__art">
+                <img src="assets/hall/painting-hospital.avif" width="1536" height="1024" alt="A physician examines a patient’s eyes in a riverside hospital ward, among beds, glass jars and other patients" decoding="sync">
+                <span class="hall__light" aria-hidden="true"></span>
+              </div>
+              <img class="hall__frame" src="assets/hall/frame.webp" width="1346" height="942" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__sheen" aria-hidden="true"><i></i></span>
+              <p class="hall__plaque"><span data-label="BUYID EMIRS · 982">BUYID EMIRS · 982</span></p>
+            </div>
+            <div class="hall__bay">
+              <img class="hall__wall" src="assets/hall/bay-seljuk.avif" width="1536" height="1024" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__shade" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--left" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--right" aria-hidden="true"></span>
+              <div class="hall__art">
+                <img src="assets/hall/painting-college.avif" width="1536" height="1024" alt="A teacher speaks to students seated on mats in a college hall, while a steward hands a coin pouch to a student" decoding="sync">
+                <span class="hall__light" aria-hidden="true"></span>
+              </div>
+              <img class="hall__frame" src="assets/hall/frame.webp" width="1346" height="942" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__sheen" aria-hidden="true"><i></i></span>
+              <p class="hall__plaque"><span data-label="SELJUK SULTANS · 1067">SELJUK SULTANS · 1067</span></p>
+            </div>
+            <div class="hall__bay">
+              <img class="hall__wall" src="assets/hall/bay-abbasid.avif" width="1536" height="1024" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__shade" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--left" aria-hidden="true"></span>
+              <span class="hall__glow hall__glow--right" aria-hidden="true"></span>
+              <div class="hall__art">
+                <img src="assets/hall/painting-library.avif" width="1536" height="1024" alt="Scholars of law, medicine and mathematics study in a library hall, with a water clock seen through an arch" decoding="sync">
+                <span class="hall__light" aria-hidden="true"></span>
+              </div>
+              <img class="hall__frame" src="assets/hall/frame.webp" width="1346" height="942" alt="" aria-hidden="true" decoding="sync">
+              <span class="hall__sheen" aria-hidden="true"><i></i></span>
+              <p class="hall__plaque"><span data-label="ABBASID CALIPHS · 1233">ABBASID CALIPHS · 1233</span></p>
+            </div>
+            </div>
+            <span class="hall__passage" aria-hidden="true"></span>
+            <div class="hall__entries">
+              <article class="hall__entry" data-node-id="359:238">
+                <h4>A hospital for the city</h4>
+                <p>In 982 the Buyid ruler Adud al-Dawla opened al-Bimaristan al-Adudi on the Tigris. Physicians of several faiths treated patients with no tie to the court, and two centuries later the traveller Ibn Jubayr found it still at work.</p>
+              </article>
+              <article class="hall__entry" data-node-id="359:255">
+                <h4>A college that paid its students</h4>
+                <p>When power passed to the Seljuks, their vizier Nizam al-Mulk founded the Nizamiyya on a waqf: shops and land set aside for good, whose rents paid teachers, lodging and stipends long after he died. Al-Ghazali taught here.</p>
+              </article>
+              <article class="hall__entry" data-node-id="359:272">
+                <h4>Every subject under one roof</h4>
+                <p>With the caliphs strong again, al-Mustansir’s Mustansiriyya taught Qur’an, hadith, all four Sunni schools of law, medicine and mathematics beside a library and a water clock. Built 251 years after the first of them, its walls still stand.</p>
+              </article>
+            </div>
+            <ol class="hall__dots" aria-hidden="true"><li></li><li></li><li></li></ol>
+            <span class="hall__column" aria-hidden="true"></span>
+            <span class="hall__column" aria-hidden="true"></span>
+            <span class="hall__dim" aria-hidden="true"></span>
+            <span class="hall__letter-shadow" aria-hidden="true"></span>
+            <article class="hall__letter" data-node-id="376:240">
+              <img src="assets/hall/letter.webp" width="1400" height="906" alt="" aria-hidden="true" decoding="sync">
+              <div class="hall__letter-copy">
+                <h4>Places like these kept<br>Baghdad’s learning alive.</h4>
+                <p>But how much did the city actually know?<br>In 987, one bookseller set out to write it all down.</p>
+              </div>
+            </article>
+          </div>
+          <canvas class="hall__sheet" aria-hidden="true"></canvas>
         </div>
       </section>
     </main>
