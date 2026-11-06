@@ -22,6 +22,7 @@ import { startNextPeriod } from './lib/next-period.js';
 import { startBrilliance } from './lib/brilliance.js';
 import { startBuiltToLast } from './lib/built-to-last.js';
 import { startHall } from './lib/hall.js';
+import { startCatalogue } from './lib/catalogue.js';
 
 const heroElement = document.querySelector('.hero');
 const heroLayout = startHeroLayout(heroElement);
@@ -72,12 +73,13 @@ startSky(document.querySelector('.people'), { lenis });
 const brilliance = startBrilliance(document.querySelector('.people'), { lenis });
 startBuiltToLast(document.querySelector('.built-to-last'), { lenis });
 startHall(document.querySelector('.hall'), { lenis });
+startCatalogue(document.querySelector('.catalogue'), document.querySelector('.hall'), { lenis });
 // After the first screen has loaded, so later sections' images don't compete with it.
 afterLoad(() => decodeAhead(document.querySelectorAll('main section'), {
   menu: document.querySelector('#site-menu'),
   menuButton: document.querySelector('.navbar__menu'),
 }));
 pauseOffscreen(document.querySelectorAll(
-  '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp, .hall__glow',
+  '.hero__beams, .hero__mote-layer, .scroll-cue__circle, .city__cue-arrow, .city__shimmer, .city__traveller, .closing__lamp, .hall__glow, .catalogue__lamp',
 ));
 startNextPeriod(document.querySelector('.next-period'), storyElement);

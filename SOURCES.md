@@ -38,6 +38,44 @@ Usulan pengganti di tabel bawah dan di lampiran adalah hasil audit awal. Copy fi
 
 81 klaim VERIFIED dibaca lewat salinan arsip, scan OCR, abstrak, atau ekstrak, bukan halaman asli. Isinya didukung, tapi nomor halaman dan kutipannya perlu dicek sebelum dicetak sebagai rujukan. Ini tercatat di kolom bukti tiap baris.
 
+## Al-Fihrist: hasil cek ke teks
+
+Dicek ke terjemahan Bayard Dodge, *The Fihrist of al-Nadīm* (Columbia University Press, 1970), bagian yang terbaca di [salinan web](https://www.kroraina.com/arab/an/index.html): pendahuluan, ringkasan isi, dan Bab VII bagian 1. Bab VII bagian 2 dan 3 tidak tersedia di sana, jadi dicek lewat sumber sekunder. Salinan web ini tidak resmi, jadi rujukan publik sebaiknya ke edisi cetak.
+
+| Klaim | Hasil | Sumber |
+|---|---|---|
+| Sepuluh bab | Terbukti. Dodge memakai "chapters", kata Arabnya *maqāla* | Dodge, ringkasan isi |
+| Nama bab | Label wireframe disesuaikan, lihat tabel di bawah | Dodge, ringkasan isi |
+| Ditulis sekitar 987 | Terbukti: "the year three hundred and seventy-seven after the Hijrah [A.D. 987/88]" | Dodge, ringkasan isi |
+| Isinya buku semua bangsa dalam bahasa Arab | Terbukti, dan lebih luas dari copy lama: "the books of all peoples, Arab and foreign, existing in the language of the Arabs" | Dodge, ringkasan isi |
+| Ayahnya penjual buku | Terbukti: *warrāq*, "evidently meant that he was a book dealer" | Dodge, pendahuluan |
+| Bisnisnya di Baghdad | Kuat: "almost certainly at Baghdād" | Dodge, pendahuluan |
+| "Grew up among the booksellers" | Tafsiran Dodge, bukan catatan langsung, jadi copy diganti "the son of a Baghdad book dealer" | Dodge, pendahuluan |
+| Al-Kindi di bab 7 | Terbukti, entri sendiri di bagian 1, disebut "the Philosopher of the Arabs" | Dodge VII.1 |
+| Hunayn di bab 7 | Terbukti di bagian 1 sebagai penerjemah. Di bagian 3 sebagai dokter menurut Wellisch | Dodge VII.1; Wellisch 1986 |
+| Thabit di bab 7 | Terbukti: bagian 2, ed. Sayyid II, 227–231 | Gareil 2022, tabel 1; Dodge VII.1 |
+| Banu Musa di bab 7 | Terbukti disebut di bagian 1 sebagai pendana penerjemah. Muhammad ibn Musa di bagian 2. Entri utama: Flügel I, 271 | Dodge VII.1; Gareil 2022; DSB, Banu Musa |
+| Al-Razi di bab 7 | Terbukti disebut di bagian 1. Entri dokternya di bagian 3 hanya dari sumber sekunder | Dodge VII.1; Wellisch 1986 |
+
+| Bab | Isi menurut Dodge | Label wireframe |
+|---|---|---|
+| 1 | Bahasa dan tulisan, kitab suci, Al-Qur'an | Languages & scriptures |
+| 2 | Ahli tata bahasa dan bahasa | Grammar |
+| 3 | Sejarah, sastra, biografi, silsilah | History & biography |
+| 4 | Puisi dan penyair | Poetry |
+| 5 | Teologi dan para teolog | Theology |
+| 6 | Hukum dan para ahli hukum | Law |
+| 7 | Filsafat dan ilmu-ilmu kuno | Philosophy & the ancient sciences |
+| 8 | Kisah malam, fabel, jampi, sihir, sulap | Stories, fables & magic |
+| 9 | Aliran dan ajaran, dari Sabian dan Manichaean sampai India dan Cina | Sects & doctrines |
+| 10 | Alkimia dan para alkemis | Alchemy |
+
+Sumber tambahan: Rémy Gareil, "Interreligious Scholarly Collaboration in Ibn al-Nadīm's Fihrist", *Medieval Worlds* 17 (2022), 167–184, https://doi.org/10.1553/medievalworlds_no17_2022s167. *Complete Dictionary of Scientific Biography*, "Banu Musa". Wellisch 1986, https://archive.org/details/ERIC_ED278419.
+
+Tidak dipakai: Wikipedia menulis bab 3 sebagai "Hadith" dan itu berbeda dari Dodge.
+
+Kartu sepuluh bab (Figma 397:6319) memakai ringkasan isi Dodge untuk judul dan kalimatnya. Semua ilustrasi di kartu dan latar Ibn al-Nadim adalah imajinasi kita, bukan gambar dari naskah, dan ini perlu dicatat di halaman Sources.
+
 ## Perlu diubah di situs: paling serius
 
 | Baris | Sekarang | Masalah | Usulan |
@@ -65,7 +103,7 @@ Daftar lengkap ada di lampiran, cari verdict selain VERIFIED.
 | Scene | Sekarang | Usulan |
 |---|---|---|
 | 1 | "In 987 he finished" | "Around 987–988 (AH 377) he wrote" |
-| 1 | Nama sepuluh bab | Samakan dengan Dodge 1970, belum terbaca |
+| 1 | Nama sepuluh bab | Sudah disamakan dengan Dodge |
 | 2 | "took algebra beyond geometry" | "and set out rules for working with powers and polynomials" |
 | 2 | "advanced mathematics served" | "a leading mathematician wrote for" |
 | 3 | "carried by scholars and merchants" | "and Latin scholars travelled to Spain to read them" |
@@ -102,7 +140,7 @@ Dicek di browser, 5 November 2026.
 
 Tiap klaim dicek tersendiri, jadi tercantum di Figma tidak otomatis berarti valid. Daftar "Blocked URLs" di lampiran adalah hasil fetch otomatis: status terbaru ada di tabel ini.
 
-Yang belum dibaca: Fihrist terjemahan Dodge dan catatan Ibn Jubayr terjemahan Broadhurst. Klaim yang bergantung pada keduanya bersandar pada sumber sekunder, dan label bab Fihrist belum final.
+Yang belum dibaca: catatan Ibn Jubayr terjemahan Broadhurst, dan Fihrist Bab VII bagian 2–3. Klaim yang bergantung pada keduanya bersandar pada sumber sekunder.
 
 Tanggal al-Adudi: sumber memberi 371/981 (Savage-Smith) dan 982 (Cherif). Tahun 371 H berjalan dari pertengahan 981 sampai pertengahan 982, jadi situs tetap memakai 982 sebagai tahun pembukaan, tapi sumber utamanya belum seragam.
 

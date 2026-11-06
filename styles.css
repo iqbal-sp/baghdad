@@ -5416,3 +5416,219 @@ a.menu__link:focus-visible {
   will-change: transform;
   pointer-events: none;
 }
+
+/* Period III, part II: Knowledge at work (Figma 397:6265; lib/catalogue.js). Under the hall, pinned
+   through the burn that opens it. The room is on the view, sized and placed from the script so its
+   lamp can sit where the fire began, and the stage is scaled to fit it. */
+.hall.is-burnt .hall__pin { clip-path: circle(0 at 50% 50%); pointer-events: none; }
+.hall__burn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  pointer-events: none;
+}
+.catalogue {
+  --ground: #170601;
+  position: relative;
+  z-index: 5;
+  height: calc(100vh + var(--catalogue-travel, 0px) * var(--stage-scale, 1));
+  background: var(--ground);
+  color: #fff;
+}
+.catalogue.is-armed { margin-top: calc(-100vh - var(--burn, 0px) * var(--stage-scale, 1)); }
+.catalogue__pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ground);
+  isolation: isolate;
+}
+.catalogue__room {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.catalogue__scene { display: block; width: 100%; height: 100%; }
+.catalogue__foot {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 28%;
+  background: linear-gradient(transparent, var(--ground));
+}
+/* The lamp, still burning. */
+.catalogue__lamp {
+  position: absolute;
+  top: 51.76%;
+  left: 50.17%;
+  width: 44%;
+  aspect-ratio: 1.2;
+  background: radial-gradient(closest-side, rgb(255 168 84 / .3), rgb(255 150 70 / .1) 45%, transparent);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: .9;
+  will-change: opacity;
+}
+/* Still until the canvas has gone, so it shows the same glow the canvas drew, then alive. */
+.catalogue.is-lit .catalogue__lamp { animation: catalogue-flame 3.6s ease-in-out infinite alternate; }
+.catalogue__lamp.is-offscreen { animation-play-state: paused; }
+@keyframes catalogue-flame {
+  0% { opacity: .9; }
+  32% { opacity: 1; }
+  58% { opacity: .84; }
+  100% { opacity: .94; }
+}
+.catalogue__dim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgb(23 6 1 / .72), rgb(23 6 1 / .6) 22%, transparent 42%),
+    rgb(23 6 1 / .46);
+  pointer-events: none;
+  will-change: opacity;
+}
+.catalogue.is-armed .catalogue__dim { opacity: 0; }
+.catalogue__stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1440px;
+  height: 1261px;
+  transform-origin: 0 0;
+  will-change: transform;
+  pointer-events: none;
+}
+.catalogue__title {
+  position: absolute;
+  top: 120px;
+  left: 367px;
+  width: 707px;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 90px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -1.8px;
+  text-align: center;
+}
+.catalogue__title span { display: inline-block; }
+.catalogue__wheel {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.catalogue__card {
+  position: absolute;
+  top: 392px;
+  left: 574px;
+  width: 292px;
+  height: 430px;
+  pointer-events: auto;
+  will-change: transform, opacity;
+}
+.catalogue.is-armed:not(.is-set) .catalogue__card { pointer-events: none; }
+.catalogue__face {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #241208;
+  font: inherit;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+.catalogue.is-dragging .catalogue__face { cursor: grabbing; }
+.catalogue__face:focus { outline: none; }
+/* Under the pointer the card comes up a little and its painting leans in. */
+.catalogue__lift {
+  position: absolute;
+  inset: 0;
+  transition: transform .7s cubic-bezier(.2, .7, .2, 1);
+}
+.catalogue__face:hover .catalogue__lift { transform: translate3d(0, -7px, 0); }
+.catalogue.is-dragging .catalogue__lift { transform: none; }
+.catalogue__art { transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); will-change: transform; }
+.catalogue__face:hover .catalogue__art { transform: scale(1.035); }
+/* A chapter just reached takes one soft band of light across its carving, like the hall's frames.
+   Masked to the plaque by the script. */
+.catalogue__sheen {
+  position: absolute;
+  overflow: hidden;
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+  pointer-events: none;
+}
+.catalogue__sheen i {
+  position: absolute;
+  top: -30%;
+  left: -70%;
+  width: 60%;
+  height: 160%;
+  background: linear-gradient(100deg, transparent, rgb(255 244 222 / .32) 50%, transparent);
+  opacity: 0;
+}
+.catalogue__card.is-active .catalogue__sheen i { animation: catalogue-sheen 2.2s cubic-bezier(.4, .05, .4, 1) .15s both; }
+.catalogue:not(.is-set) .catalogue__card.is-active .catalogue__sheen i { animation: none; }
+@keyframes catalogue-sheen {
+  0% { opacity: 0; transform: translate3d(0, 0, 0); }
+  18% { opacity: 1; }
+  82% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(330%, 0, 0); }
+}
+.catalogue__face:focus-visible .catalogue__copy strong { text-decoration: underline; text-underline-offset: 4px; }
+.catalogue__art,
+.catalogue__plaque { position: absolute; display: block; }
+.catalogue__art { object-fit: cover; }
+.catalogue__plaque { max-width: none; filter: drop-shadow(0 18px 42px rgb(5 3 0 / .62)); }
+.catalogue__copy {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}
+.catalogue__copy strong { font-family: var(--font-display); font-size: 18px; font-weight: 400; line-height: 1.2; }
+.catalogue__copy small { color: rgb(36 18 8 / .82); font-size: 12px; line-height: 16px; }
+.catalogue__intro {
+  position: absolute;
+  top: 885px;
+  left: 420px;
+  width: 600px;
+  text-align: center;
+}
+.catalogue__intro > * { will-change: transform, opacity; }
+.catalogue__label { margin: 0 0 16px; color: rgb(255 229 189 / .8); font-size: 16px; font-weight: 300; line-height: 1.4; }
+.catalogue__intro h3 { margin: 0 0 20px; font-size: 40px; font-weight: 400; line-height: 1.1; }
+.catalogue__body { margin: 0; color: rgb(255 247 237 / .8); font-size: 18px; line-height: 1.65; }
+.catalogue__star { display: block; margin: 36px auto 0; }
+/* As in the hall: each as lit as the wheel is near its chapter (lib/catalogue.js). */
+.catalogue__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.catalogue__dots li { width: 6px; height: 6px; border-radius: 50%; background: #ffebca; opacity: .3; }
+.catalogue__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
