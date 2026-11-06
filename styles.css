@@ -5417,7 +5417,7 @@ a.menu__link:focus-visible {
   pointer-events: none;
 }
 
-/* Period III, part II: Knowledge at work (Figma 397:6265; lib/catalogue.js). Under the hall, pinned
+/* Period III, part II: A catalogue of everything (Figma 397:6265; lib/catalogue.js). Under the hall, pinned
    through the burn that opens it. The room is on the view, sized and placed from the script so its
    lamp can sit where the fire began, and the stage is scaled to fit it. */
 .hall.is-burnt .hall__pin { clip-path: circle(0 at 50% 50%); pointer-events: none; }
@@ -5604,14 +5604,13 @@ a.menu__link:focus-visible {
 .catalogue__copy small { color: rgb(36 18 8 / .82); font-size: 12px; line-height: 16px; }
 .catalogue__intro {
   position: absolute;
-  top: 885px;
+  top: 900px;
   left: 420px;
   width: 600px;
   text-align: center;
 }
 .catalogue__intro > * { will-change: transform, opacity; }
-.catalogue__label { margin: 0 0 16px; color: rgb(255 229 189 / .8); font-size: 16px; font-weight: 300; line-height: 1.4; }
-.catalogue__intro h3 { margin: 0 0 20px; font-size: 40px; font-weight: 400; line-height: 1.1; }
+.catalogue__label { margin: 0 0 18px; color: rgb(255 229 189 / .8); font-size: 16px; font-weight: 300; line-height: 1.4; }
 .catalogue__body { margin: 0; color: rgb(255 247 237 / .8); font-size: 18px; line-height: 1.65; }
 .catalogue__star { display: block; margin: 36px auto 0; }
 /* As in the hall: each as lit as the wheel is near its chapter (lib/catalogue.js). */

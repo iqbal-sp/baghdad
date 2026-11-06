@@ -76,6 +76,23 @@ Tidak dipakai: Wikipedia menulis bab 3 sebagai "Hadith" dan itu berbeda dari Dod
 
 Kartu sepuluh bab (Figma 397:6319) memakai ringkasan isi Dodge untuk judul dan kalimatnya. Semua ilustrasi di kartu dan latar Ibn al-Nadim adalah imajinasi kita, bukan gambar dari naskah, dan ini perlu dicatat di halaman Sources.
 
+## Abu al-Wafa dan tiga persegi: scene dibatalkan
+
+Scene ini dihapus dari rencana, jadi tabel berikut hanya arsip riset.
+
+| Klaim | Status | Sumber |
+|---|---|---|
+| Menulis buku geometri untuk para pengrajin, setelah sekitar 990 | Kuat | Complete DSB, "Abū'l-Wafā'"; Strick (MacTutor) |
+| Bukunya membahas membangun satu persegi dari tiga persegi | Kuat | Complete DSB |
+| Ia membuktikan sebagian cara pengrajin tidak tepat | Kuat | Complete DSB |
+| Cara lama hampir membentuk persegi, tapi tidak tepat | Cukup kuat | Frederickson, mengutip Özdural 2000; Strick |
+| Caranya: dua persegi dibelah diagonal, disusun di sekitar persegi ketiga | Cukup kuat | Strick |
+| Ia menyalahkan geometer karena kurang praktik dan pengrajin karena kurang pembuktian | Kutipan tangan kedua, cek ke sumber | Nielsen, mengutip Sarhangi & Jablan 2006 |
+| Ia mengajar pengrajin dalam pertemuan rutin | Tidak dipakai, ahli berbeda pendapat | Özdural 2000; Necipoğlu & Özdural: "little evidence" |
+| Ubin di Baghdad, atau retak disembunyikan nat | Tidak dipakai, tidak ada dukungan langsung | Frederickson hanya berspekulasi |
+
+Rujukan yang perlu dibaca sebelum terbit: Imhausen & Katz (ed.), *The Mathematics of Egypt, Mesopotamia, China, India, and Islam: A Sourcebook*, Princeton UP, 2007, sekitar p. 614; Özdural, *Historia Mathematica* 27 (2000), 171–201, https://doi.org/10.1006/hmat.1999.2274.
+
 ## Perlu diubah di situs: paling serius
 
 | Baris | Sekarang | Masalah | Usulan |
